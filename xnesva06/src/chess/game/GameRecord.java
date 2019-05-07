@@ -14,7 +14,7 @@ public class GameRecord
     }
     public void addMove(Move move)
     {
-        moves.add(move);
+        moves.add(moveArrayIndex++, move);
     }
 
     public Move getNextMove()
@@ -30,9 +30,9 @@ public class GameRecord
     }
     public Move getPrevMove()
     {
-        if (moveArrayIndex >= 0)
+        if (--moveArrayIndex >= 0)
         {
-            return moves.get(moveArrayIndex--);
+            return moves.get(moveArrayIndex);
         }
         else
         {

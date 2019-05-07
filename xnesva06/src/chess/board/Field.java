@@ -8,28 +8,25 @@ public class Field
     private int column;
     private Figure figure;
 
-    public Field(int column, int row)
+    public Field(int row, int column)
     {
         this.row = row;
         this.column = column;
         this.figure = null;
     }
-
+    public Field(Field field)
+    {
+        this.row = field.row;
+        this.column = field.column;
+        this.figure = Figure.copyFigure(field.figure);
+    }
     public Figure getFigure()
     {
         return this.figure;
     }
-    public boolean setFigure(Figure figure)
+    public void setFigure(Figure figure)
     {
-        if (isOccupied())
-        {
-            return false;
-        }
-        else
-        {
-            this.figure = figure;
-            return true;
-        }
+        this.figure = figure;
     }
     public void removeFigure()
     {
@@ -53,6 +50,6 @@ public class Field
 
     public String toString()
     {
-        return "[" + this.column + ":" + this.row + "]" + (this.figure == null ? "" : this.figure.toString());
+        return "[" + this.row + ":" + this.column + "]" + (this.figure == null ? "" : this.figure.toString());
     }
 }
