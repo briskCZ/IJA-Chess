@@ -116,7 +116,6 @@ public abstract class Figure
     public FigureColor getColor(){
         return this.figureColor;
     }
-    public abstract boolean move(GameRecord gameRecord, Field currentField, Field destination);
     public abstract Field[] getPossibleMoveFields();
 
 }
