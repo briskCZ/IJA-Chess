@@ -1,14 +1,14 @@
 package chess.game;
 
-import java.nio.file.Path;
+import java.io.File;
 
 public class GameFileLoader
 {
-    Path filePath;
+    private File file;
 
-    public GameFileLoader(Path path)
+    public GameFileLoader(File file)
     {
-        this.filePath = path;
+        this.file = file;
     }
 
     public GameRecord loadGame()

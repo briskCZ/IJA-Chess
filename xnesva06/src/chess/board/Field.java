@@ -4,18 +4,20 @@ import chess.figures.Figure;
 
 public class Field
 {
-    int row;
-    int column;
-    Figure figure;
+    private int row;
+    private int column;
+    private Figure figure;
 
-    public Field(int row, int column)
+    public Field(int column, int row)
     {
-
+        this.row = row;
+        this.column = column;
+        this.figure = null;
     }
 
     public Figure getFigure()
     {
-        return figure;
+        return this.figure;
     }
     public boolean setFigure(Figure figure)
     {
@@ -29,9 +31,28 @@ public class Field
             return true;
         }
     }
+    public void removeFigure()
+    {
+        this.figure = null;
+    }
 
     public boolean isOccupied()
     {
         return figure != null;
+    }
+
+    public int getColumn()
+    {
+        return column;
+    }
+
+    public int getRow()
+    {
+        return row;
+    }
+
+    public String toString()
+    {
+        return "[" + this.column + ":" + this.row + "]" + (this.figure == null ? "" : this.figure.toString());
     }
 }

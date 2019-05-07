@@ -3,17 +3,14 @@ package chess.figures;
 import chess.board.Field;
 import chess.game.GameRecord;
 
-public class King extends Figure
+public class Knight extends Figure
 {
+    public Knight(int column, int row, boolean isOnBoard, FigureColor figureColor)
+    {
+        super(column, row, isOnBoard, figureColor, FigureType.Knight);
+    }
 
-    public King(int column, int row, boolean isOnBoard, FigureColor figureColor)
-    {
-        super(column, row, isOnBoard, figureColor, FigureType.King);
-    }
-    public King(King king)
-    {
-        super(king);
-    }
+    public Knight(Knight knight){ super(knight); }
 
     @Override
     public boolean move(GameRecord gameRecord, Field currentField, Field destination)

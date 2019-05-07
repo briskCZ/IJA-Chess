@@ -1,21 +1,22 @@
 package chess.figures;
 
 import chess.board.Field;
+import chess.game.GameRecord;
 
 public abstract class Figure
 {
     private int column;
     private int row;
     private boolean isOnBoard;
-    private Color color;
+    private FigureColor figureColor;
     private FigureType type;
 
-    public Figure(int column, int row, boolean isOnBoard, Color color, FigureType type)
+    public Figure(int column, int row, boolean isOnBoard, FigureColor figureColor, FigureType type)
     {
         this.row = row;
         this.column = column;
         this.isOnBoard = isOnBoard;
-        this.color = color;
+        this.figureColor = figureColor;
         this.type = type;
     }
     public Figure(Figure fig)
@@ -23,7 +24,7 @@ public abstract class Figure
         this.row = fig.row;
         this.column = fig.column;
         this.isOnBoard = fig.isOnBoard;
-        this.color = fig.color;
+        this.figureColor = fig.figureColor;
         this.type = fig.type;
     }
 
@@ -35,7 +36,7 @@ public abstract class Figure
     {
         return this.row;
     }
-    public int getCol()
+    public int getColumn()
     {
         return this.column;
     }
@@ -44,6 +45,50 @@ public abstract class Figure
         this.column = column;
         this.row = row;
     }
-    abstract boolean move(int targetCol, int targetRow);
-    abstract Field[] possibleMoveFields();
+    public String toString()
+    {
+        if (this.figureColor == FigureColor.White)
+        {
+            switch (this.type)
+            {
+                case King:
+                    return "♔";
+                case Queen:
+                    return "♕";
+                case Rook:
+                    return "♖";
+                case Bishop:
+                    return "♗";
+                case Knight:
+                    return "♘";
+                case Pawn:
+                    return "♙";
+                default:
+                    return "";
+            }
+        }
+        else
+        {
+            switch (this.type)
+            {
+                case King:
+                    return "♚";
+                case Queen:
+                    return "♛";
+                case Rook:
+                    return "♜";
+                case Bishop:
+                    return "♝";
+                case Knight:
+                    return "♞";
+                case Pawn:
+                    return "♟";
+                default:
+                    return "";
+            }
+        }
+    }
+    public abstract boolean move(GameRecord gameRecord, Field currentField, Field destination);
+    public abstract Field[] getPossibleMoveFields();
+
 }

@@ -1,6 +1,6 @@
 package chess.figures;
 
-public enum Color
+public enum FigureColor
 {
     White,
     Black

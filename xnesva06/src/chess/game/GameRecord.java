@@ -16,6 +16,7 @@ public class GameRecord
     {
         moves.add(move);
     }
+
     public Move getNextMove()
     {
         if (moveArrayIndex < moves.size())

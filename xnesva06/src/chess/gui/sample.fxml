@@ -32,6 +32,6 @@
       </TabPane>
    </center>
    <right>
-      <StackPane prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: Aqua;" BorderPane.alignment="CENTER" />
+      <StackPane prefHeight="150.0" prefWidth="200.0" style="-fx-background-figureColor: Aqua;" BorderPane.alignment="CENTER" />
    </right>
 </BorderPane>
