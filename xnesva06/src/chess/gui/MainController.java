@@ -8,12 +8,14 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import java.io.File;
+import java.io.IOException;
 
 
 public class MainController{
 
     @FXML private TabPane tabPane;
-    private int gameNo = 0;
+
+    static int gameNo = 1;
 
     @FXML
     protected void LoadGameClicked(ActionEvent event) {
@@ -30,17 +32,15 @@ public class MainController{
         try{
             pane = loader.load();
         }
-        catch(Exception e){
+        catch(IOException e){
             System.out.println(e);
+            System.out.println("Cannot create new tab!");
         }
 
         tab.setText("Game " + gameNo);
-        gameNo ++;
+        MainController.gameNo++;
         tab.setContent(pane);
-
-
         tabPane.getTabs().add(tab);
-
     }
 }
 

@@ -110,6 +110,13 @@ public abstract class Figure
             }
         }
     }
+    public FigureType getType(){
+        return this.type;
+    }
+    public FigureColor getColor(){
+        return this.figureColor;
+    }
+    public abstract boolean move(GameRecord gameRecord, Field currentField, Field destination);
     public abstract Field[] getPossibleMoveFields();
 
 }
