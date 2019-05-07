@@ -1,6 +1,11 @@
 package chess.gui;
 
+import chess.board.Field;
+import chess.figures.FigureType;
+import chess.game.Game;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -12,6 +17,8 @@ import javafx.scene.layout.GridPane;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static chess.figures.FigureType.Pawn;
+
 public class GameController implements Initializable {
 
     @FXML
@@ -20,6 +27,7 @@ public class GameController implements Initializable {
     @FXML
     private GridPane chessBoardGridPane;
 
+    private Game game = new Game(MainController.gameNo);
 
 
     @Override
@@ -32,27 +40,31 @@ public class GameController implements Initializable {
         items.add("Three");
         items.add("Four");
         items.add("Five");
+
         Image image = new Image(Main.class.getResource("test.png").toExternalForm(), 100, 100, true, true);
+
+
 
         for (int x = 0; x<8;x++){
             for(int y = 0; y< 8; y++){
-                Button field = new Button();
-                field.setText(x + ":" + y);
-                field.setGraphic(new ImageView(image));
+                GuiBoardField field;
 
+                Field boardfield = game.getBoardField(y,x);
 
+                if(boardfield.isOccupied()){
+                    field = new GuiBoardField(boardfield.getFigure());
+                }else{
+                    field = new GuiBoardField(x,y);
+                }
+                field.setOnAction(event -> FieldClicked(field));
                 chessBoardGridPane.add(field,x,y);
             }
         }
-
-
     }
 
-
-
-
-
-
+    private void FieldClicked(GuiBoardField field) {
+        System.out.println(field.toString());
+    }
 
 
 }
