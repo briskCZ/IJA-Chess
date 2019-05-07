@@ -5,8 +5,6 @@ import javafx.scene.control.Button;
 
 public class GuiBoardField extends Button {
 
-    private int id;
-
     private int col;
     private int row;
 
@@ -35,6 +33,10 @@ public class GuiBoardField extends Button {
     public void setFigure(Figure figure){
         this.figure = figure;
     }
+
+    public Figure getFigure(){
+        return figure;
+    };
 
     @Override
     public String toString() {

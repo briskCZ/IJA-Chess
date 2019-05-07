@@ -1,5 +1,6 @@
 package chess.gui;
 
+import chess.game.GameFileLoader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,14 +16,15 @@ public class MainController{
 
     @FXML private TabPane tabPane;
 
+    GameFileLoader gameFileLoader;
+
     static int gameNo = 1;
 
     @FXML
     protected void LoadGameClicked(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(Main.stage);
-
-        System.out.println(file);
+        gameFileLoader = new GameFileLoader(file);
     }
     @FXML
     protected void NewGameClicked(ActionEvent event) {

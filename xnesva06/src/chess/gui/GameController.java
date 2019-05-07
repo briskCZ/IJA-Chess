@@ -32,7 +32,9 @@ public class GameController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        System.out.println(game.getGameId());
 
+        listView.setOnMouseClicked(event -> ListClicked(listView.getSelectionModel().getSelectedItem()));
 
         ObservableList<String> items = listView.getItems();
         items.add("One");
@@ -66,5 +68,8 @@ public class GameController implements Initializable {
         System.out.println(field.toString());
     }
 
+    private void ListClicked(String string){
+        System.out.println(string);
+    }
 
 }
