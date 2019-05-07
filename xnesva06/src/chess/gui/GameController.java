@@ -70,6 +70,11 @@ public class GameController implements Initializable {
         }
     }
 
+    private void RefreshFigures(){
+        chessBoardGridPane.getChildren().clear();
+        SetupFigures();
+    }
+
     private void FieldClicked(GuiBoardField field) {
         Figure fig = field.getFigure();
         if (selectedFigure == null)
@@ -79,7 +84,7 @@ public class GameController implements Initializable {
         else
         {
             game.move(selectedFigure, game.getBoardField(field.getRow(), field.getCol()));
-            SetupFigures();
+            RefreshFigures();
             selectedFigure = null;
         }
     }
@@ -87,5 +92,19 @@ public class GameController implements Initializable {
     private void ListClicked(String string){
         System.out.println(string);
     }
+
+    @FXML
+    private void BackClicked(){
+        game.undoMove();
+        RefreshFigures();
+    }
+
+    @FXML
+    private void ForwardClicked(){
+        game.redoMove();
+        RefreshFigures();
+    }
+
+
 
 }

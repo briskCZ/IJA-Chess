@@ -35,7 +35,7 @@ public class MainController{
             pane = loader.load();
         }
         catch(IOException e){
-            System.out.println(e);
+            System.out.println(e.getMessage());
             System.out.println("Cannot create new tab!");
         }
 
