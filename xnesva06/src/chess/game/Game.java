@@ -22,7 +22,7 @@ public class Game
     public boolean loadGame(File file)
     {
         GameFileLoader gameFileLoader = new GameFileLoader(file);
-        this.gameRecord = gameFileLoader.loadGame();
+        gameRecord = gameFileLoader.loadGame();
 
         return false;
     }
@@ -30,15 +30,59 @@ public class Game
     {
         return this.id;
     }
-    public Field getBoardField(int column, int row)
+    public Field getBoardField(int row, int column)
     {
-        return chessBoard.getField(column, row);
+        return chessBoard.getField(row, column);
     }
     public void move(Figure selectedFigure, Field destination)
     {
-        selectedFigure.move(this.gameRecord, this.chessBoard.getField(selectedFigure.getColumn(), selectedFigure.getRow()), destination);
+        Field currentField = chessBoard.getField(selectedFigure.getRow(), selectedFigure.getColumn());
+        destination.setFigure(selectedFigure);
+        selectedFigure.setPosition(destination.getRow(), destination.getColumn());
+        currentField.removeFigure();
+        Move move = new Move(currentField, destination);
+        gameRecord.addMove(move);
+
+
     }
 
+    public boolean undoMove()
+    {
+        Move move = gameRecord.getPrevMove();
+        if (move != null)
+        {
+            Field sourceField = new Field(move.sourceField);
+            Field destField = new Field(move.destField);
+            Figure fig = sourceField.getFigure();
+            sourceField.setFigure(destField.getFigure());
+            destField.setFigure(fig);
+
+            chessBoard.setField(sourceField);
+            chessBoard.setField(destField);
+
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public boolean redoMove()
+    {
+        Move move = gameRecord.getNextMove();
+        if (move != null)
+        {
+            chessBoard.setField(new Field(move.sourceField));
+            chessBoard.setField(new Field(move.destField));
+
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     public void printGame()
     {
         System.out.println(this.chessBoard);

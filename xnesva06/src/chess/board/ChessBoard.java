@@ -13,9 +13,14 @@ public class ChessBoard
         addFigures();
     }
 
-    public Field getField(int column, int row)
+    public Field getField(int row, int column)
     {
-        return this.board[column][row];
+        return this.board[row][column];
+    }
+
+    public void setField(Field field)
+    {
+        board[field.getRow()][field.getColumn()] = field;
     }
 
     /**

@@ -1,20 +1,14 @@
 package chess.game;
 
-import chess.figures.Figure;
+import chess.board.Field;
 
 public class Move
 {
-    int currCol;
-    int currRow;
-    int targetCol;
-    int targetRow;
-    Figure figure;
-    public Move(int currCol, int currRow, int targetCol, int targetRow, Figure figure)
+    Field sourceField;
+    Field destField;
+    public Move(Field previousField, Field nextField)
     {
-        this.currCol = currCol;
-        this.currRow = currRow;
-        this.targetCol = targetCol;
-        this.targetRow = targetRow;
-        this.figure = figure;
+        this.sourceField = new Field(previousField);
+        this.destField = new Field(nextField);
     }
 }
