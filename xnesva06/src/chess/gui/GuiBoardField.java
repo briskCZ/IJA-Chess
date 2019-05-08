@@ -8,9 +8,12 @@ public class GuiBoardField extends Button {
     private int col;
     private int row;
 
+    private boolean isEnabled;
+
     private Figure figure = null;
 
     private String base_style = "-fx-font-size: 40px;";
+    private String current_style = "";
 
     GuiBoardField(int col, int row){
         this.col = col;
@@ -30,19 +33,37 @@ public class GuiBoardField extends Button {
         this.layoutBoundsProperty().addListener((observableValue, oldBounds, newBounds) -> {
             //this.setWidth(this.getHeight());
 
-            System.out.println( "Height: " + this.getHeight() + " Width: " + this.getWidth());
-
-
+           // System.out.println( "Height: " + this.getHeight() + " Width: " + this.getWidth());
         });
-        this.setPrefSize(100,100);
 
-        String style = base_style;
+        current_style = base_style;
 
         if(((col % 2 == 0)&&(row % 2 == 0))||((col % 2 == 1)&&(row % 2 == 1))){
-            style += "-fx-base:GRAY;";
+            current_style += "-fx-base:GRAY;";
         }
 
-        this.setStyle(style);
+        base_style = current_style;
+        this.setStyle(current_style);
+    }
+
+    private void updateProperties(){
+        if(isEnabled){
+           // System.out.println("curent:"+current_style);
+           // System.out.println("base:"+base_style);
+            this.setStyle(current_style + "-fx-border-color: ORANGE");
+        }
+        else{
+            this.setStyle(base_style);
+        }
+    }
+
+    public void setEnabled(boolean enabled){
+        this.isEnabled = enabled;
+        updateProperties();
+    }
+
+    public boolean getEnabled(){
+        return this.isEnabled;
     }
 
     public int getCol() {

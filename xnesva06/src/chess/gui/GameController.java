@@ -23,6 +23,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -56,7 +57,6 @@ public class GameController implements Initializable {
 
         SetupFigures();
 
-
     }
 
     private void SetupFigures()
@@ -85,18 +85,71 @@ public class GameController implements Initializable {
         SetupFigures();
     }
 
+    private void setAllFieldsDisabled(){
+        List<Node> list = chessBoardGridPane.getChildren();
+
+        for(Node node : list){
+            if(node instanceof GuiBoardField){
+                GuiBoardField field = (GuiBoardField) node;
+                field.setEnabled(false);
+            }
+        }
+    }
+
+    private void setFieldEnabled(int col,int row){
+        List<Node> list = chessBoardGridPane.getChildren();
+
+        for(Node node : list){
+            if(node instanceof GuiBoardField){
+                GuiBoardField field = (GuiBoardField) node;
+                if((field.getCol() == col) && (field.getRow() == row)){
+                    field.setEnabled(true);
+                }
+            }
+        }
+    }
+
+    private boolean isFieldEnabled(int col,int row){
+        List<Node> list = chessBoardGridPane.getChildren();
+
+        for(Node node : list){
+            if(node instanceof GuiBoardField){
+                GuiBoardField field = (GuiBoardField) node;
+                if((field.getCol() == col) && (field.getRow() == row)){
+                    return field.getEnabled();
+                }
+            }
+        }
+        return false;
+    }
+
+
+    private void moveFigure(Figure figure, Field field){
+        if(isFieldEnabled(field.getColumn(),field.getRow())){
+            game.move(figure, field);
+        }
+    }
+
     private void FieldClicked(GuiBoardField field) {
-        Figure fig = field.getFigure();
-        if (selectedFigure == null)
-        {
-            selectedFigure = fig;
-        }
-        else
-        {
-            game.move(selectedFigure, game.getBoardField(field.getRow(), field.getCol()));
-            RefreshFigures();
-            selectedFigure = null;
-        }
+      Figure figure = field.getFigure();
+
+      if(selectedFigure == null){
+          if(figure != null){
+              selectedFigure = figure;
+              ArrayList<Field> possibleMoves = game.getPossibleMoves(figure);
+              System.out.println(possibleMoves);
+              for (Field possible_field : possibleMoves)
+              {
+                  setFieldEnabled(possible_field.getColumn(),possible_field.getRow());
+              }
+          }
+      }else{
+          moveFigure(selectedFigure, game.getBoardField(field.getRow(), field.getCol()));
+          RefreshFigures();
+          selectedFigure = null;
+          setAllFieldsDisabled();
+      }
+
     }
 
     private void ListClicked(String string){
