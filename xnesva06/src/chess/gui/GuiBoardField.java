@@ -12,7 +12,7 @@ public class GuiBoardField extends Button {
 
     private Figure figure = null;
 
-    private String base_style = "-fx-font-size: 40px;";
+    private String base_style = "-fx-font-size: 40px;-fx-background-radius: 0;";
     private String current_style = "";
 
     GuiBoardField(int col, int row){
@@ -50,7 +50,7 @@ public class GuiBoardField extends Button {
         if(isEnabled){
            // System.out.println("curent:"+current_style);
            // System.out.println("base:"+base_style);
-            this.setStyle(current_style + "-fx-border-color: ORANGE");
+            this.setStyle(current_style + "-fx-border-color: ORANGE;-fx-border-width:3;");
         }
         else{
             this.setStyle(base_style);
