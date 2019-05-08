@@ -2,12 +2,12 @@ package chess.game;
 
 import java.util.ArrayList;
 
-public class GameRecord
+public class Record
 {
     private ArrayList<Move> moves;
     private int moveArrayIndex;
 
-    public GameRecord()
+    public Record()
     {
         this.moves = new ArrayList<>();
         this.moveArrayIndex = 0;

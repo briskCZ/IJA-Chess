@@ -5,41 +5,39 @@ import chess.board.Field;
 import chess.figures.Figure;
 
 import java.io.File;
-import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class Game
 {
     private ChessBoard chessBoard;
-    private GameRecord gameRecord;
+    private Record playerRecord;
+    private Record loadedRecord;
+    private ReplayHandler replayHandler;
     private int id;
 
     public Game(int gameId)
     {
         this.id = gameId;
         this.chessBoard = new ChessBoard();
-        this.gameRecord = new GameRecord();
+        this.playerRecord = new Record();
+        this.loadedRecord = new Record();
+        this.replayHandler = new ReplayHandler(this.playerRecord, this.loadedRecord);
     }
     public boolean loadGame(File file)
     {
-        GameFileLoader gameFileLoader = new GameFileLoader(file);
-        gameRecord = gameFileLoader.loadGame();
-
+        loadedRecord = FileHandler.loadRecord(file);
         return false;
     }
-    public int getGameId()
+    public boolean saveGame(File file)
     {
-        return this.id;
+        return FileHandler.saveRecord(replayHandler.getCompleteRecord(), file);
     }
-    public Field getBoardField(int row, int column)
-    {
-        return chessBoard.getField(row, column);
-    }
+
     public void move(Figure selectedFigure, Field destination)
     {
         Field currentField = chessBoard.getField(selectedFigure.getRow(), selectedFigure.getColumn());
         Move move = new Move(currentField, destination);
-        gameRecord.addMove(move);
+        playerRecord.addMove(move);
         destination.setFigure(selectedFigure);
         currentField.removeFigure();
     }
@@ -50,7 +48,7 @@ public class Game
 
     public boolean undoMove()
     {
-        Move move = gameRecord.getPrevMove();
+        Move move = playerRecord.getPrevMove();
         if (move != null)
         {
             Field sourceField = new Field(move.sourceField);
@@ -73,7 +71,7 @@ public class Game
 
     public boolean redoMove()
     {
-        Move move = gameRecord.getNextMove();
+        Move move = playerRecord.getNextMove();
         if (move != null)
         {
             chessBoard.setField(new Field(move.sourceField));
@@ -89,5 +87,17 @@ public class Game
     public void printGame()
     {
         System.out.println(this.chessBoard);
+    }
+    public int getGameId()
+    {
+        return this.id;
+    }
+    public Field getBoardField(int row, int column)
+    {
+        return chessBoard.getField(row, column);
+    }
+    public ReplayHandler getReplayHandler()
+    {
+        return replayHandler;
     }
 }

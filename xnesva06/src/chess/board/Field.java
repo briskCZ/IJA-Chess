@@ -29,9 +29,8 @@ public class Field
         this.figure = figure;
         if (figure != null)
         {
-
+            figure.setPosition(row, column);
         }
-        figure.setPosition(row, column);
     }
     public void removeFigure()
     {

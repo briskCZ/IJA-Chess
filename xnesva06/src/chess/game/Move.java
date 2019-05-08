@@ -7,11 +7,19 @@ public class Move
 {
     Field sourceField;
     Field destField;
-    Figure sourceFigure;
-    Figure destFigure;
-    public Move(Field previousField, Field nextField)
+
+    Field sourceFieldAfter;
+    Field destFieldAfter;
+
+    public Move(Field sourceField, Field destField)
     {
-        this.sourceField = new Field(previousField);
-        this.destField = new Field(nextField);
+        this.sourceField = new Field(sourceField);
+        this.destField = new Field(destField);
+    }
+
+    public void executeMove(Field sourceFieldAfter, Field destFieldAfter)
+    {
+        this.sourceFieldAfter = new Field(sourceFieldAfter);
+        this.destFieldAfter = new Field(destFieldAfter);
     }
 }
