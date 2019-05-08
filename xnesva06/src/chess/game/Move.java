@@ -1,15 +1,22 @@
 package chess.game;
 
 import chess.board.Field;
-import chess.figures.Figure;
 
 public class Move
 {
+    enum Tag{
+        Kick,
+        Check,
+        Mate,
+        None
+    }
+
     Field sourceField;
     Field destField;
 
     Field sourceFieldAfter;
     Field destFieldAfter;
+    Tag[] tags;
 
     public Move(Field sourceField, Field destField)
     {
@@ -17,9 +24,10 @@ public class Move
         this.destField = new Field(destField);
     }
 
-    public void executeMove(Field sourceFieldAfter, Field destFieldAfter)
+    public void executeMove(Field sourceFieldAfter, Field destFieldAfter, Tag[] tags)
     {
         this.sourceFieldAfter = new Field(sourceFieldAfter);
         this.destFieldAfter = new Field(destFieldAfter);
+        this.tags = tags;
     }
 }

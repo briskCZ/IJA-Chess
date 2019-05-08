@@ -20,6 +20,6 @@ public class Bishop extends Figure
     @Override
     public ArrayList<Field> getPossibleMoveFields(ChessBoard board)
     {
-        return null;
+        return new ArrayList<>();
     }
 }

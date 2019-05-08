@@ -1,7 +1,6 @@
 package chess.game;
 
-import chess.board.Field;
-import chess.figures.Figure;
+import chess.board.ChessBoard;
 
 public class ReplayHandler
 {
@@ -15,18 +14,23 @@ public class ReplayHandler
         this.loadedMoves = loadedMoves;
         fileHandler = new FileHandler();
     }
-
-    public void addUserMove()
+    protected void undoUserMove(ChessBoard board)
     {
-
+        Move move = playerMoves.getPrevMove();
+        if (move != null)
+        {
+            board.setField(move.sourceField);
+            board.setField(move.destField);
+        }
     }
-    public void undoUserMove()
+    protected void redoUserMove(ChessBoard board)
     {
-
-    }
-    public void redoUserMove()
-    {
-
+        Move move = playerMoves.getNextMove();
+        if (move != null)
+        {
+            board.setField(move.sourceFieldAfter);
+            board.setField(move.destFieldAfter);
+        }
     }
     public void playAutomatically(int delay)
     {

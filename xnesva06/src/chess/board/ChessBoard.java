@@ -15,7 +15,14 @@ public class ChessBoard
 
     public Field getField(int row, int column)
     {
-        return this.board[row][column];
+        if (row >= 0 && column >= 0 && row < CHESS_BOARD_SIZE && column < CHESS_BOARD_SIZE)
+        {
+            return this.board[row][column];
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public void setField(Field field)

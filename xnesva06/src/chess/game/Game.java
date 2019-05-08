@@ -5,6 +5,7 @@ import chess.board.Field;
 import chess.figures.Figure;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Game
@@ -35,54 +36,31 @@ public class Game
 
     public void move(Figure selectedFigure, Field destination)
     {
-        Field currentField = chessBoard.getField(selectedFigure.getRow(), selectedFigure.getColumn());
-        Move move = new Move(currentField, destination);
+        Field figurePosition = chessBoard.getField(selectedFigure.getRow(), selectedFigure.getColumn());
+        Move move = new Move(figurePosition, destination);
+        ArrayList<Move.Tag> tags = new ArrayList<>();
         playerRecord.addMove(move);
+        if (destination.isOccupiedWithEnemyFig(selectedFigure))
+        {
+            tags.add(Move.Tag.Kick);
+        }
         destination.setFigure(selectedFigure);
-        currentField.removeFigure();
+        figurePosition.removeFigure();
+        move.executeMove(figurePosition, destination, tags.toArray(new Move.Tag[tags.size()]));
     }
     public ArrayList<Field> getPossibleMoves(Figure selectedFigure)
     {
         return selectedFigure.getPossibleMoveFields(chessBoard);
     }
 
-    public boolean undoMove()
+    public void undoMove()
     {
-        Move move = playerRecord.getPrevMove();
-        if (move != null)
-        {
-            Field sourceField = new Field(move.sourceField);
-            Field destField = new Field(move.destField);
-            Figure sourceFigure = sourceField.getFigure();
-            Figure destFigure = destField.getFigure();
-            sourceField.setFigure(destFigure);
-            destField.setFigure(sourceFigure);
-
-            chessBoard.setField(sourceField);
-            chessBoard.setField(destField);
-
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        replayHandler.undoUserMove(chessBoard);
     }
 
-    public boolean redoMove()
+    public void redoMove()
     {
-        Move move = playerRecord.getNextMove();
-        if (move != null)
-        {
-            chessBoard.setField(new Field(move.sourceField));
-            chessBoard.setField(new Field(move.destField));
-
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        replayHandler.redoUserMove(chessBoard);
     }
     public void printGame()
     {

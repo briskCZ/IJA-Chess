@@ -43,26 +43,11 @@ public class Pawn extends Figure
             }
             else
             {
-                if (row + 1 < ChessBoard.CHESS_BOARD_SIZE && column - 1 > 0 && column + 1 < ChessBoard.CHESS_BOARD_SIZE)
-                {
-                    if (!board.getField(row + 1, column).isOccupied())
-                    {
-                        possibleMoveFields.add(board.getField(row + 1, column));
-                    }
+                Field upRight = board.getField(row + 1, column + 1);
+                Field upLeft = board.getField(row + 1, column - 1);
+                Field up = board.getField(row + 1, column);
 
-                    Field fieldUpRight = board.getField(row + 1, column + 1);
-                    if (fieldUpRight.isOccupiedWithEnemyFig(this))
-                    {
-                        possibleMoveFields.add(fieldUpRight);
-                    }
-
-                    Field fieldUpLeft = board.getField(row + 1, column - 1);
-                    if (fieldUpLeft.isOccupiedWithEnemyFig(this))
-                    {
-                        possibleMoveFields.add(fieldUpLeft);
-                    }
-                }
-
+                checkOneFieldAhead(possibleMoveFields, upRight, upLeft, up);
             }
         }
         else
@@ -83,28 +68,39 @@ public class Pawn extends Figure
             }
             else
             {
-                if (row - 1 > 0 && column - 1 > 0 && column + 1 < ChessBoard.CHESS_BOARD_SIZE)
-                {
-                    if (!board.getField(row - 1, column).isOccupied())
-                    {
-                        possibleMoveFields.add(board.getField(row - 1, column));
-                    }
+                Field downRight = board.getField(row - 1, column + 1);
+                Field downLeft = board.getField(row - 1, column - 1);
+                Field down = board.getField(row - 1, column);
 
-                    Field fieldUpRight = board.getField(row - 1, column + 1);
-                    if (fieldUpRight.isOccupiedWithEnemyFig(this))
-                    {
-                        possibleMoveFields.add(fieldUpRight);
-                    }
-
-                    Field fieldUpLeft = board.getField(row - 1, column - 1);
-                    if (fieldUpLeft.isOccupiedWithEnemyFig(this))
-                    {
-                        possibleMoveFields.add(fieldUpLeft);
-                    }
-                }
+                checkOneFieldAhead(possibleMoveFields, downRight, downLeft, down);
 
             }
         }
         return possibleMoveFields;
+    }
+
+    private void checkOneFieldAhead(ArrayList<Field> possibleMoveFields, Field downRight, Field downLeft, Field down)
+    {
+        if (downRight != null)
+        {
+            if (downRight.isOccupiedWithEnemyFig(this))
+            {
+                possibleMoveFields.add(downRight);
+            }
+        }
+        if (downLeft != null)
+        {
+            if (downRight.isOccupiedWithEnemyFig(this))
+            {
+                possibleMoveFields.add(downLeft);
+            }
+        }
+        if (down != null)
+        {
+            if (!down.isOccupied())
+            {
+                possibleMoveFields.add(down);
+            }
+        }
     }
 }
