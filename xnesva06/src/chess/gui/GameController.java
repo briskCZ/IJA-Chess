@@ -2,32 +2,18 @@ package chess.gui;
 
 import chess.board.Field;
 import chess.figures.Figure;
-import chess.figures.FigureType;
 import chess.game.Game;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Bounds;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Control;
 import javafx.scene.control.ListView;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-
-import static chess.figures.FigureType.Pawn;
 
 public class GameController implements Initializable {
 
@@ -43,10 +29,12 @@ public class GameController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+        chessBoardGridPane.setHgap(28);
+        chessBoardGridPane.setVgap(3);
 
         System.out.println(game.getGameId());
 
-        listView.setOnMouseClicked(event -> ListClicked(listView.getSelectionModel().getSelectedItem()));
+        listView.setOnMouseClicked(event -> listClicked(listView.getSelectionModel().getSelectedItem()));
 
         ObservableList<String> items = listView.getItems();
         items.add("One");
@@ -55,11 +43,11 @@ public class GameController implements Initializable {
         items.add("Four");
         items.add("Five");
 
-        SetupFigures();
+        setupFigures();
 
     }
 
-    private void SetupFigures()
+    private void setupFigures()
     {
         for (int x = 0; x<8;x++){
             for(int y = 0; y< 8; y++){
@@ -74,15 +62,15 @@ public class GameController implements Initializable {
                 }
 
                 field.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-                field.setOnAction(event -> FieldClicked(field));
+                field.setOnAction(event -> fieldClicked(field));
                 chessBoardGridPane.add(field,x,y);
             }
         }
     }
 
-    private void RefreshFigures(){
+    private void refreshFigures(){
         chessBoardGridPane.getChildren().clear();
-        SetupFigures();
+        setupFigures();
     }
 
     private void setAllFieldsDisabled(){
@@ -130,7 +118,7 @@ public class GameController implements Initializable {
         }
     }
 
-    private void FieldClicked(GuiBoardField field) {
+    private void fieldClicked(GuiBoardField field) {
       Figure figure = field.getFigure();
 
       if(selectedFigure == null){
@@ -145,27 +133,27 @@ public class GameController implements Initializable {
           }
       }else{
           moveFigure(selectedFigure, game.getBoardField(field.getRow(), field.getCol()));
-          RefreshFigures();
+          refreshFigures();
           selectedFigure = null;
           setAllFieldsDisabled();
       }
 
     }
 
-    private void ListClicked(String string){
+    private void listClicked(String string){
         System.out.println(string);
     }
 
     @FXML
-    private void BackClicked(){
+    private void backClicked(){
         game.undoMove();
-        RefreshFigures();
+        refreshFigures();
     }
 
     @FXML
-    private void ForwardClicked(){
+    private void forwardClicked(){
         game.redoMove();
-        RefreshFigures();
+        refreshFigures();
     }
 
 
