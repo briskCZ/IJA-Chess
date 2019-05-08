@@ -27,6 +27,11 @@ public class Field
     public void setFigure(Figure figure)
     {
         this.figure = figure;
+        if (figure != null)
+        {
+
+        }
+        figure.setPosition(row, column);
     }
     public void removeFigure()
     {
@@ -37,7 +42,10 @@ public class Field
     {
         return figure != null;
     }
-
+    public boolean isOccupiedWithEnemyFig(Figure fig)
+    {
+        return isOccupied() ? getFigure().getColor() != fig.getColor() : false;
+    }
     public int getColumn()
     {
         return column;

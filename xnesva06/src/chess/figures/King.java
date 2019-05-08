@@ -1,7 +1,9 @@
 package chess.figures;
 
+import chess.board.ChessBoard;
 import chess.board.Field;
-import chess.game.GameRecord;
+
+import java.util.ArrayList;
 
 public class King extends Figure
 {
@@ -10,14 +12,15 @@ public class King extends Figure
     {
         super(row, column, isOnBoard, figureColor, FigureType.King);
     }
+
     public King(King king)
     {
         super(king);
     }
 
     @Override
-    public Field[] getPossibleMoveFields()
+    public ArrayList<Field> getPossibleMoveFields(ChessBoard board)
     {
-        return new Field[0];
+        return new ArrayList<>();
     }
 }
