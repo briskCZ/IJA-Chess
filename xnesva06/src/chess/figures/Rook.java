@@ -1,6 +1,9 @@
 package chess.figures;
 
+import chess.board.ChessBoard;
 import chess.board.Field;
+
+import java.util.ArrayList;
 
 public class Rook extends Figure
 {
@@ -9,11 +12,14 @@ public class Rook extends Figure
         super(row, column, isOnBoard, figureColor, FigureType.Rook);
     }
 
-    public Rook(Rook rook){ super(rook); }
+    public Rook(Rook rook)
+    {
+        super(rook);
+    }
 
     @Override
-    public Field[] getPossibleMoveFields()
+    public ArrayList<Field> getPossibleMoveFields(ChessBoard board)
     {
-        return new Field[0];
+        return new ArrayList<>();
     }
 }

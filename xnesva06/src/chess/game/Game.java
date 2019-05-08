@@ -6,6 +6,7 @@ import chess.figures.Figure;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.ArrayList;
 
 public class Game
 {
@@ -37,13 +38,14 @@ public class Game
     public void move(Figure selectedFigure, Field destination)
     {
         Field currentField = chessBoard.getField(selectedFigure.getRow(), selectedFigure.getColumn());
-        destination.setFigure(selectedFigure);
-        selectedFigure.setPosition(destination.getRow(), destination.getColumn());
-        currentField.removeFigure();
         Move move = new Move(currentField, destination);
         gameRecord.addMove(move);
-
-
+        destination.setFigure(selectedFigure);
+        currentField.removeFigure();
+    }
+    public ArrayList<Field> getPossibleMoves(Figure selectedFigure)
+    {
+        return selectedFigure.getPossibleMoveFields(chessBoard);
     }
 
     public boolean undoMove()
@@ -54,15 +56,7 @@ public class Game
             Field sourceField = new Field(move.sourceField);
             Field destField = new Field(move.destField);
             Figure sourceFigure = sourceField.getFigure();
-            if (sourceFigure != null)
-            {
-                sourceFigure.setPosition(destField.getRow(), destField.getColumn());
-            }
             Figure destFigure = destField.getFigure();
-            if (destFigure != null)
-            {
-                destFigure.setPosition(sourceField.getRow(), sourceField.getColumn());
-            }
             sourceField.setFigure(destFigure);
             destField.setFigure(sourceFigure);
 

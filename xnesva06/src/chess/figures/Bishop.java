@@ -1,7 +1,9 @@
 package chess.figures;
 
+import chess.board.ChessBoard;
 import chess.board.Field;
-import chess.game.GameRecord;
+
+import java.util.ArrayList;
 
 public class Bishop extends Figure
 {
@@ -10,11 +12,14 @@ public class Bishop extends Figure
         super(row, column, isOnBoard, figureColor, FigureType.Bishop);
     }
 
-    public Bishop(Bishop bishop) { super(bishop); }
+    public Bishop(Bishop bishop)
+    {
+        super(bishop);
+    }
 
     @Override
-    public Field[] getPossibleMoveFields()
+    public ArrayList<Field> getPossibleMoveFields(ChessBoard board)
     {
-        return new Field[0];
+        return null;
     }
 }

@@ -1,16 +1,17 @@
 package chess.figures;
 
+import chess.board.ChessBoard;
 import chess.board.Field;
-import chess.game.GameRecord;
-import chess.game.Move;
+
+import java.util.ArrayList;
 
 public abstract class Figure
 {
-    private int column;
-    private int row;
-    private boolean isOnBoard;
-    private FigureColor figureColor;
-    private FigureType type;
+    protected int column;
+    protected int row;
+    protected boolean isOnBoard;
+    protected FigureColor figureColor;
+    protected FigureType type;
 
     public Figure(int row, int column, boolean isOnBoard, FigureColor figureColor, FigureType type)
     {
@@ -20,6 +21,7 @@ public abstract class Figure
         this.figureColor = figureColor;
         this.type = type;
     }
+
     public Figure(Figure fig)
     {
         this.row = fig.row;
@@ -28,23 +30,24 @@ public abstract class Figure
         this.figureColor = fig.figureColor;
         this.type = fig.type;
     }
+
     public static Figure copyFigure(Figure fig)
     {
         if (fig == null) return null;
         switch (fig.type)
         {
             case King:
-                return new King((King)fig);
+                return new King((King) fig);
             case Pawn:
-                return new Pawn((Pawn)fig);
+                return new Pawn((Pawn) fig);
             case Bishop:
-                return new Bishop((Bishop)fig);
+                return new Bishop((Bishop) fig);
             case Knight:
-                return new Knight((Knight)fig);
+                return new Knight((Knight) fig);
             case Rook:
-                return new Rook((Rook)fig);
+                return new Rook((Rook) fig);
             case Queen:
-                return new Queen((Queen)fig);
+                return new Queen((Queen) fig);
             default:
                 return null;
         }
@@ -54,19 +57,23 @@ public abstract class Figure
     {
         return isOnBoard;
     }
+
     public int getRow()
     {
         return this.row;
     }
+
     public int getColumn()
     {
         return this.column;
     }
+
     public void setPosition(int row, int column)
     {
         this.row = row;
         this.column = column;
     }
+
     public String toString()
     {
         if (this.figureColor == FigureColor.White)
@@ -88,8 +95,7 @@ public abstract class Figure
                 default:
                     return "";
             }
-        }
-        else
+        } else
         {
             switch (this.type)
             {
@@ -110,12 +116,17 @@ public abstract class Figure
             }
         }
     }
-    public FigureType getType(){
+
+    public FigureType getType()
+    {
         return this.type;
     }
-    public FigureColor getColor(){
+
+    public FigureColor getColor()
+    {
         return this.figureColor;
     }
-    public abstract Field[] getPossibleMoveFields();
+
+    public abstract ArrayList<Field> getPossibleMoveFields(ChessBoard board);
 
 }
