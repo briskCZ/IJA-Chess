@@ -46,8 +46,7 @@ public class Pawn extends Figure
                 Field upRight = board.getField(row + 1, column + 1);
                 Field upLeft = board.getField(row + 1, column - 1);
                 Field up = board.getField(row + 1, column);
-
-                checkOneFieldAhead(possibleMoveFields, upRight, upLeft, up);
+                checkNextRow(possibleMoveFields, upRight, upLeft, up);
             }
         }
         else
@@ -71,36 +70,38 @@ public class Pawn extends Figure
                 Field downRight = board.getField(row - 1, column + 1);
                 Field downLeft = board.getField(row - 1, column - 1);
                 Field down = board.getField(row - 1, column);
-
-                checkOneFieldAhead(possibleMoveFields, downRight, downLeft, down);
-
+                checkNextRow(possibleMoveFields, downRight, downLeft, down);
             }
         }
         return possibleMoveFields;
     }
 
-    private void checkOneFieldAhead(ArrayList<Field> possibleMoveFields, Field downRight, Field downLeft, Field down)
+    private void checkNextRow(ArrayList<Field> possibleMoveFields, Field right, Field left, Field middle)
     {
-        if (downRight != null)
+        if (middle != null && !middle.isOccupied())
         {
-            if (downRight.isOccupiedWithEnemyFig(this))
+            if (left != null && right != null){
+                if (!left.isOccupiedWithEnemyFig(this) && !right.isOccupiedWithEnemyFig(this))
+                {
+                    possibleMoveFields.add(middle);
+                }
+            }
+            else if (left == null && right != null && !right.isOccupiedWithEnemyFig(this))
             {
-                possibleMoveFields.add(downRight);
+                possibleMoveFields.add(middle);
+            }
+            else if (right == null && left != null && !left.isOccupiedWithEnemyFig(this))
+            {
+                possibleMoveFields.add(middle);
             }
         }
-        if (downLeft != null)
+        if (right != null && right.isOccupiedWithEnemyFig(this))
         {
-            if (downRight.isOccupiedWithEnemyFig(this))
-            {
-                possibleMoveFields.add(downLeft);
-            }
+            possibleMoveFields.add(right);
         }
-        if (down != null)
+        if (left != null && left.isOccupiedWithEnemyFig(this))
         {
-            if (!down.isOccupied())
-            {
-                possibleMoveFields.add(down);
-            }
+            possibleMoveFields.add(left);
         }
     }
 }
