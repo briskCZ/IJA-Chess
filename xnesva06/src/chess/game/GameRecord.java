@@ -30,9 +30,9 @@ public class GameRecord
     }
     public Move getPrevMove()
     {
-        if (--moveArrayIndex >= 0)
+        if (moveArrayIndex-1 >= 0)
         {
-            return moves.get(moveArrayIndex);
+            return moves.get(--moveArrayIndex);
         }
         else
         {

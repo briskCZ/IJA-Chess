@@ -66,8 +66,8 @@ public class ChessBoard
         this.board[7][6].setFigure(new Knight(7, 6, true, FigureColor.Black));
 
         // Add bishops for white side
-        this.board[0][2].setFigure(new Bishop(7, 2, true, FigureColor.White));
-        this.board[0][5].setFigure(new Bishop(7, 5, true, FigureColor.White));
+        this.board[0][2].setFigure(new Bishop(0, 2, true, FigureColor.White));
+        this.board[0][5].setFigure(new Bishop(0, 5, true, FigureColor.White));
 
         // Add bishops for black side
         this.board[7][2].setFigure(new Bishop(7, 2, true, FigureColor.Black));

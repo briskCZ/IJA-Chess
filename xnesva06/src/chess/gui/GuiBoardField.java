@@ -20,6 +20,7 @@ public class GuiBoardField extends Button {
         this.row = figure.getRow();
         this.figure = figure;
         this.setText(figure.toString());
+        this.setStyle("-fx-font-size: 40px;");
     }
 
     public int getCol() {

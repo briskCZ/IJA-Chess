@@ -53,9 +53,18 @@ public class Game
         {
             Field sourceField = new Field(move.sourceField);
             Field destField = new Field(move.destField);
-            Figure fig = sourceField.getFigure();
-            sourceField.setFigure(destField.getFigure());
-            destField.setFigure(fig);
+            Figure sourceFigure = sourceField.getFigure();
+            if (sourceFigure != null)
+            {
+                sourceFigure.setPosition(destField.getRow(), destField.getColumn());
+            }
+            Figure destFigure = destField.getFigure();
+            if (destFigure != null)
+            {
+                destFigure.setPosition(sourceField.getRow(), sourceField.getColumn());
+            }
+            sourceField.setFigure(destFigure);
+            destField.setFigure(sourceFigure);
 
             chessBoard.setField(sourceField);
             chessBoard.setField(destField);

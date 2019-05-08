@@ -64,6 +64,7 @@ public class GameController implements Initializable {
                 }else{
                     field = new GuiBoardField(x,y);
                 }
+                field.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
                 field.setOnAction(event -> FieldClicked(field));
                 chessBoardGridPane.add(field,x,y);
             }
