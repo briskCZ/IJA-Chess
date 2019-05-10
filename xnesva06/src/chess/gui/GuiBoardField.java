@@ -10,8 +10,6 @@ public class GuiBoardField extends Button {
     private int col;
     private int row;
 
-    private int current_size = 80;
-
     private boolean isEnabled;
 
     private Figure figure = null;
@@ -58,8 +56,8 @@ public class GuiBoardField extends Button {
             this.setStyle(base_style);
         }
 
-        this.setMaxSize(current_size, current_size);
-        this.setMinSize(current_size, current_size);
+        this.setMaxSize(GameController.field_size, GameController.field_size);
+        this.setMinSize(GameController.field_size, GameController.field_size);
 
         if(contextMenu != null && (this.row == 0 || this.row == 7) && this.figure.getType() == FigureType.Pawn){
             this.setOnContextMenuRequested(event -> contextMenu.show(this, event.getScreenX(), event.getScreenY()));
