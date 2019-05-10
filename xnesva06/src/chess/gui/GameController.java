@@ -220,13 +220,8 @@ public class GameController implements Initializable {
 
     @FXML
     private void stopAutoRunClicked(){
-        try{
-            replayHandler.stopAutomatically();
-        }
-        catch (Exception e ){
-            intervalTextField.setText("0");
-        }
 
+        replayHandler.stopAutomatically();
     }
 
 }
