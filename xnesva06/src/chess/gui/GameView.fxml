@@ -23,8 +23,8 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#backClicked" text="Back" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                        <Button mnemonicParsing="false" onAction="#forwardClicked" text="Forward" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                        <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#backClicked" text="Back" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                        <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#forwardClicked" text="Forward" textAlignment="CENTER" GridPane.columnIndex="1" />
                     </children>
                 </GridPane>
                 <ListView fx:id="listView" prefWidth="160.0" />

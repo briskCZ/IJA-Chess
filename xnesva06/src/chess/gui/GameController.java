@@ -94,13 +94,13 @@ public class GameController implements Initializable {
             Label label_letter = new Label();
 
             label_number.setText(String.valueOf(8-a));
-            label_number.setStyle("-fx-font-weight: bold; -fx-font-size: 50;");
+            label_number.setStyle("-fx-font-weight: bold; -fx-font-size: 50;-fx-text-fill: GRAY;");
             label_number.setMaxSize(field_size, field_size);
             label_number.setMinSize(field_size, field_size);
             label_number.setAlignment(Pos.CENTER);
 
             label_letter.setText(String.valueOf((char)(a+65)));
-            label_letter.setStyle("-fx-font-weight: bold;-fx-font-size: 50;");
+            label_letter.setStyle("-fx-font-weight: bold;-fx-font-size: 50;-fx-text-fill: GRAY;");
             label_letter.setMaxSize(field_size, field_size);
             label_letter.setMinSize(field_size, field_size);
             label_letter.setAlignment(Pos.CENTER);
