@@ -4,12 +4,23 @@ import chess.board.Field;
 import chess.figures.Figure;
 import chess.game.Game;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,13 +37,26 @@ public class GameController implements Initializable {
     private Game game = new Game(MainController.gameNo);
     private Figure selectedFigure = null;
 
+    private ContextMenu contextMenu;
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        chessBoardGridPane.setHgap(28);
-        chessBoardGridPane.setVgap(3);
+        contextMenu = new ContextMenu();
 
-        System.out.println(game.getGameId());
+        MenuItem queen_menu_item = new MenuItem("Queen");
+        MenuItem knight_menu_item = new MenuItem("Knight");
+        MenuItem rook_menu_item = new MenuItem("Rook");
+        MenuItem bishop_menu_item = new MenuItem("Bishop");
+
+        queen_menu_item.setOnAction(event -> System.out.println("Queen"));
+        knight_menu_item.setOnAction(event -> System.out.println("Knight"));
+        rook_menu_item.setOnAction(event -> System.out.println("Rook"));
+        bishop_menu_item.setOnAction(event -> System.out.println("Bishop"));
+
+        contextMenu.getItems().addAll(queen_menu_item,knight_menu_item,rook_menu_item,bishop_menu_item);
+        contextMenu.setStyle("-fx-scale-x: 0.4;-fx-scale-y: 0.4;-fx-translate-x: -100;-fx-translate-y: -100");
 
         listView.setOnMouseClicked(event -> listClicked(listView.getSelectionModel().getSelectedItem()));
 
@@ -56,13 +80,14 @@ public class GameController implements Initializable {
                 Field boardfield = game.getBoardField(y,x);
 
                 if(boardfield.isOccupied()){
-                    field = new GuiBoardField(boardfield.getFigure());
+                    field = new GuiBoardField(boardfield.getFigure(),contextMenu);
                 }else{
                     field = new GuiBoardField(x,y);
                 }
 
                 field.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
                 field.setOnAction(event -> fieldClicked(field));
+
                 chessBoardGridPane.add(field,x,y);
             }
         }
@@ -155,7 +180,5 @@ public class GameController implements Initializable {
         game.redoMove();
         refreshFigures();
     }
-
-
 
 }
