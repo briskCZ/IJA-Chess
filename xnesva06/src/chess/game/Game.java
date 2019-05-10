@@ -18,16 +18,16 @@ public class Game
 
     public Game(int gameId)
     {
+        System.out.println("Creating game: " + gameId);
         this.id = gameId;
         this.chessBoard = new ChessBoard();
         this.playerRecord = new Record();
         this.loadedRecord = new Record();
         this.replayHandler = new ReplayHandler(this.playerRecord, this.loadedRecord);
     }
-    public boolean loadGame(File file)
+    public void loadGame(File file)
     {
         loadedRecord = FileHandler.loadRecord(file);
-        return false;
     }
     public boolean saveGame(File file)
     {

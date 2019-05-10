@@ -10,15 +10,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
-import javafx.scene.control.MenuItem;
-import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -34,7 +27,7 @@ public class GameController implements Initializable {
     @FXML
     private GridPane chessBoardGridPane;
 
-    private Game game = new Game(MainController.gameNo);
+    private Game game;
     private Figure selectedFigure = null;
 
     private ContextMenu contextMenu;
@@ -67,6 +60,7 @@ public class GameController implements Initializable {
         items.add("Four");
         items.add("Five");
 
+        game = MainController.createGame();
         setupFigures();
 
     }
@@ -87,7 +81,6 @@ public class GameController implements Initializable {
 
                 field.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
                 field.setOnAction(event -> fieldClicked(field));
-
                 chessBoardGridPane.add(field,x,y);
             }
         }
@@ -180,5 +173,7 @@ public class GameController implements Initializable {
         game.redoMove();
         refreshFigures();
     }
+
+
 
 }
