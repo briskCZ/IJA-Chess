@@ -37,15 +37,12 @@ public class GameController implements Initializable {
     @FXML
     private GridPane chessBoardGridPane;
 
-    private Game game = new Game(MainController.gameNo);
+    private Game game;
     private Figure selectedFigure = null;
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-
-        System.out.println(game.getGameId());
-
         listView.setOnMouseClicked(event -> ListClicked(listView.getSelectionModel().getSelectedItem()));
 
         ObservableList<String> items = listView.getItems();
@@ -55,8 +52,8 @@ public class GameController implements Initializable {
         items.add("Four");
         items.add("Five");
 
+        game = MainController.createGame();
         SetupFigures();
-
     }
 
     private void SetupFigures()

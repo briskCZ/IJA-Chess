@@ -24,10 +24,9 @@ public class Game
         this.loadedRecord = new Record();
         this.replayHandler = new ReplayHandler(this.playerRecord, this.loadedRecord);
     }
-    public boolean loadGame(File file)
+    public void loadGame(File file)
     {
         loadedRecord = FileHandler.loadRecord(file);
-        return false;
     }
     public boolean saveGame(File file)
     {
