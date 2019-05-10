@@ -25,20 +25,25 @@ public class MainController{
     protected void loadGameClicked(ActionEvent event)
     {
         FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File("xnesva06/data"));
         File file = fileChooser.showOpenDialog(Main.stage);
+        if (file == null) return;
         newGameClicked(null);
         int gameId = Integer.parseInt(tabPane.getSelectionModel().getSelectedItem().getText().split("\\s+")[1]);
-        getGameById(gameId).loadGame(file);
+        if (getGameById(gameId).loadGame(file) == false)
+        {
+            System.out.println("File load error");
+        }
     }
 
     @FXML
     protected void saveGameClicked(ActionEvent event)
     {
-        //TODO cannot save if tabPane doesnt exist or game is not selected
         if (tabPane != null && tabPane.getSelectionModel() != null && tabPane.getSelectionModel().getSelectedItem() != null)
         {
             FileChooser fileChooser = new FileChooser();
             File file = fileChooser.showSaveDialog(Main.stage);
+            if (file == null) return;
             int gameId = Integer.parseInt(tabPane.getSelectionModel().getSelectedItem().getText().split("\\s+")[1]);
             getGameById(gameId).saveGame(file);
         }
@@ -64,6 +69,8 @@ public class MainController{
         tab.setText("Game " + gameNo++);
         tab.setContent(pane);
         tabPane.getTabs().add(tab);
+        tabPane.getSelectionModel().select(tab);
+
     }
 
     public static Game createGame()
