@@ -1,6 +1,5 @@
 package chess.gui;
 
-import chess.game.FileHandler;
 import chess.game.Game;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

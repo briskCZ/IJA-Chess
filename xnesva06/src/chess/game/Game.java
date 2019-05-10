@@ -3,9 +3,10 @@ package chess.game;
 import chess.board.ChessBoard;
 import chess.board.Field;
 import chess.figures.Figure;
+import chess.figures.FigureType;
+import chess.io.FileHandler;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Game
@@ -42,7 +43,7 @@ public class Game
         return FileHandler.saveRecord(replayHandler.getCompleteRecord(), file);
     }
 
-    public void move(Figure selectedFigure, Field destination)
+    public void move(Figure selectedFigure, Field destination, FigureType type)
     {
         Field figurePosition = chessBoard.getField(selectedFigure.getRow(), selectedFigure.getColumn());
         Move move = new Move(figurePosition, destination);

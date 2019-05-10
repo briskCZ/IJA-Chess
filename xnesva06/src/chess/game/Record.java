@@ -1,5 +1,6 @@
 package chess.game;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Record
@@ -38,6 +39,10 @@ public class Record
         {
             return null;
         }
+    }
+    public ArrayList<Move> getMoves()
+    {
+        return this.moves;
     }
 
 }
