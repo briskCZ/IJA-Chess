@@ -9,10 +9,9 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.ListView;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
@@ -34,6 +33,7 @@ public class GameController implements Initializable {
 
     private ContextMenu contextMenu;
 
+    static int field_size = 88;
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
@@ -71,6 +71,8 @@ public class GameController implements Initializable {
     {
         for (int x = 0; x<8;x++){
             for(int y = 0; y< 8; y++){
+
+
                 GuiBoardField field;
 
                 Field boardfield = game.getBoardField(y,x);
@@ -81,11 +83,35 @@ public class GameController implements Initializable {
                     field = new GuiBoardField(x,y);
                 }
 
-                field.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
                 field.setOnAction(event -> fieldClicked(field));
                 chessBoardGridPane.add(field,x,y);
             }
         }
+
+        for(int a = 0; a < 8; a++){
+            Label label_number = new Label();
+
+            Label label_letter = new Label();
+
+            label_number.setText(String.valueOf(8-a));
+            label_number.setStyle("-fx-font-weight: bold; -fx-font-size: 50;");
+            label_number.setMaxSize(field_size, field_size);
+            label_number.setMinSize(field_size, field_size);
+            label_number.setAlignment(Pos.CENTER);
+
+            label_letter.setText(String.valueOf((char)(a+65)));
+            label_letter.setStyle("-fx-font-weight: bold;-fx-font-size: 50;");
+            label_letter.setMaxSize(field_size, field_size);
+            label_letter.setMinSize(field_size, field_size);
+            label_letter.setAlignment(Pos.CENTER);
+
+            chessBoardGridPane.add(label_number,8,a);
+            chessBoardGridPane.add(label_letter,a,8);
+
+        }
+
+
+
     }
 
     private void refreshFigures(){
