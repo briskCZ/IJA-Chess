@@ -27,57 +27,41 @@ public class Pawn extends Figure
         ArrayList<Field> possibleMoveFields = new ArrayList<>();
         if (figureColor == FigureColor.White)
         {
-            if (row == STARTING_ROW_WHITE)
-            {
-                Field startPlusOne = board.getField(STARTING_ROW_WHITE + 1, column);
-                Field startPlusTwo = board.getField(STARTING_ROW_WHITE + 2, column);
+            Field upRight = board.getField(row + 1, column + 1);
+            Field upLeft = board.getField(row + 1, column - 1);
+            Field up = board.getField(row + 1, column);
+            int canJump = checkNextRow(possibleMoveFields, upRight, upLeft, up);
 
-                if (!startPlusOne.isOccupied())
-                {
-                    possibleMoveFields.add(startPlusOne);
-                }
-                if (!startPlusTwo.isOccupied())
-                {
-                    possibleMoveFields.add(startPlusTwo);
-                }
-            }
-            else
-            {
-                Field upRight = board.getField(row + 1, column + 1);
-                Field upLeft = board.getField(row + 1, column - 1);
-                Field up = board.getField(row + 1, column);
-                checkNextRow(possibleMoveFields, upRight, upLeft, up);
-            }
+            checkMoveFromStart(board, STARTING_ROW_WHITE, possibleMoveFields, up, canJump);
         }
         else
         {
-            if (row == STARTING_ROW_BLACK)
-            {
-                Field startPlusOne = board.getField(STARTING_ROW_BLACK - 1, column);
-                Field startPlusTwo = board.getField(STARTING_ROW_BLACK - 2, column);
+            Field downRight = board.getField(row - 1, column + 1);
+            Field downLeft = board.getField(row - 1, column - 1);
+            Field down = board.getField(row - 1, column);
+            int canJump = checkNextRow(possibleMoveFields, downRight, downLeft, down);
 
-                if (!startPlusOne.isOccupied())
-                {
-                    possibleMoveFields.add(startPlusOne);
-                }
-                if (!startPlusTwo.isOccupied())
-                {
-                    possibleMoveFields.add(startPlusTwo);
-                }
-            }
-            else
-            {
-                Field downRight = board.getField(row - 1, column + 1);
-                Field downLeft = board.getField(row - 1, column - 1);
-                Field down = board.getField(row - 1, column);
-                checkNextRow(possibleMoveFields, downRight, downLeft, down);
-            }
+            checkMoveFromStart(board, STARTING_ROW_BLACK, possibleMoveFields, down, canJump);
         }
         return possibleMoveFields;
     }
 
-    private void checkNextRow(ArrayList<Field> possibleMoveFields, Field right, Field left, Field middle)
+    private void checkMoveFromStart(ChessBoard board, int sideStartingRow, ArrayList<Field> possibleMoveFields, Field middle, int canJump)
     {
+        if (canJump == 0 && row == sideStartingRow)
+        {
+            int direction = sideStartingRow == 1 ? 2 : -2;
+            Field startPlusTwo = board.getField(sideStartingRow + direction, column);
+            if (!middle.isOccupied() && !startPlusTwo.isOccupied())
+            {
+                possibleMoveFields.add(startPlusTwo);
+            }
+        }
+    }
+
+    private int checkNextRow(ArrayList<Field> possibleMoveFields, Field right, Field left, Field middle)
+    {
+        int canJump = 0;
         if (middle != null && !middle.isOccupied())
         {
             if (left != null && right != null){
@@ -97,11 +81,15 @@ public class Pawn extends Figure
         }
         if (right != null && right.isOccupiedWithEnemyFig(this))
         {
+            canJump++;
             possibleMoveFields.add(right);
         }
         if (left != null && left.isOccupiedWithEnemyFig(this))
         {
+            canJump++;
             possibleMoveFields.add(left);
         }
+        return canJump;
     }
+
 }

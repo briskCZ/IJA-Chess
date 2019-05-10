@@ -1,6 +1,7 @@
 package chess.game;
 
 import chess.board.ChessBoard;
+import chess.io.FileHandler;
 
 public class ReplayHandler
 {

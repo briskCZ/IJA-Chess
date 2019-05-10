@@ -8,7 +8,7 @@ public class Move
         Kick,
         Check,
         Mate,
-        None
+        Promotion
     }
 
     Field sourceField;

@@ -165,7 +165,7 @@ public class GameController implements Initializable {
 
     private void moveFigure(Figure figure, Field field){
         if(isFieldEnabled(field.getColumn(),field.getRow())){
-            game.move(figure, field);
+            game.move(figure, field, null);
         }
     }
 
