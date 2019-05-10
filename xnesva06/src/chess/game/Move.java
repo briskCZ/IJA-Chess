@@ -4,7 +4,7 @@ import chess.board.Field;
 
 public class Move
 {
-    enum Tag{
+    public enum Tag{
         Kick,
         Check,
         Mate,
