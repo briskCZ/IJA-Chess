@@ -1,16 +1,22 @@
 package chess.gui;
 
 import chess.figures.Figure;
+import chess.figures.FigureType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 
 public class GuiBoardField extends Button {
 
     private int col;
     private int row;
 
+    private int current_size = 80;
+
     private boolean isEnabled;
 
     private Figure figure = null;
+
+    private ContextMenu contextMenu;
 
     private String base_style = "-fx-font-size: 50px; -fx-background-radius: 0; -fx-padding: 0;  ";
     private String current_style = "";
@@ -21,20 +27,17 @@ public class GuiBoardField extends Button {
         setBaseStyle();
     }
 
-    GuiBoardField(Figure figure){
+    GuiBoardField(Figure figure, ContextMenu contextMenu){
         this.col = figure.getColumn();
         this.row = figure.getRow();
         this.figure = figure;
         this.setText(figure.toString());
+        this.contextMenu = contextMenu;
         setBaseStyle();
     }
 
     private void setBaseStyle(){
-        this.layoutBoundsProperty().addListener((observableValue, oldBounds, newBounds) -> {
-            this.setWidth(this.getHeight());
 
-           // System.out.println( "Height: " + this.getHeight() + " Width: " + this.getWidth());
-        });
 
         current_style = base_style;
 
@@ -44,16 +47,22 @@ public class GuiBoardField extends Button {
 
         base_style = current_style;
         this.setStyle(current_style);
+        updateProperties();
     }
 
     private void updateProperties(){
         if(isEnabled){
-           // System.out.println("curent:"+current_style);
-           // System.out.println("base:"+base_style);
             this.setStyle(current_style + "-fx-border-color: ORANGE;-fx-border-width:3;");
         }
         else{
             this.setStyle(base_style);
+        }
+
+        this.setMaxSize(current_size, current_size);
+        this.setMinSize(current_size, current_size);
+
+        if(contextMenu != null && (this.row == 0 || this.row == 7) && this.figure.getType() == FigureType.Pawn){
+            this.setOnContextMenuRequested(event -> contextMenu.show(this, event.getScreenX(), event.getScreenY()));
         }
     }
 
@@ -80,7 +89,7 @@ public class GuiBoardField extends Button {
 
     public Figure getFigure(){
         return figure;
-    };
+    }
 
     @Override
     public String toString() {

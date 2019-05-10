@@ -11,7 +11,7 @@
 
 <BorderPane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chess.gui.GameController">
     <center>
-        <GridPane fx:id="chessBoardGridPane" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" snapToPixel="false" BorderPane.alignment="CENTER_LEFT">
+        <GridPane fx:id="chessBoardGridPane" alignment="CENTER" snapToPixel="false" BorderPane.alignment="CENTER">
             <columnConstraints>
                 <ColumnConstraints />
                 <ColumnConstraints />
