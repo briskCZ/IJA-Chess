@@ -18,6 +18,7 @@ public class Game
 
     public Game(int gameId)
     {
+        System.out.println("Creating game: " + gameId);
         this.id = gameId;
         this.chessBoard = new ChessBoard();
         this.playerRecord = new Record();

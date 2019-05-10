@@ -43,7 +43,7 @@ public class GameController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        listView.setOnMouseClicked(event -> ListClicked(listView.getSelectionModel().getSelectedItem()));
+        listView.setOnMouseClicked(event -> listClicked(listView.getSelectionModel().getSelectedItem()));
 
         ObservableList<String> items = listView.getItems();
         items.add("One");

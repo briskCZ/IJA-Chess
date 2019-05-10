@@ -12,8 +12,9 @@
            <menus>
                <Menu mnemonicParsing="false" text="Game">
                    <items>
-                       <MenuItem mnemonicParsing="false" onAction="#NewGameClicked" text="New game" />
-                       <MenuItem mnemonicParsing="false" onAction="#LoadGameClicked" text="Load game" />
+                       <MenuItem mnemonicParsing="false" onAction="#newGameClicked" text="New game" />
+                       <MenuItem mnemonicParsing="false" onAction="#loadGameClicked" text="Load game" />
+                       <MenuItem mnemonicParsing="false" onAction="#saveGameClicked" text="Save game" />
                    </items>
                </Menu>
            </menus>
