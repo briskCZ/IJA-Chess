@@ -53,10 +53,11 @@ public class GameController implements Initializable {
         items.add("Five");
 
         game = MainController.createGame();
-        SetupFigures();
+        setupFigures();
+
     }
 
-    private void SetupFigures()
+    private void setupFigures()
     {
         for (int x = 0; x<8;x++){
             for(int y = 0; y< 8; y++){
@@ -71,15 +72,15 @@ public class GameController implements Initializable {
                 }
 
                 field.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-                field.setOnAction(event -> FieldClicked(field));
+                field.setOnAction(event -> fieldClicked(field));
                 chessBoardGridPane.add(field,x,y);
             }
         }
     }
 
-    private void RefreshFigures(){
+    private void refreshFigures(){
         chessBoardGridPane.getChildren().clear();
-        SetupFigures();
+        setupFigures();
     }
 
     private void setAllFieldsDisabled(){
@@ -127,7 +128,7 @@ public class GameController implements Initializable {
         }
     }
 
-    private void FieldClicked(GuiBoardField field) {
+    private void fieldClicked(GuiBoardField field) {
       Figure figure = field.getFigure();
 
       if(selectedFigure == null){
@@ -142,27 +143,27 @@ public class GameController implements Initializable {
           }
       }else{
           moveFigure(selectedFigure, game.getBoardField(field.getRow(), field.getCol()));
-          RefreshFigures();
+          refreshFigures();
           selectedFigure = null;
           setAllFieldsDisabled();
       }
 
     }
 
-    private void ListClicked(String string){
+    private void listClicked(String string){
         System.out.println(string);
     }
 
     @FXML
-    private void BackClicked(){
+    private void backClicked(){
         game.undoMove();
-        RefreshFigures();
+        refreshFigures();
     }
 
     @FXML
-    private void ForwardClicked(){
+    private void forwardClicked(){
         game.redoMove();
-        RefreshFigures();
+        refreshFigures();
     }
 
 

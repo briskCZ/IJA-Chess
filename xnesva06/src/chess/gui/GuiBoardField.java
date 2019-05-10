@@ -12,7 +12,7 @@ public class GuiBoardField extends Button {
 
     private Figure figure = null;
 
-    private String base_style = "-fx-font-size: 40px;-fx-background-radius: 0;";
+    private String base_style = "-fx-font-size: 50px; -fx-background-radius: 0; -fx-padding: 0;  ";
     private String current_style = "";
 
     GuiBoardField(int col, int row){
@@ -31,7 +31,7 @@ public class GuiBoardField extends Button {
 
     private void setBaseStyle(){
         this.layoutBoundsProperty().addListener((observableValue, oldBounds, newBounds) -> {
-            //this.setWidth(this.getHeight());
+            this.setWidth(this.getHeight());
 
            // System.out.println( "Height: " + this.getHeight() + " Width: " + this.getWidth());
         });

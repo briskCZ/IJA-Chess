@@ -18,9 +18,9 @@ public class Main extends Application {
         stage = primaryStage;
         Parent root = FXMLLoader.load(getClass().getResource("MainView.fxml"));
         primaryStage.setTitle("IJA - Chess");
-        primaryStage.setScene(new Scene(root, 600, 600));
-        primaryStage.setMinHeight(600.0);
-        primaryStage.setMinWidth(600.0);
+        primaryStage.setScene(new Scene(root, 1000, 800));
+        primaryStage.setMinHeight(800);
+        primaryStage.setMinWidth(1000);
         primaryStage.show();
     }
 
