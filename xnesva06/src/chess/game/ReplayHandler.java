@@ -36,6 +36,10 @@ public class ReplayHandler
     {
 
     }
+    public void stopAutomatically()
+    {
+
+    }
     public void loaded()
     {
 
@@ -60,4 +64,6 @@ public class ReplayHandler
     {
         return new Record();
     }
+
+
 }

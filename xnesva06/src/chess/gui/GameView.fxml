@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -25,9 +27,13 @@
                     <children>
                         <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#backClicked" text="Back" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                         <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#forwardClicked" text="Forward" textAlignment="CENTER" GridPane.columnIndex="1" />
+                  <TextField fx:id="intervalTextField" text="1" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label alignment="CENTER_RIGHT" contentDisplay="TOP" text="Interval: " GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#startAutoRunClicked" text="Start Auto" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#stopAutoRunClicked" text="Stop" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                     </children>
                 </GridPane>
-                <ListView fx:id="listView" prefWidth="160.0" />
+                <ListView fx:id="listView" maxHeight="1.7976931348623157E308" prefHeight="700.0" prefWidth="150.0" />
             </children>
         </VBox>
     </right>

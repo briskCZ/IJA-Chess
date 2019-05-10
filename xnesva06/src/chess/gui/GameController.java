@@ -3,6 +3,8 @@ package chess.gui;
 import chess.board.Field;
 import chess.figures.Figure;
 import chess.game.Game;
+import chess.game.Record;
+import chess.game.ReplayHandler;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -28,11 +30,14 @@ public class GameController implements Initializable {
     @FXML
     private GridPane chessBoardGridPane;
 
+    @FXML
+    private TextField intervalTextField;
+
     private Game game;
     private Figure selectedFigure = null;
 
     private ContextMenu contextMenu;
-
+    private ReplayHandler replayHandler;
     static int field_size = 88;
 
     @Override
@@ -53,17 +58,18 @@ public class GameController implements Initializable {
         contextMenu.getItems().addAll(queen_menu_item,knight_menu_item,rook_menu_item,bishop_menu_item);
         contextMenu.setStyle("-fx-scale-x: 0.4;-fx-scale-y: 0.4;-fx-translate-x: -100;-fx-translate-y: -100");
 
+
         listView.setOnMouseClicked(event -> listClicked(listView.getSelectionModel().getSelectedItem()));
 
         ObservableList<String> items = listView.getItems();
-        items.add("One");
-        items.add("Two");
-        items.add("Three");
-        items.add("Four");
-        items.add("Five");
 
         game = MainController.createGame();
         setupFigures();
+
+        replayHandler  = game.getReplayHandler();
+        Record record = replayHandler.getCompleteRecord();
+
+
 
     }
 
@@ -157,7 +163,6 @@ public class GameController implements Initializable {
         return false;
     }
 
-
     private void moveFigure(Figure figure, Field field){
         if(isFieldEnabled(field.getColumn(),field.getRow())){
             game.move(figure, field);
@@ -202,6 +207,26 @@ public class GameController implements Initializable {
         refreshFigures();
     }
 
+    @FXML
+    private void startAutoRunClicked(){
+        try{
+            replayHandler.playAutomatically(Integer.parseInt(intervalTextField.getText()));
+        }
+        catch (Exception e ){
+            intervalTextField.setText("0");
+        }
 
+    }
+
+    @FXML
+    private void stopAutoRunClicked(){
+        try{
+            replayHandler.stopAutomatically();
+        }
+        catch (Exception e ){
+            intervalTextField.setText("0");
+        }
+
+    }
 
 }
