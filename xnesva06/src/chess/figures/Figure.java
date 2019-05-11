@@ -129,4 +129,22 @@ public abstract class Figure
 
     public abstract ArrayList<Field> getPossibleMoveFields(ChessBoard board);
 
+    protected boolean checkMove(ChessBoard board, ArrayList<Field> possibleArrayMoves, int row, int column)
+    {
+        Field f = board.getField(row, column);
+        if(f != null){
+            if (f.isOccupiedWithEnemyFig(this))
+            {
+                possibleArrayMoves.add(f);
+                return true;
+            }
+            if (f.isOccupied())
+            {
+                return true;
+            }
+            possibleArrayMoves.add(f);
+            return false;
+        }
+        return false;
+    }
 }

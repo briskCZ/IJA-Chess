@@ -33,23 +33,4 @@ public class Knight extends Figure
 
         return  possibleMoveFields;
     }
-
-    private boolean checkMove(ChessBoard board, ArrayList<Field> possibleArrayMoves, int row, int column)
-    {
-        Field f = board.getField(row, column);
-        if(f != null){
-            if (f.isOccupiedWithEnemyFig(this))
-            {
-                possibleArrayMoves.add(f);
-                return true;
-            }
-            if (f.isOccupied())
-            {
-                return true;
-            }
-            possibleArrayMoves.add(f);
-            return false;
-        }
-        return false;
-    }
 }

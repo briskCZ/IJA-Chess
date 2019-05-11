@@ -35,45 +35,20 @@ public class Bishop extends Figure
             Field right_up = null;
             Field right_down = null;
 
-            left_up = board.getField(row + i,column + i);
-            left_down = board.getField(row - i,column + i);
-            right_up = board.getField(row + i,column - i);
-            right_down = board.getField(row - i,column - i);
-
-
-            if(!was_occupied_lu && left_up != null){
-                was_occupied_lu = checkMove(board,possibleMoveFields,left_up.getRow(),left_up.getColumn());
+            if(!was_occupied_lu){
+                was_occupied_lu = checkMove(board,possibleMoveFields,row + i,column + i);
             }
-            if(!was_occupied_ld && left_down != null){
-                was_occupied_ld = checkMove(board,possibleMoveFields,left_down.getRow(),left_down.getColumn());
+            if(!was_occupied_ld){
+                was_occupied_ld = checkMove(board,possibleMoveFields,row - i,column + i);
             }
-            if(!was_occupied_ru && right_up != null){
-                was_occupied_ru = checkMove(board,possibleMoveFields,right_up.getRow(),right_up.getColumn());
+            if(!was_occupied_ru){
+                was_occupied_ru = checkMove(board,possibleMoveFields,row + i,column - i);
             }
-            if(!was_occupied_rd && right_down != null){
-                was_occupied_rd = checkMove(board,possibleMoveFields,right_down.getRow(),right_down.getColumn());
+            if(!was_occupied_rd){
+                was_occupied_rd = checkMove(board,possibleMoveFields,row - i,column - i);
             }
 
         }
         return possibleMoveFields;
     }
-
-    private boolean checkMove(ChessBoard board, ArrayList<Field> possibleArrayMoves, int row, int column)
-    {
-        Field f = board.getField(row, column);
-        if (f.isOccupiedWithEnemyFig(this))
-        {
-            possibleArrayMoves.add(f);
-            return true;
-        }
-        if (f.isOccupied())
-        {
-            return true;
-        }
-        possibleArrayMoves.add(f);
-        return false;
-    }
-
-
-
 }
