@@ -4,6 +4,12 @@ import chess.figures.Figure;
 import chess.figures.FigureType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class GuiBoardField extends Button {
 
@@ -19,6 +25,8 @@ public class GuiBoardField extends Button {
     private String base_style = "-fx-font-size: 50px; -fx-background-radius: 0; -fx-padding: 0;  ";
     private String current_style = "";
 
+    Image figure_image ;
+
     GuiBoardField(int col, int row){
         this.col = col;
         this.row = row;
@@ -30,6 +38,18 @@ public class GuiBoardField extends Button {
         this.row = figure.getRow();
         this.figure = figure;
         this.setText(figure.toString());
+
+        /*switch (this.figure.getType()){
+            case Pawn:
+                //figure_image = new Image(getClass().getResourceAsStream("xnesva06/lib/pawn_w.png"));
+                //figure_image = new Image(Main.class.getResource("xnesva06/lib/pawn_w.png").toExternalForm(), 100, 100, true, true);
+                break;
+
+
+        }*/
+
+        //this.setGraphic(new ImageView(figure_image));
+
         this.contextMenu = contextMenu;
         setBaseStyle();
     }
