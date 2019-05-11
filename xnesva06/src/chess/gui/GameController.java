@@ -233,6 +233,7 @@ public class GameController implements Initializable {
         replayHandler.playPreviousHalfMove();
         setListViewIndex();
         refreshFigures();
+
     }
 
     @FXML
@@ -246,7 +247,6 @@ public class GameController implements Initializable {
     {
         listView.getSelectionModel().select(replayHandler.getCompleteRecordIndex());
     }
-
     @FXML
     private void startAutoRunClicked(){
         try{
