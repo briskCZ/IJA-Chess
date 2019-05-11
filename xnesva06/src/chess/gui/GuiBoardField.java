@@ -104,12 +104,11 @@ public class GuiBoardField extends Button {
 
     private void setBaseStyle(){
 
-
         current_style = base_style;
 
-        if(((col % 2 == 0)&&(row % 2 == 0))||((col % 2 == 1)&&(row % 2 == 1))){
+       if(((col % 2 == 1)&&(row % 2 == 0))||((col % 2 == 0)&&(row % 2 == 1))){
             current_style += "-fx-base:GRAY;";
-        }
+       }
 
         base_style = current_style;
         this.setStyle(current_style);

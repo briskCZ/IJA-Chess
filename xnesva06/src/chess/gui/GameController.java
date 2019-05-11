@@ -90,7 +90,7 @@ public class GameController implements Initializable {
                 }
 
                 field.setOnAction(event -> fieldClicked(field));
-                chessBoardGridPane.add(field,x,y);
+                chessBoardGridPane.add(field,7-x,7-y);
             }
         }
 
@@ -200,6 +200,7 @@ public class GameController implements Initializable {
         game.redoMove();
         refreshFigures();
     }
+
     @FXML
     private void undoClicked(){
         game.undoMove();

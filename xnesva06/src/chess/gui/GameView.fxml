@@ -42,7 +42,7 @@
                   <TextField fx:id="intervalTextField" text="1" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <Label alignment="CENTER_RIGHT" contentDisplay="TOP" text="⏱ Interval: " GridPane.halignment="RIGHT" GridPane.rowIndex="4">
                      <font>
-                        <Font size="15.0" />
+                        <Font size="14.0" />
                      </font></Label>
                   <Button alignment="TOP_CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="30.0" maxWidth="1.7976931348623157E308" minHeight="30.0" mnemonicParsing="false" onAction="#startAutoRunClicked" text="▶ " textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="5">
                      <font>
@@ -51,11 +51,11 @@
                   <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#stopAutoRunClicked" style="-fx-font-weight: bold;" text="| |" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                   <Label alignment="CENTER" maxWidth="1.7976931348623157E308" style="-fx-font-weight: bold;" text="Replay controls" GridPane.columnSpan="2147483647" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
                   <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" style="-fx-font-weight: bold;" text="User controls" textAlignment="CENTER" GridPane.columnSpan="2" />
-                  <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#undoClicked" text="🠈" GridPane.rowIndex="1">
+                  <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#undoClicked" text="🠈" textAlignment="CENTER" GridPane.rowIndex="1">
                      <font>
                         <Font size="15.0" />
                      </font></Button>
-                  <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#redoClicked" text="🠊" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#redoClicked" text="🠊" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <font>
                         <Font size="15.0" />
                      </font></Button>
