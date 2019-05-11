@@ -20,24 +20,24 @@ public class Rook extends Figure
     @Override
     public ArrayList<Field> getPossibleMoveFields(ChessBoard board)
     {
-        ArrayList<Field> possibleArrayMoves = new ArrayList<>();
+        ArrayList<Field> PossibleMoveFields = new ArrayList<>();
         for (int i = row + 1; i < ChessBoard.CHESS_BOARD_SIZE ; i++)
         {
-            if (checkMove(board, possibleArrayMoves, i, column)) break;
+            if (checkMove(board, PossibleMoveFields, i, column)) break;
         }
         for (int i = row - 1; i >= 0; i--)
         {
-            if (checkMove(board, possibleArrayMoves, i, column)) break;
+            if (checkMove(board, PossibleMoveFields, i, column)) break;
         }
         for (int i = column + 1; i < ChessBoard.CHESS_BOARD_SIZE; i++)
         {
-            if (checkMove(board, possibleArrayMoves, row, i)) break;
+            if (checkMove(board, PossibleMoveFields, row, i)) break;
         }
         for (int i = column - 1; i >= 0; i--)
         {
-            if (checkMove(board, possibleArrayMoves, row, i)) break;
+            if (checkMove(board, PossibleMoveFields, row, i)) break;
         }
-        return possibleArrayMoves;
+        return PossibleMoveFields;
     }
 
     private boolean checkMove(ChessBoard board, ArrayList<Field> possibleArrayMoves, int row, int column)

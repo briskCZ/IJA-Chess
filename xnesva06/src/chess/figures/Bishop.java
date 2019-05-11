@@ -3,6 +3,7 @@ package chess.figures;
 import chess.board.ChessBoard;
 import chess.board.Field;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Bishop extends Figure
@@ -20,6 +21,8 @@ public class Bishop extends Figure
     @Override
     public ArrayList<Field> getPossibleMoveFields(ChessBoard board)
     {
-        return new ArrayList<>();
+        ArrayList<Field> possibleMoveFields = new ArrayList<>();
+
+        return possibleMoveFields;
     }
 }

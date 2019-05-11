@@ -15,22 +15,32 @@ public class ReplayHandler
         this.loadedMoves = loadedMoves;
         fileHandler = new FileHandler();
     }
-    protected void undoUserMove(ChessBoard board)
+    protected boolean undoUserMove(ChessBoard board)
     {
         Move move = playerMoves.getPrevMove();
         if (move != null)
         {
             board.setField(move.sourceField);
             board.setField(move.destField);
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
-    protected void redoUserMove(ChessBoard board)
+    protected boolean redoUserMove(ChessBoard board)
     {
         Move move = playerMoves.getNextMove();
         if (move != null)
         {
             board.setField(move.sourceFieldAfter);
             board.setField(move.destFieldAfter);
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
     public void playAutomatically(int delay)
