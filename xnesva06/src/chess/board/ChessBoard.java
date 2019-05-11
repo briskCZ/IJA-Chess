@@ -39,7 +39,7 @@ public class ChessBoard
         {
             for (int j = 0; j < CHESS_BOARD_SIZE; j++)
             {
-                board[CHESS_BOARD_SIZE-i-1][j] = new Field(CHESS_BOARD_SIZE-i-1, j);
+                board[i][j] = new Field(i, j);
             }
         }
     }
