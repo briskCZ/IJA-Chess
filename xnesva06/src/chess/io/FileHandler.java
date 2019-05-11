@@ -24,6 +24,7 @@ public class FileHandler
         }
         catch (IOException e){
             System.out.println(e);
+            return false;
         }
         return true;
     }
@@ -32,6 +33,21 @@ public class FileHandler
 
     public boolean saveRecord(Record record, File file)
     {
-        throw new NotImplementedException();
+        try
+        {
+            String[] recordSplit = record.toStringArray();
+            FileWriter fileWriter = new FileWriter(file);
+            for (String s : recordSplit)
+            {
+                fileWriter.write(s + "\n");
+            }
+            fileWriter.close();
+        }
+        catch (IOException e)
+        {
+            System.out.println(e);
+            return false;
+        }
+        return true;
     }
 }

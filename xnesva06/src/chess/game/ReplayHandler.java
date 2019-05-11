@@ -35,7 +35,6 @@ public class ReplayHandler
         }
         if (playerRecord.getIndex() == 0 && loadedRecord.getSize() > 0)
         {
-            // Player moves undoed can use record
             loadedRecord.resetMaxIndex();
             returnedToLoaded = true;
         }
