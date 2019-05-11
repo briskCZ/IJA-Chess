@@ -230,6 +230,16 @@ public class GameController implements Initializable {
     }
 
     @FXML
+    private void startAutoRunBackClicked(){
+        try{
+            replayHandler.playAutomatically(Integer.parseInt(intervalTextField.getText()));
+        }
+        catch (Exception e ){
+            intervalTextField.setText("0");
+        }
+    }
+
+    @FXML
     private void pauseAutoRunClicked(){
 
         //TODO
