@@ -4,6 +4,7 @@ import chess.game.Game;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.Pane;
@@ -16,9 +17,11 @@ import java.util.ArrayList;
 public class MainController{
 
     @FXML private TabPane tabPane;
+    @FXML private Label infoLabel;
 
     static int gameNo = 1;
     static ArrayList<Game> games = new ArrayList<>();
+
 
     @FXML
     protected void loadGameClicked(ActionEvent event)
@@ -29,9 +32,10 @@ public class MainController{
         if (file == null) return;
         newGameClicked(null);
         int gameId = Integer.parseInt(tabPane.getSelectionModel().getSelectedItem().getText().split("\\s+")[1]);
+        clearInfo();
         if (getGameById(gameId).loadGame(file) == false)
         {
-            System.out.println("File load error");
+            infoLabel.setText("File could not be loaded!");
         }
     }
 
@@ -45,10 +49,11 @@ public class MainController{
             if (file == null) return;
             int gameId = Integer.parseInt(tabPane.getSelectionModel().getSelectedItem().getText().split("\\s+")[1]);
             getGameById(gameId).saveGame(file);
+            clearInfo();
         }
         else
         {
-            System.out.println("No game available");
+            infoLabel.setText("No game available!");
         }
     }
 
@@ -61,15 +66,19 @@ public class MainController{
             pane = loader.load();
         }
         catch(IOException e){
-            System.out.println(e.getMessage());
-            System.out.println("Cannot create new tab!");
+            infoLabel.setText("Cannot create new game!");
         }
 
         tab.setText("Game " + gameNo++);
         tab.setContent(pane);
         tabPane.getTabs().add(tab);
         tabPane.getSelectionModel().select(tab);
+        clearInfo();
 
+    }
+
+    private void clearInfo(){
+        infoLabel.setText("");
     }
 
     public static Game createGame()
