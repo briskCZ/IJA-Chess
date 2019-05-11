@@ -196,6 +196,17 @@ public class GameController implements Initializable {
     }
 
     @FXML
+    private void redoClicked(){
+        game.redoMove();
+        refreshFigures();
+    }
+    @FXML
+    private void undoClicked(){
+        game.undoMove();
+        refreshFigures();
+    }
+
+    @FXML
     private void prevMoveClicked(){
         replayHandler.playPreviousMove();
         refreshFigures();
