@@ -33,6 +33,7 @@ public class Move
     }
     public String toString()
     {
-        return "TODO";
+        //TODO
+        return sourceField.toString() + destField.toString();
     }
 }
