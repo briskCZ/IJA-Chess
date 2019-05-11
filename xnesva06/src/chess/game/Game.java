@@ -15,6 +15,7 @@ public class Game
     private Record playerRecord;
     private Record loadedRecord;
     private ReplayHandler replayHandler;
+    private FileHandler fileHandler;
     private int id;
 
     public Game(int gameId)
@@ -24,23 +25,16 @@ public class Game
         this.chessBoard = new ChessBoard();
         this.playerRecord = new Record();
         this.loadedRecord = new Record();
-        this.replayHandler = new ReplayHandler(this.playerRecord, this.loadedRecord);
+        this.replayHandler = new ReplayHandler(this.playerRecord, this.loadedRecord, this.chessBoard);
+        this.fileHandler = new FileHandler();
     }
     public boolean loadGame(File file)
     {
-        loadedRecord = FileHandler.loadRecord(file);
-        if (loadedRecord == null)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return fileHandler.loadRecord(file, loadedRecord);
     }
     public boolean saveGame(File file)
     {
-        return FileHandler.saveRecord(replayHandler.getCompleteRecord(), file);
+        return fileHandler.saveRecord(replayHandler.getCompleteRecord(), file);
     }
 
     public void move(Figure selectedFigure, Field destination, FigureType type)
@@ -60,16 +54,6 @@ public class Game
     public ArrayList<Field> getPossibleMoves(Figure selectedFigure)
     {
         return selectedFigure.getPossibleMoveFields(chessBoard);
-    }
-
-    public boolean undoMove()
-    {
-        return replayHandler.undoUserMove(chessBoard);
-    }
-
-    public boolean redoMove()
-    {
-        return replayHandler.redoUserMove(chessBoard);
     }
     public void printGame()
     {

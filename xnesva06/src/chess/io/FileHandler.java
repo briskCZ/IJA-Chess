@@ -7,9 +7,8 @@ import java.io.*;
 
 public class FileHandler
 {
-    public static Record loadRecord(File file)
+    public boolean loadRecord(File file, Record loadedRecord)
     {
-        Record loadedRecord = new Record();
         try{
             BufferedReader br = new BufferedReader(new FileReader(file));
 
@@ -19,19 +18,19 @@ public class FileHandler
             {
                 if (parser.parseLine(loadedRecord, line) == false)
                 {
-                    return null;
+                    return false;
                 }
             }
         }
         catch (IOException e){
             System.out.println(e);
         }
-        return loadedRecord;
+        return true;
     }
 
 
 
-    public static boolean saveRecord(Record record, File file)
+    public boolean saveRecord(Record record, File file)
     {
         throw new NotImplementedException();
     }

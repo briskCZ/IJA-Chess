@@ -7,15 +7,15 @@ public class ReplayHandler
 {
     private Record playerMoves;
     private Record loadedMoves;
-    private FileHandler fileHandler;
+    private ChessBoard board;
 
-    public ReplayHandler(Record playerMoves, Record loadedMoves)
+    public ReplayHandler(Record playerMoves, Record loadedMoves, ChessBoard board)
     {
         this.playerMoves = playerMoves;
         this.loadedMoves = loadedMoves;
-        fileHandler = new FileHandler();
-    }
-    protected boolean undoUserMove(ChessBoard board)
+        this.board = board;
+        }
+    protected boolean undoUserMove()
     {
         Move move = playerMoves.getPrevMove();
         if (move != null)
@@ -29,7 +29,7 @@ public class ReplayHandler
             return false;
         }
     }
-    protected boolean redoUserMove(ChessBoard board)
+    protected boolean redoUserMove()
     {
         Move move = playerMoves.getNextMove();
         if (move != null)
@@ -55,13 +55,34 @@ public class ReplayHandler
     {
 
     }
-    public void playNextMove()
+    //TODO combination with user moves
+    public boolean playNextMove()
     {
-
+        Move move = loadedMoves.getNextMove();
+        if (move != null)
+        {
+            board.setField(move.sourceField);
+            board.setField(move.destField);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
-    public void playPreviousMove()
+    public boolean playPreviousMove()
     {
-
+        Move move = loadedMoves.getPrevMove();
+        if (move != null)
+        {
+            board.setField(move.sourceFieldAfter);
+            board.setField(move.destFieldAfter);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
     public void restartPlayer()
     {

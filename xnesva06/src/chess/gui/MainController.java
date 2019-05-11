@@ -33,6 +33,10 @@ public class MainController{
         {
             System.out.println("File load error");
         }
+        else
+        {
+            System.out.println("File loaded successfully");
+        }
     }
 
     @FXML

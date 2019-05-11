@@ -1,6 +1,7 @@
 package chess.io;
 
 import chess.board.ChessBoard;
+import chess.board.Field;
 import chess.figures.Figure;
 import chess.figures.FigureType;
 import chess.game.Move;
@@ -33,7 +34,8 @@ public class Parser
         {
             System.out.println("Parsing error: be number");
             return false;
-        } else
+        }
+        else
         {
             int lineNum = Integer.parseInt(split[0].split("\\.")[0]);
             if (prevLineNum + 1 != lineNum)
@@ -43,9 +45,24 @@ public class Parser
             }
             prevLineNum = lineNum;
         }
-        parseMove(loadedRecord, split[1]);
-        String blackMove = split[2];
-        //System.out.println(whiteMove + " " + isValidField(whiteMove));
+        Move whiteMove = parseMove(split[1]);
+        if (whiteMove == null)
+        {
+            return false;
+        }
+        else
+        {
+            loadedRecord.addMove(whiteMove);
+        }
+        Move blackMove = parseMove(split[2]);
+        if (blackMove == null)
+        {
+            return false;
+        }
+        else
+        {
+            loadedRecord.addMove(blackMove);
+        }
         return true;
     }
 
@@ -55,7 +72,7 @@ public class Parser
         return null;
     }
 
-    private ArrayList<String> parseMove (Record record, String moveString)
+    private Move parseMove (String moveString)
     {
         Pattern moveRegex = Pattern.compile("^(?<fig>[KDVSJp])?(?<s1>[a-h])?(?<s2>[1-8])?(?<kick>x)?(?<d1>[a-h])(?<d2>[1-8])(?<prom>[DVSJ])?(?<pf>[+#])?$");
         Matcher matcher = moveRegex.matcher(moveString);
@@ -71,9 +88,10 @@ public class Parser
             FigureType figureType = parseCaptureFigure(matcher.group("fig"));
             String sourceColumn = matcher.group("s1");
             String sourceRow = matcher.group("s2");
-            boolean kick = matcher.group() != null ? true : false;
+            boolean kick = matcher.group("kick") != null ? true : false;
             String destColumn = matcher.group("d1");
             String destRow = matcher.group("d2");
+            boolean prom = matcher.group("prom") != null ? true : false;
             FigureType promFigureType = parseCaptureFigure(matcher.group("prom"));
             //TAGS # + matcher.group("pf")
             if (sourceColumn == null || sourceRow == null)
@@ -84,10 +102,61 @@ public class Parser
             else
             {
                 // Long notation
+                if (sourceColumn == null || sourceRow == null || destColumn == null || destRow == null)
+                {
+                    System.out.println("Parsing error: wrong move format");
+                    return null;
+                }
                 int sColumn = stringColumnNotationToInt(sourceColumn);
                 int sRow = stringRowNotationToInt(sourceRow);
                 int dColumn = stringColumnNotationToInt(destColumn);
                 int dRow = stringRowNotationToInt(destRow);
+                Field sourceField = board.getField(sRow, sColumn);
+                Figure figureToMove = sourceField.getFigure();
+                Field destField = board.getField(dRow, dColumn);
+                if (figureToMove == null)
+                {
+                    System.out.println("Parsing error: cannot move nonexisting figure");
+                    return null;
+                }
+                else
+                {
+                    // Perform move and save it to record
+                    ArrayList<Move.Tag> tags = new ArrayList<>();
+                    ArrayList<Field> possibleFields = figureToMove.getPossibleMoveFields(board);
+                    if (!possibleFields.contains(destField))
+                    {
+                        System.out.println("Parsing error: cannot perform invalid move");
+                        return null;
+                    }
+                    if (kick)
+                    {
+                        if (!destField.isOccupiedWithEnemyFig(figureToMove))
+                        {
+                            System.out.println("Parsing error: cannot jump nonexisting figure");
+                            return null;
+                        }
+                        else
+                        {
+                            tags.add(Move.Tag.Kick);
+                        }
+                    }
+                    if (prom)
+                    {
+                        System.out.println("Promotion");
+                        tags.add(Move.Tag.Promotion);
+                        //TODO
+                    }
+                    else
+                    {
+                        Move move = new Move(sourceField, destField);
+                        destField.setFigure(figureToMove);
+                        sourceField.removeFigure();
+                        move.executeMove(sourceField, destField, tags.toArray(new Move.Tag[tags.size()]));
+                        return move;
+                    }
+
+                }
 
             }
 
