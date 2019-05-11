@@ -20,6 +20,39 @@ public class Rook extends Figure
     @Override
     public ArrayList<Field> getPossibleMoveFields(ChessBoard board)
     {
-        return new ArrayList<>();
+        ArrayList<Field> possibleArrayMoves = new ArrayList<>();
+        for (int i = row + 1; i < ChessBoard.CHESS_BOARD_SIZE ; i++)
+        {
+            if (checkMove(board, possibleArrayMoves, i, column)) break;
+        }
+        for (int i = row - 1; i >= 0; i--)
+        {
+            if (checkMove(board, possibleArrayMoves, i, column)) break;
+        }
+        for (int i = column + 1; i < ChessBoard.CHESS_BOARD_SIZE; i++)
+        {
+            if (checkMove(board, possibleArrayMoves, row, i)) break;
+        }
+        for (int i = column - 1; i >= 0; i--)
+        {
+            if (checkMove(board, possibleArrayMoves, row, i)) break;
+        }
+        return possibleArrayMoves;
+    }
+
+    private boolean checkMove(ChessBoard board, ArrayList<Field> possibleArrayMoves, int row, int column)
+    {
+        Field f = board.getField(row, column);
+        if (f.isOccupiedWithEnemyFig(this))
+        {
+            possibleArrayMoves.add(f);
+            return true;
+        }
+        if (f.isOccupied())
+        {
+            return true;
+        }
+        possibleArrayMoves.add(f);
+        return false;
     }
 }

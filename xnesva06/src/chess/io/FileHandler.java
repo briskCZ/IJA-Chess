@@ -16,10 +16,12 @@ public class FileHandler
             String line;
             Parser parser = new Parser();
             while ((line = br.readLine()) != null)
+            {
                 if (parser.parseLine(loadedRecord, line) == false)
                 {
                     return null;
-                };
+                }
+            }
         }
         catch (IOException e){
             System.out.println(e);
