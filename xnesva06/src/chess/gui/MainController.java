@@ -30,9 +30,8 @@ public class MainController{
         fileChooser.setInitialDirectory(new File("xnesva06/data"));
         File file = fileChooser.showOpenDialog(Main.stage);
         if (file == null) return;
-        newGameClicked(null);
+        GameController gameController = newGameClicked(null);
         int gameId = Integer.parseInt(tabPane.getSelectionModel().getSelectedItem().getText().split("\\s+")[1]);
-        clearInfo();
         if (getGameById(gameId).loadGame(file) == false)
         {
             infoLabel.setText("File could not be loaded!");
@@ -41,6 +40,9 @@ public class MainController{
         {
             System.out.println("File loaded successfully");
         }
+        gameController.refreshRecord();
+        clearInfo();
+
     }
 
     @FXML
@@ -62,7 +64,7 @@ public class MainController{
     }
 
     @FXML
-    protected void newGameClicked(ActionEvent event) {
+    protected GameController newGameClicked(ActionEvent event) {
         Tab tab = new Tab();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("GameView.fxml"));
         Pane pane = null;
@@ -78,7 +80,7 @@ public class MainController{
         tabPane.getTabs().add(tab);
         tabPane.getSelectionModel().select(tab);
         clearInfo();
-
+        return loader.getController();
     }
 
     private void clearInfo(){

@@ -111,13 +111,12 @@ public class GameController implements Initializable {
 
 
     }
-
     private void refreshFigures(){
         chessBoardGridPane.getChildren().clear();
         setupFigures();
     }
 
-    private void refreshRecord()
+    protected void refreshRecord()
     {
         listView.getItems().setAll(replayHandler.getCompleteRecord().toStringArray());
     }

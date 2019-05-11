@@ -50,7 +50,13 @@ public class Record
     public Record getValidPart()
     {
         Record record = new Record();
-        for (int i = 0; (maxIndex == -1) ? i < moves.size() : i < maxIndex; i++)
+        int size = moves.size();
+        if (maxIndex != -1)
+        {
+            size = maxIndex + 1;
+        }
+        System.out.println("Record size: " + size);
+        for (int i = 0; i < size; i++)
         {
             record.addMove(moves.get(i));
         }
