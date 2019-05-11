@@ -57,6 +57,10 @@ public class Field
 
     public String toString()
     {
-        return "[" + this.row + ":" + this.column + "]" + (this.figure == null ? "" : this.figure.toString());
+        return convertRowToChar() + column + 1;
+    }
+    private String convertRowToChar()
+    {
+        return Integer.toString(this.row + 'a');
     }
 }

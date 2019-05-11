@@ -56,6 +56,7 @@ public class Game
         destination.setFigure(selectedFigure);
         figurePosition.removeFigure();
         move.executeMove(figurePosition, destination, tags.toArray(new Move.Tag[tags.size()]));
+        replayHandler.lockLoadedMovesIndex();
         changeTurn();
 
     }
@@ -66,12 +67,12 @@ public class Game
 
     public boolean undoMove()
     {
-        return replayHandler.undoUserMove();
+        return replayHandler.undoPlayerMove();
     }
 
     public boolean redoMove()
     {
-        return replayHandler.redoUserMove();
+        return replayHandler.redoPlayerMove();
     }
     public void printGame()
     {

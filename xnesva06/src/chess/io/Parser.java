@@ -63,6 +63,7 @@ public class Parser
         {
             loadedRecord.addMove(blackMove);
         }
+        loadedRecord.resetIndex();
         return true;
     }
 
