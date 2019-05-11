@@ -175,6 +175,7 @@ public class GameController implements Initializable {
       if(selectedFigure == null){
           if(figure != null){
               selectedFigure = figure;
+              if (!game.isOnTurn(selectedFigure.getColor())) return;
               ArrayList<Field> possibleMoves = game.getPossibleMoves(figure);
               System.out.println(possibleMoves);
               for (Field possible_field : possibleMoves)
