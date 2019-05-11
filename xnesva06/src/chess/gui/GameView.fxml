@@ -44,11 +44,10 @@
                      <font>
                         <Font size="14.0" />
                      </font></Label>
-                  <Button alignment="TOP_CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="30.0" maxWidth="1.7976931348623157E308" minHeight="30.0" mnemonicParsing="false" onAction="#startAutoRunClicked" text="▶ " textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="5">
+                  <Button alignment="TOP_CENTER" contentDisplay="TOP" graphicTextGap="0.0" maxHeight="30.0" maxWidth="1.7976931348623157E308" minHeight="30.0" mnemonicParsing="false" onAction="#startAutoRunClicked" text="▶" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="5">
                      <font>
                         <Font size="15.0" />
                      </font></Button>
-                  <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#stopAutoRunClicked" style="-fx-font-weight: bold;" text="| |" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                   <Label alignment="CENTER" maxWidth="1.7976931348623157E308" style="-fx-font-weight: bold;" text="Replay controls" GridPane.columnSpan="2147483647" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
                   <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" style="-fx-font-weight: bold;" text="User controls" textAlignment="CENTER" GridPane.columnSpan="2" />
                   <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#undoClicked" text="🠈" textAlignment="CENTER" GridPane.rowIndex="1">
@@ -60,6 +59,23 @@
                         <Font size="15.0" />
                      </font></Button>
                   <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" style="-fx-font-weight: bold;" text="Moves list" textAlignment="CENTER" GridPane.columnSpan="2" GridPane.rowIndex="6" />
+                  <GridPane GridPane.columnIndex="1" GridPane.rowIndex="5">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#pauseAutoRunClicked" style="-fx-font-weight: bold;" text="| |" textAlignment="CENTER" />
+                        <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#stopAutoRunClicked" text="■" textAlignment="CENTER" GridPane.columnIndex="1">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </GridPane>
                     </children>
                <padding>
                   <Insets left="4.0" right="4.0" />

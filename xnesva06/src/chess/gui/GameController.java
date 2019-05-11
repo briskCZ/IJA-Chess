@@ -232,6 +232,12 @@ public class GameController implements Initializable {
     }
 
     @FXML
+    private void pauseAutoRunClicked(){
+
+        //TODO
+        replayHandler.stopAutomatically();
+    }
+    @FXML
     private void stopAutoRunClicked(){
 
         replayHandler.stopAutomatically();
