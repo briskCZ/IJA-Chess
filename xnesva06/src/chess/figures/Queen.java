@@ -49,7 +49,7 @@ public class Queen extends Figure
                 was_occupied_u = checkMove(board,possibleMoveFields,row + i,column);
             }
             if(!was_occupied_d){
-                was_occupied_d = checkMove(board,possibleMoveFields,row,column + i);
+                was_occupied_d = checkMove(board,possibleMoveFields,row - i,column );
             }
             if(!was_occupied_l){
                 was_occupied_l = checkMove(board,possibleMoveFields,row,column + i);
