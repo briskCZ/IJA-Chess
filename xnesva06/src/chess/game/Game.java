@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class Game
 {
-    private ChessBoard chessBoard;
+    protected ChessBoard chessBoard;
     private Record playerRecord;
     private Record loadedRecord;
     private ReplayHandler replayHandler;
@@ -62,14 +62,14 @@ public class Game
         return selectedFigure.getPossibleMoveFields(chessBoard);
     }
 
-    public void undoMove()
+    public boolean undoMove()
     {
-        replayHandler.undoUserMove(chessBoard);
+        return replayHandler.undoUserMove(chessBoard);
     }
 
-    public void redoMove()
+    public boolean redoMove()
     {
-        replayHandler.redoUserMove(chessBoard);
+        return replayHandler.redoUserMove(chessBoard);
     }
     public void printGame()
     {
@@ -87,4 +87,5 @@ public class Game
     {
         return replayHandler;
     }
+
 }

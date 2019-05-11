@@ -1,6 +1,7 @@
 package chess.game;
 
 import chess.board.Field;
+import chess.figures.FigureType;
 
 public class Move
 {
@@ -29,5 +30,9 @@ public class Move
         this.sourceFieldAfter = new Field(sourceFieldAfter);
         this.destFieldAfter = new Field(destFieldAfter);
         this.tags = tags;
+    }
+    public String toString()
+    {
+        return "TODO";
     }
 }
