@@ -20,6 +20,17 @@ public class Knight extends Figure
     @Override
     public ArrayList<Field> getPossibleMoveFields(ChessBoard board)
     {
-        return new ArrayList<>();
+        ArrayList<Field> possibleMoveFields = new ArrayList<>();
+
+        checkMove(board,possibleMoveFields,row + 2, column + 1);
+        checkMove(board,possibleMoveFields,row + 2, column - 1);
+        checkMove(board,possibleMoveFields,row - 2, column + 1);
+        checkMove(board,possibleMoveFields,row - 2, column - 1);
+        checkMove(board,possibleMoveFields,row + 1, column + 2);
+        checkMove(board,possibleMoveFields,row + 1, column - 2);
+        checkMove(board,possibleMoveFields,row - 1, column + 2);
+        checkMove(board,possibleMoveFields,row - 1, column - 2);
+
+        return  possibleMoveFields;
     }
 }
