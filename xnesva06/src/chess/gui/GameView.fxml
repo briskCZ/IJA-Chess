@@ -25,8 +25,8 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#backClicked" text="Back" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                        <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#forwardClicked" text="Forward" textAlignment="CENTER" GridPane.columnIndex="1" />
+                        <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#prevMoveClicked" text="Back" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                        <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#nextMoveClicked" text="Forward" textAlignment="CENTER" GridPane.columnIndex="1" />
                   <TextField fx:id="intervalTextField" text="1" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Label alignment="CENTER_RIGHT" contentDisplay="TOP" text="Interval: " GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
                   <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#startAutoRunClicked" text="Start Auto" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="2" />
