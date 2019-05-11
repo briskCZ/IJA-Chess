@@ -127,4 +127,10 @@
             </rowConstraints>
         </GridPane>
    </center>
+   <bottom>
+      <Label fx:id="status_label" alignment="CENTER" text="" BorderPane.alignment="BOTTOM_LEFT">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
+   </bottom>
 </BorderPane>
