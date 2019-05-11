@@ -27,13 +27,15 @@ public class Game
         this.chessBoard = new ChessBoard();
         this.playerRecord = new Record();
         this.loadedRecord = new Record();
-        this.replayHandler = new ReplayHandler(this.playerRecord, this.loadedRecord, this.chessBoard);
+        this.replayHandler = new ReplayHandler(this.playerRecord, this.loadedRecord, this);
         this.fileHandler = new FileHandler();
         this.turnColor = FigureColor.White;
     }
     public boolean loadGame(File file)
     {
-        return fileHandler.loadRecord(file, loadedRecord);
+        boolean retval = fileHandler.loadRecord(file, loadedRecord);
+        loadedRecord.resetIndex();
+        return retval;
     }
     public boolean saveGame(File file)
     {
@@ -48,6 +50,7 @@ public class Game
         Field figurePosition = chessBoard.getField(selectedFigure.getRow(), selectedFigure.getColumn());
         Move move = new Move(figurePosition, destination);
         ArrayList<Move.Tag> tags = new ArrayList<>();
+        replayHandler.lockLoadedMovesIndex();
         playerRecord.addMove(move);
         if (destination.isOccupiedWithEnemyFig(selectedFigure))
         {
@@ -56,7 +59,6 @@ public class Game
         destination.setFigure(selectedFigure);
         figurePosition.removeFigure();
         move.executeMove(figurePosition, destination, tags.toArray(new Move.Tag[tags.size()]));
-        replayHandler.lockLoadedMovesIndex();
         changeTurn();
 
     }
@@ -65,14 +67,14 @@ public class Game
         return selectedFigure.getPossibleMoveFields(chessBoard);
     }
 
-    public boolean undoMove()
+    public void undoMove()
     {
-        return replayHandler.undoPlayerMove();
+        replayHandler.undoPlayerMove();
     }
 
-    public boolean redoMove()
+    public void redoMove()
     {
-        return replayHandler.redoPlayerMove();
+        replayHandler.redoPlayerMove();
     }
     public void printGame()
     {
@@ -90,7 +92,7 @@ public class Game
     {
         return replayHandler;
     }
-    private void changeTurn()
+    protected void changeTurn()
     {
         if (turnColor == FigureColor.White)
         {

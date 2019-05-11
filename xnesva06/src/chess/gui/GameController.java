@@ -59,10 +59,6 @@ public class GameController implements Initializable {
         setupFigures();
 
         replayHandler  = game.getReplayHandler();
-        refreshRecord();
-
-
-
     }
 
     private void setupFigures()
@@ -108,8 +104,6 @@ public class GameController implements Initializable {
 
         }
 
-
-
     }
     private void refreshFigures(){
         chessBoardGridPane.getChildren().clear();
@@ -119,6 +113,7 @@ public class GameController implements Initializable {
     protected void refreshRecord()
     {
         listView.getItems().setAll(replayHandler.getCompleteRecord().toStringArray());
+        setListViewIndex();
     }
 
     private void setAllFieldsDisabled(){
@@ -196,25 +191,36 @@ public class GameController implements Initializable {
     @FXML
     private void redoClicked(){
         game.redoMove();
+        refreshRecord();
         refreshFigures();
+        setListViewIndex();
     }
 
     @FXML
     private void undoClicked(){
         game.undoMove();
         refreshFigures();
+        refreshRecord();
+        setListViewIndex();
     }
 
     @FXML
     private void prevMoveClicked(){
-        replayHandler.playPreviousMove();
+        replayHandler.playPreviousHalfMove();
+        setListViewIndex();
         refreshFigures();
     }
 
     @FXML
     private void nextMoveClicked(){
-        replayHandler.playNextMove();
+        replayHandler.playNextHalfMove();
+        setListViewIndex();
         refreshFigures();
+    }
+
+    private void setListViewIndex()
+    {
+        listView.getSelectionModel().select(replayHandler.getCompleteRecordIndex());
     }
 
     @FXML
