@@ -101,5 +101,4 @@ public class Game
             turnColor = FigureColor.White;
         }
     }
-
 }
