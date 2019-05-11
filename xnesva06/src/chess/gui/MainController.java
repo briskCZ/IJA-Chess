@@ -37,6 +37,10 @@ public class MainController{
         {
             infoLabel.setText("File could not be loaded!");
         }
+        else
+        {
+            System.out.println("File loaded successfully");
+        }
     }
 
     @FXML

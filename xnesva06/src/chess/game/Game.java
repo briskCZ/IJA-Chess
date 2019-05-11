@@ -3,6 +3,7 @@ package chess.game;
 import chess.board.ChessBoard;
 import chess.board.Field;
 import chess.figures.Figure;
+import chess.figures.FigureColor;
 import chess.figures.FigureType;
 import chess.io.FileHandler;
 
@@ -15,7 +16,9 @@ public class Game
     private Record playerRecord;
     private Record loadedRecord;
     private ReplayHandler replayHandler;
+    private FileHandler fileHandler;
     private int id;
+    private FigureColor turnColor;
 
     public Game(int gameId)
     {
@@ -24,25 +27,22 @@ public class Game
         this.chessBoard = new ChessBoard();
         this.playerRecord = new Record();
         this.loadedRecord = new Record();
-        this.replayHandler = new ReplayHandler(this.playerRecord, this.loadedRecord);
+        this.replayHandler = new ReplayHandler(this.playerRecord, this.loadedRecord, this.chessBoard);
+        this.fileHandler = new FileHandler();
+        this.turnColor = FigureColor.White;
     }
     public boolean loadGame(File file)
     {
-        loadedRecord = FileHandler.loadRecord(file);
-        if (loadedRecord == null)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return fileHandler.loadRecord(file, loadedRecord);
     }
     public boolean saveGame(File file)
     {
-        return FileHandler.saveRecord(replayHandler.getCompleteRecord(), file);
+        return fileHandler.saveRecord(replayHandler.getCompleteRecord(), file);
     }
-
+    public boolean isOnTurn(FigureColor color)
+    {
+        return color == turnColor;
+    }
     public void move(Figure selectedFigure, Field destination, FigureType type)
     {
         Field figurePosition = chessBoard.getField(selectedFigure.getRow(), selectedFigure.getColumn());
@@ -56,6 +56,8 @@ public class Game
         destination.setFigure(selectedFigure);
         figurePosition.removeFigure();
         move.executeMove(figurePosition, destination, tags.toArray(new Move.Tag[tags.size()]));
+        changeTurn();
+
     }
     public ArrayList<Field> getPossibleMoves(Figure selectedFigure)
     {
@@ -64,12 +66,12 @@ public class Game
 
     public boolean undoMove()
     {
-        return replayHandler.undoUserMove(chessBoard);
+        return replayHandler.undoUserMove();
     }
 
     public boolean redoMove()
     {
-        return replayHandler.redoUserMove(chessBoard);
+        return replayHandler.redoUserMove();
     }
     public void printGame()
     {
@@ -86,6 +88,17 @@ public class Game
     public ReplayHandler getReplayHandler()
     {
         return replayHandler;
+    }
+    private void changeTurn()
+    {
+        if (turnColor == FigureColor.White)
+        {
+            turnColor = FigureColor.Black;
+        }
+        else if (turnColor == FigureColor.Black)
+        {
+            turnColor = FigureColor.White;
+        }
     }
 
 }
