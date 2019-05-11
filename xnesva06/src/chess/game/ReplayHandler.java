@@ -2,6 +2,9 @@ package chess.game;
 
 import chess.board.ChessBoard;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 public class ReplayHandler
 {
     private Record playerRecord;
@@ -128,8 +131,9 @@ public class ReplayHandler
         Record validLoadedRecord = loadedRecord.getValidPart();
         if (playerMoved)
         {
-            validLoadedRecord.append(playerRecord);
+            Record.append(validLoadedRecord, playerRecord);
         }
+        System.out.println("Returning: " + Arrays.toString(validLoadedRecord.toStringArray()));
         return validLoadedRecord;
     }
 

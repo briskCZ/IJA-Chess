@@ -57,10 +57,10 @@ public class Field
 
     public String toString()
     {
-        return convertRowToChar() + column + 1;
+        return convertRowToChar() + (row + 1);
     }
     private String convertRowToChar()
     {
-        return Integer.toString(this.row + 'a');
+        return String.valueOf((char)(column + 97));
     }
 }

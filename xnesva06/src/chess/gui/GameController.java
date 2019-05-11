@@ -3,20 +3,14 @@ package chess.gui;
 import chess.board.Field;
 import chess.figures.Figure;
 import chess.game.Game;
-import chess.game.Record;
 import chess.game.ReplayHandler;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,13 +55,11 @@ public class GameController implements Initializable {
 
         listView.setOnMouseClicked(event -> listClicked(listView.getSelectionModel().getSelectedItem()));
 
-        ObservableList<String> items = listView.getItems();
-
         game = MainController.createGame();
         setupFigures();
 
         replayHandler  = game.getReplayHandler();
-        Record record = replayHandler.getCompleteRecord();
+        refreshRecord();
 
 
 
@@ -90,7 +82,7 @@ public class GameController implements Initializable {
                 }
 
                 field.setOnAction(event -> fieldClicked(field));
-                chessBoardGridPane.add(field,7-x,7-y);
+                chessBoardGridPane.add(field,x,7-y);
             }
         }
 
@@ -105,7 +97,7 @@ public class GameController implements Initializable {
             label_number.setMinSize(field_size, field_size);
             label_number.setAlignment(Pos.CENTER);
 
-            label_letter.setText(String.valueOf((char)(a+65)));
+            label_letter.setText(String.valueOf((char)(a+97)));
             label_letter.setStyle("-fx-font-weight: bold;-fx-font-size: 30;-fx-text-fill: GRAY;");
             label_letter.setMaxSize(field_size, field_size);
             label_letter.setMinSize(field_size, field_size);
@@ -123,6 +115,11 @@ public class GameController implements Initializable {
     private void refreshFigures(){
         chessBoardGridPane.getChildren().clear();
         setupFigures();
+    }
+
+    private void refreshRecord()
+    {
+        listView.getItems().setAll(replayHandler.getCompleteRecord().toStringArray());
     }
 
     private void setAllFieldsDisabled(){
@@ -167,6 +164,7 @@ public class GameController implements Initializable {
         if(isFieldEnabled(field.getColumn(),field.getRow())){
             game.move(figure, field, null);
         }
+        refreshRecord();
     }
 
     private void fieldClicked(GuiBoardField field) {

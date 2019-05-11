@@ -24,7 +24,6 @@ public class Move
         this.sourceField = new Field(sourceField);
         this.destField = new Field(destField);
     }
-
     public void executeMove(Field sourceFieldAfter, Field destFieldAfter, Tag[] tags)
     {
         this.sourceFieldAfter = new Field(sourceFieldAfter);
@@ -33,7 +32,6 @@ public class Move
     }
     public String toString()
     {
-        //TODO
         return sourceField.toString() + destField.toString();
     }
 }

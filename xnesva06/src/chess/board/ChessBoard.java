@@ -30,9 +30,6 @@ public class ChessBoard
         board[field.getRow()][field.getColumn()] = field;
     }
 
-    /**
-     * Fills board in a way that index 0,0 is in bottom-left corner and 7,7 in top-right corner
-     */
     private void createBoard()
     {
         for (int i = 0; i < CHESS_BOARD_SIZE; i++)

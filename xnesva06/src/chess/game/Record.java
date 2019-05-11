@@ -84,11 +84,24 @@ public class Record
     {
         return this.moves.size();
     }
-    public void append(Record record)
+    public static void append(Record record, Record append)
     {
-        for (Move m : moves)
+        for (Move m : append.moves)
         {
             record.addMove(m);
         }
+    }
+    public String[] toStringArray()
+    {
+        String[] result = new String[moves.size() / 2];
+        int arrIndex = 0;
+        for (int i = 0; i + 1 < moves.size(); i += 2)
+        {
+            Move white = moves.get(i);
+            Move black = moves.get(i+1);
+            result[arrIndex] = (arrIndex+1) + ". " + white.toString() + " " + black.toString();
+            arrIndex++;
+        }
+        return result;
     }
 }
