@@ -1,7 +1,11 @@
 package chess.gui;
 
+import chess.board.ChessBoard;
 import chess.board.Field;
 import chess.figures.Figure;
+import chess.figures.FigureColor;
+import chess.figures.FigureType;
+import chess.figures.King;
 import chess.game.Game;
 import chess.game.ReplayHandler;
 import javafx.fxml.FXML;
@@ -18,14 +22,13 @@ import java.util.ResourceBundle;
 
 public class GameController implements Initializable {
 
-    @FXML
-    private ListView<String> listView;
+    @FXML private ListView<String> listView;
 
-    @FXML
-    private GridPane chessBoardGridPane;
+    @FXML private GridPane chessBoardGridPane;
 
-    @FXML
-    private TextField intervalTextField;
+    @FXML private TextField intervalTextField;
+
+    @FXML private Label status_label;
 
     private Game game;
     private Figure selectedFigure = null;
@@ -157,29 +160,50 @@ public class GameController implements Initializable {
     private void moveFigure(Figure figure, Field field){
         if(isFieldEnabled(field.getColumn(),field.getRow())){
             game.move(figure, field, null);
+
+            boolean was_black_check = game.getCheck(FigureColor.Black);
+            boolean was_white_check = game.getCheck(FigureColor.White);
+
+            game.checkCheck();
+
+            if(was_black_check && game.getCheck(FigureColor.Black)){
+                status_label.setText("Checkmate!");
+                game.setCheckmate(true);
+            }
+            else if(was_white_check && game.getCheck(FigureColor.White)){
+                status_label.setText("Checkmate!");
+                game.setCheckmate(true);
+            }else{
+                if(game.getCheck(FigureColor.Black) || game.getCheck(FigureColor.White)){
+                    status_label.setText("Check!");
+                }else{
+                    status_label.setText("");
+                }
+            }
         }
         refreshRecord();
     }
 
     private void fieldClicked(GuiBoardField field) {
       Figure figure = field.getFigure();
-
-      if(selectedFigure == null){
-          if(figure != null){
-              selectedFigure = figure;
-              if (!game.isOnTurn(selectedFigure.getColor())) return;
-              ArrayList<Field> possibleMoves = game.getPossibleMoves(figure);
-              System.out.println(possibleMoves);
-              for (Field possible_field : possibleMoves)
-              {
-                  setFieldEnabled(possible_field.getColumn(),possible_field.getRow());
+      if(!game.getCheckmate()){
+          if(selectedFigure == null){
+              if(figure != null){
+                  selectedFigure = figure;
+                  if (!game.isOnTurn(selectedFigure.getColor())) return;
+                  ArrayList<Field> possibleMoves = game.getPossibleMoves(figure);
+                  System.out.println(possibleMoves);
+                  for (Field possible_field : possibleMoves)
+                  {
+                      setFieldEnabled(possible_field.getColumn(),possible_field.getRow());
+                  }
               }
+          }else{
+              moveFigure(selectedFigure, game.getBoardField(field.getRow(), field.getCol()));
+              refreshFigures();
+              selectedFigure = null;
+              setAllFieldsDisabled();
           }
-      }else{
-          moveFigure(selectedFigure, game.getBoardField(field.getRow(), field.getCol()));
-          refreshFigures();
-          selectedFigure = null;
-          setAllFieldsDisabled();
       }
 
     }
@@ -235,11 +259,22 @@ public class GameController implements Initializable {
     }
 
     @FXML
+    private void startAutoRunBackClicked(){
+        try{
+            replayHandler.playAutomatically(Integer.parseInt(intervalTextField.getText()));
+        }
+        catch (Exception e ){
+            intervalTextField.setText("0");
+        }
+    }
+
+    @FXML
     private void pauseAutoRunClicked(){
 
         //TODO
         replayHandler.stopAutomatically();
     }
+
     @FXML
     private void stopAutoRunClicked(){
 
