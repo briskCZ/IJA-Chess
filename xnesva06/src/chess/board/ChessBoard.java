@@ -81,12 +81,12 @@ public class ChessBoard
         this.board[7][5].setFigure(new Bishop(7, 5, true, FigureColor.Black));
 
         // Add queen and king for white side
-        this.board[0][3].setFigure(new Queen(0, 3, true, FigureColor.White));
-        this.board[0][4].setFigure(new King(0, 4, true, FigureColor.White));
+        this.board[0][4].setFigure(new Queen(0, 4, true, FigureColor.White));
+        this.board[0][3].setFigure(new King(0, 3, true, FigureColor.White));
 
         // Add queen and king for black side
-        this.board[7][3].setFigure(new Queen(7, 3, true, FigureColor.Black));
-        this.board[7][4].setFigure(new King(7, 4, true, FigureColor.Black));
+        this.board[7][4].setFigure(new Queen(7, 4, true, FigureColor.Black));
+        this.board[7][3].setFigure(new King(7, 3, true, FigureColor.Black));
 
     }
 
