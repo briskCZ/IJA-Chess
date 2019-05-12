@@ -2,7 +2,7 @@
 
     <target name="clean">
         <delete>
-            <fileset dir="build" includes="**"/>
+            <fileset dir="build" />
             <fileset dir="dest" />
             <fileset dir="doc" />
         </delete>
@@ -20,8 +20,6 @@
                  uri="javafx:com.sun.javafx.tools.ant"
                  classpathref="fxant"/>
     </target>
-
-
 
     <target name="compile" depends="clean, setup">
         <mkdir dir="build"/>
