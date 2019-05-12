@@ -2,7 +2,7 @@ package chess.game;
 
 /**
  * @author Marek Nesvadba, Zdeněk Doležal (xnesva06, xdolez82)
- * <p>TODO;
+ * <p>Handles all of the replay features in screen;
  */
 
 public class ReplayHandler
@@ -90,7 +90,8 @@ public class ReplayHandler
             game.changeTurn();
             resetPlayerMoves();
             return true;
-        } else if (playerMoved)
+        }
+        else if (playerMoved)
         {
             move = playerRecord.getNextMove();
             if (move != null)
@@ -100,11 +101,13 @@ public class ReplayHandler
                 game.changeTurn();
                 resetPlayerMoves();
                 return true;
-            } else
+            }
+            else
             {
                 return false;
             }
-        } else
+        }
+        else
         {
             return false;
         }
@@ -121,7 +124,8 @@ public class ReplayHandler
             game.changeTurn();
             resetPlayerMoves();
             return true;
-        } else
+        }
+        else
         {
             move = loadedRecord.getPrevMove();
             if (move != null)
@@ -131,7 +135,8 @@ public class ReplayHandler
                 game.changeTurn();
                 resetPlayerMoves();
                 return true;
-            } else
+            }
+            else
             {
                 return false;
             }
@@ -146,7 +151,7 @@ public class ReplayHandler
     public void movePlayerTo(int index)
     {
         index++;
-        while(getCompleteRecordIndex() != index)
+        while (getCompleteRecordIndex() != index)
         {
             int i = getCompleteRecordIndex();
             if (i < index)
@@ -164,7 +169,7 @@ public class ReplayHandler
 
     public int getCompleteRecordIndex()
     {
-        return (int)Math.ceil(((double)loadedRecord.getIndex() + playerRecord.getIndex()) / 2.0);
+        return (int) Math.ceil(((double) loadedRecord.getIndex() + playerRecord.getIndex()) / 2.0);
     }
 
     public Record getCompleteRecord()

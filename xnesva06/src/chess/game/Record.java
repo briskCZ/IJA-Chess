@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  * @author Marek Nesvadba, Zdeněk Doležal (xnesva06, xdolez82)
- * <p>TODO;
+ * <p>List of halfmoves, which has replaying functions to step the record;
  */
 
 public class Record
@@ -31,7 +31,8 @@ public class Record
                 System.out.println("removing " + moves.get(i).toString());
                 moves.remove(i);
             }
-        } else
+        }
+        else
         {
             moves.add(moveArrayIndex++, move);
         }
@@ -42,7 +43,8 @@ public class Record
         if (moveArrayIndex < getSize())
         {
             return moves.get(moveArrayIndex++);
-        } else
+        }
+        else
         {
             return null;
         }
@@ -53,7 +55,8 @@ public class Record
         if (moveArrayIndex - 1 >= 0)
         {
             return moves.get(--moveArrayIndex);
-        } else
+        }
+        else
         {
             return null;
         }
@@ -81,7 +84,8 @@ public class Record
         {
             this.maxIndex = val;
             return true;
-        } else
+        }
+        else
         {
             return false;
         }

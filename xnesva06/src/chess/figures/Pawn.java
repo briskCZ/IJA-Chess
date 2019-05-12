@@ -38,7 +38,8 @@ public class Pawn extends Figure
             int canJump = checkNextRow(possibleMoveFields, upRight, upLeft, up);
 
             checkMoveFromStart(board, STARTING_ROW_WHITE, possibleMoveFields, up, canJump);
-        } else
+        }
+        else
         {
             Field downRight = board.getField(row - 1, column + 1);
             Field downLeft = board.getField(row - 1, column - 1);
@@ -74,10 +75,12 @@ public class Pawn extends Figure
                 {
                     possibleMoveFields.add(middle);
                 }
-            } else if (left == null && right != null && !right.isOccupiedWithEnemyFig(this))
+            }
+            else if (left == null && right != null && !right.isOccupiedWithEnemyFig(this))
             {
                 possibleMoveFields.add(middle);
-            } else if (right == null && left != null && !left.isOccupiedWithEnemyFig(this))
+            }
+            else if (right == null && left != null && !left.isOccupiedWithEnemyFig(this))
             {
                 possibleMoveFields.add(middle);
             }

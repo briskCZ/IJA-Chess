@@ -2,10 +2,8 @@ package chess.gui;
 
 import chess.figures.Figure;
 import chess.figures.FigureColor;
-import chess.figures.FigureType;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -72,7 +70,8 @@ public class GuiBoardField extends Button
                     image_file = new File("lib/tower_w.png");
                     break;
             }
-        } else
+        }
+        else
         {
             switch (this.figure.getType())
             {
@@ -134,7 +133,8 @@ public class GuiBoardField extends Button
         if (isEnabled)
         {
             this.setStyle(current_style + "-fx-border-color: ORANGE;-fx-border-width:3;");
-        } else
+        }
+        else
         {
             this.setStyle(base_style);
         }
@@ -181,7 +181,8 @@ public class GuiBoardField extends Button
         if (this.figure != null)
         {
             return "Col: " + this.col + ",Row: " + this.row + " " + this.figure.toString();
-        } else
+        }
+        else
         {
             return "Col: " + this.col + ",Row: " + this.row;
         }

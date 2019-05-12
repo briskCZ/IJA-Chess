@@ -4,7 +4,7 @@ import chess.board.Field;
 
 /**
  * @author Marek Nesvadba, Zdeněk Doležal (xnesva06, xdolez82)
- * <p>TODO;
+ * <p>Abstraction of one half move (move of one figure color)
  */
 
 public class Move

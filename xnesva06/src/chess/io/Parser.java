@@ -39,7 +39,8 @@ public class Parser
         {
             System.out.println("Parsing error: be number");
             return false;
-        } else
+        }
+        else
         {
             int lineNum = Integer.parseInt(split[0].split("\\.")[0]);
             if (prevLineNum + 1 != lineNum)
@@ -53,7 +54,8 @@ public class Parser
         if (whiteMove == null)
         {
             return false;
-        } else
+        }
+        else
         {
             loadedRecord.addMove(whiteMove);
         }
@@ -61,7 +63,8 @@ public class Parser
         if (blackMove == null)
         {
             return false;
-        } else
+        }
+        else
         {
             loadedRecord.addMove(blackMove);
         }
@@ -100,7 +103,8 @@ public class Parser
             {
                 // Short notation
                 System.out.println("Parsing short notation");
-            } else
+            }
+            else
             {
                 // Long notation
                 if (sourceColumn == null || sourceRow == null || destColumn == null || destRow == null)
@@ -119,7 +123,8 @@ public class Parser
                 {
                     System.out.println("Parsing error: cannot move nonexisting figure");
                     return null;
-                } else
+                }
+                else
                 {
                     // Perform move and save it to record
                     ArrayList<Move.Tag> tags = new ArrayList<>();
@@ -135,7 +140,8 @@ public class Parser
                         {
                             System.out.println("Parsing error: cannot jump nonexisting figure");
                             return null;
-                        } else
+                        }
+                        else
                         {
                             tags.add(Move.Tag.Kick);
                         }
@@ -146,7 +152,8 @@ public class Parser
                         tags.add(Move.Tag.Promotion);
 
                         //TODO
-                    } else
+                    }
+                    else
                     {
                         Move move = new Move(sourceField, destField);
                         destField.setFigure(figureToMove);

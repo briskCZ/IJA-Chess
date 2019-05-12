@@ -32,13 +32,12 @@ public class MainController
 
     /**
      * Loads game from file when button is clicked.
-     *
      */
     @FXML
     protected void loadGameClicked(ActionEvent event)
     {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialDirectory(new File("xnesva06/data"));
+        fileChooser.setInitialDirectory(new File("."));
         File file = fileChooser.showOpenDialog(Main.stage);
         if (file == null) return;
         GameController gameController = newGameClicked(null);
@@ -46,7 +45,8 @@ public class MainController
         if (getGameById(gameId).loadGame(file) == false)
         {
             infoLabel.setText("File could not be loaded!");
-        } else
+        }
+        else
         {
             System.out.println("File loaded successfully");
         }
@@ -54,9 +54,9 @@ public class MainController
         clearInfo();
 
     }
+
     /**
      * Saves game to a file when button is clicked.
-     *
      */
     @FXML
     protected void saveGameClicked(ActionEvent event)
@@ -64,12 +64,14 @@ public class MainController
         if (tabPane != null && tabPane.getSelectionModel() != null && tabPane.getSelectionModel().getSelectedItem() != null)
         {
             FileChooser fileChooser = new FileChooser();
+            fileChooser.setInitialDirectory(new File("."));
             File file = fileChooser.showSaveDialog(Main.stage);
             if (file == null) return;
             int gameId = Integer.parseInt(tabPane.getSelectionModel().getSelectedItem().getText().split("\\s+")[1]);
             getGameById(gameId).saveGame(file);
             clearInfo();
-        } else
+        }
+        else
         {
             infoLabel.setText("No game available!");
         }
@@ -77,7 +79,6 @@ public class MainController
 
     /**
      * Creates new tab, with new game when button is clicked.
-     *
      */
     @FXML
     protected GameController newGameClicked(ActionEvent event)

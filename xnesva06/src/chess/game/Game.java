@@ -9,13 +9,12 @@ import chess.figures.King;
 import chess.io.FileHandler;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
  * @author Marek Nesvadba, Zdeněk Doležal (xnesva06, xdolez82)
- * <p>Keeps track of the game.
+ * <p>Keeps track of the game and stores all information about it.
  */
 
 public class Game
@@ -98,7 +97,8 @@ public class Game
             setCheckmate(true);
             tags.add(Move.Tag.CheckMate);
 
-        } else if (wasWhiteCheck && getCheck(FigureColor.White))
+        }
+        else if (wasWhiteCheck && getCheck(FigureColor.White))
         {
             setCheckmate(true);
             tags.add(Move.Tag.CheckMate);
@@ -172,7 +172,8 @@ public class Game
         if (turnColor == FigureColor.White)
         {
             turnColor = FigureColor.Black;
-        } else if (turnColor == FigureColor.Black)
+        }
+        else if (turnColor == FigureColor.Black)
         {
             turnColor = FigureColor.White;
         }
@@ -184,7 +185,8 @@ public class Game
         if (color == FigureColor.Black)
         {
             return isBlackCheck;
-        } else
+        }
+        else
         {
             return isWhiteCheck;
         }
@@ -195,7 +197,8 @@ public class Game
         if (color == FigureColor.Black)
         {
             this.isBlackCheck = check;
-        } else
+        }
+        else
         {
             this.isWhiteCheck = check;
         }
@@ -227,7 +230,8 @@ public class Game
                     if (figure.getColor() == FigureColor.Black)
                     {
                         kingBlackField = chessBoard.getField(figure.getRow(), figure.getColumn());
-                    } else
+                    }
+                    else
                     {
                         kingWhiteField = chessBoard.getField(figure.getRow(), figure.getColumn());
                     }
@@ -260,7 +264,8 @@ public class Game
         if (color == FigureColor.White)
         {
             return FigureColor.Black;
-        } else
+        }
+        else
         {
             return FigureColor.White;
         }

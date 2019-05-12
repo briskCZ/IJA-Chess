@@ -6,7 +6,6 @@ import chess.figures.FigureColor;
 import chess.figures.FigureType;
 import chess.game.Game;
 import chess.game.ReplayHandler;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -14,7 +13,6 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 
-import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -92,7 +90,8 @@ public class GameController implements Initializable
                 if (boardfield.isOccupied())
                 {
                     field = new GuiBoardField(boardfield.getFigure());
-                } else
+                }
+                else
                 {
                     field = new GuiBoardField(x, y);
                 }
@@ -195,12 +194,14 @@ public class GameController implements Initializable
         }
         return false;
     }
+
     private void promote(FigureType figureType)
     {
         game.move(lastSelectedFigure, fieldClicked, figureType);
         refreshFields();
         refreshRecord();
     }
+
     private void moveFigure(Figure figure, Field field, GuiBoardField fieldClicked)
     {
         if (isFieldEnabled(field.getColumn(), field.getRow()))
@@ -211,7 +212,9 @@ public class GameController implements Initializable
                 {
                     contextMenu.show(fieldClicked.getParent(), boardFieldClicked.getScreenX(), boardFieldClicked.getScreenY());
                 }
-            }else{
+            }
+            else
+            {
                 game.move(figure, field, null);
             }
 
@@ -317,7 +320,7 @@ public class GameController implements Initializable
 
     private void setListViewIndex()
     {
-        listView.getSelectionModel().select(replayHandler.getCompleteRecordIndex()-1);
+        listView.getSelectionModel().select(replayHandler.getCompleteRecordIndex() - 1);
     }
 
     @FXML

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 /**
  * @author Marek Nesvadba, Zdeněk Doležal (xnesva06, xdolez82)
- * <p>Super class of all figures.
+ * <p>Super class of all figures implements generic methods.
  */
 
 public abstract class Figure
@@ -57,9 +57,10 @@ public abstract class Figure
                 return null;
         }
     }
+
     public static Figure promotePawn(int row, int column, boolean isOnBoard, FigureColor figureColor, FigureType type)
     {
-        switch(type)
+        switch (type)
         {
             case Pawn:
                 return new Pawn(row, column, isOnBoard, figureColor);
@@ -73,6 +74,7 @@ public abstract class Figure
                 return null;
         }
     }
+
     public boolean isOnBoard()
     {
         return isOnBoard;
@@ -136,7 +138,8 @@ public abstract class Figure
                 default:
                     return "";
             }
-        } else
+        }
+        else
         {
             switch (this.type)
             {

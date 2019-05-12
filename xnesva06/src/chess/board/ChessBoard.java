@@ -24,7 +24,8 @@ public class ChessBoard
         if (row >= 0 && column >= 0 && row < CHESS_BOARD_SIZE && column < CHESS_BOARD_SIZE)
         {
             return this.board[row][column];
-        } else
+        }
+        else
         {
             return null;
         }
