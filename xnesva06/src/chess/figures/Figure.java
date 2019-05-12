@@ -32,7 +32,10 @@ public abstract class Figure {
         this.figureColor = fig.figureColor;
         this.type = fig.type;
     }
-
+    /**
+     * Creates a copy of figure
+     * @param fig coppied figure.
+     */
     public static Figure copyFigure(Figure fig) {
         if (fig == null) return null;
         switch (fig.type) {
@@ -150,8 +153,18 @@ public abstract class Figure {
         return this.figureColor;
     }
 
+    /**
+     * Returns fields that figure can move to.
+     * @param board game board.
+     */
     public abstract ArrayList<Field> getPossibleMoveFields(ChessBoard board);
-
+    /**
+     * Checks if field is not ocuppied by enemy figure or player figure and adds the field to possibleArrayMoves
+     * @param board game board.
+     * @param possibleArrayMoves field of moves that figure can move to.
+     * @param row row of checked field
+     * @param column comlumn of checked field
+     */
     protected boolean checkMove(ChessBoard board, ArrayList<Field> possibleArrayMoves, int row, int column) {
         Field f = board.getField(row, column);
         if (f != null) {
