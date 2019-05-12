@@ -41,7 +41,8 @@ public class Move
             if (tags[i] == Tag.Kick)
             {
                 kick = "x";
-            } else
+            }
+            else
             {
                 specialTags += specialTagsToString(tags[i]);
             }
@@ -54,7 +55,7 @@ public class Move
         switch (tag)
         {
             case Promotion:
-                return sourceFieldAfter.getFigure().toString();
+                return destFieldAfter.getFigure().toString();
             case Check:
                 return "+";
             case CheckMate:

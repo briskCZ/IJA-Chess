@@ -6,6 +6,7 @@ import chess.figures.FigureColor;
 import chess.figures.FigureType;
 import chess.game.Game;
 import chess.game.ReplayHandler;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -13,6 +14,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 
+import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +37,9 @@ public class GameController implements Initializable
 
     private Game game;
     private Figure selectedFigure = null;
+    private Figure lastSelectedFigure = null;
     private Field fieldClicked = null;
+    private javafx.scene.input.MouseEvent boardFieldClicked = null;
 
     private ContextMenu contextMenu;
     private ReplayHandler replayHandler;
@@ -51,13 +55,13 @@ public class GameController implements Initializable
         MenuItem rookMenuItem = new MenuItem("Rook");
         MenuItem bishopMenuItem = new MenuItem("Bishop");
 
-        queenMenuItem.setOnAction(event -> game.move(selectedFigure, fieldClicked, FigureType.Queen));
-        knightMenuItem.setOnAction(event -> game.move(selectedFigure, fieldClicked, FigureType.Knight));
-        rookMenuItem.setOnAction(event -> game.move(selectedFigure, fieldClicked, FigureType.Rook));
-        bishopMenuItem.setOnAction(event -> game.move(selectedFigure, fieldClicked, FigureType.Bishop));
+        queenMenuItem.setOnAction(event -> promote(FigureType.Queen));
+        knightMenuItem.setOnAction(event -> promote(FigureType.Knight));
+        rookMenuItem.setOnAction(event -> promote(FigureType.Rook));
+        bishopMenuItem.setOnAction(event -> promote(FigureType.Bishop));
 
         contextMenu.getItems().addAll(queenMenuItem, knightMenuItem, rookMenuItem, bishopMenuItem);
-        contextMenu.setStyle("-fx-scale-x: 0.4;-fx-scale-y: 0.4;-fx-translate-x: -100;-fx-translate-y: -100");
+        contextMenu.setStyle("-fx-background-color: white; -fx-text-fill: black;");
 
 
         listView.setOnMouseClicked(event -> listClicked(listView.getSelectionModel().getSelectedIndex()));
@@ -82,13 +86,17 @@ public class GameController implements Initializable
 
                 if (boardfield.isOccupied())
                 {
-                    field = new GuiBoardField(boardfield.getFigure(), contextMenu);
+                    field = new GuiBoardField(boardfield.getFigure());
                 } else
                 {
                     field = new GuiBoardField(x, y);
                 }
 
-                field.setOnAction(event -> fieldClicked(field));
+                field.setOnMouseClicked(event ->
+                {
+                    boardFieldClicked = event;
+                    fieldClicked(field);
+                });
                 chessBoardGridPane.add(field, x, 7 - y);
             }
         }
@@ -178,27 +186,43 @@ public class GameController implements Initializable
         }
         return false;
     }
-
-    private void moveFigure(Figure figure, Field field)
+    private void promote(FigureType figureType)
+    {
+        game.move(lastSelectedFigure, fieldClicked, figureType);
+        refreshFigures();
+        refreshRecord();
+    }
+    private void moveFigure(Figure figure, Field field, GuiBoardField fieldClicked)
     {
         if (isFieldEnabled(field.getColumn(), field.getRow()))
         {
-            game.move(figure, field, null);
+            if (figure.getType() == FigureType.Pawn && (field.getRow() == 0 || field.getRow() == 7))
+            {
+                if (boardFieldClicked != null)
+                {
+                    contextMenu.show(fieldClicked.getParent(), boardFieldClicked.getScreenX(), boardFieldClicked.getScreenY());
+                }
+            }else{
+                game.move(figure, field, null);
+            }
 
             if (game.wasBlackCheck && game.getCheck(FigureColor.Black))
             {
                 statusLabel.setText("Checkmate!");
                 game.setCheckmate(true);
-            } else if (game.wasWhiteCheck && game.getCheck(FigureColor.White))
+            }
+            else if (game.wasWhiteCheck && game.getCheck(FigureColor.White))
             {
                 statusLabel.setText("Checkmate!");
                 game.setCheckmate(true);
-            } else
+            }
+            else
             {
                 if (game.getCheck(FigureColor.Black) || game.getCheck(FigureColor.White))
                 {
                     statusLabel.setText("Check!");
-                } else
+                }
+                else
                 {
                     statusLabel.setText("");
                 }
@@ -211,6 +235,7 @@ public class GameController implements Initializable
     {
         fieldClicked = game.getBoardField(field.getRow(), field.getCol());
         Figure figure = field.getFigure();
+        contextMenu.hide();
         if (!game.getCheckmate())
         {
             if (selectedFigure == null)
@@ -226,10 +251,12 @@ public class GameController implements Initializable
                         setFieldEnabled(possible_field.getColumn(), possible_field.getRow());
                     }
                 }
-            } else
+            }
+            else
             {
-                moveFigure(selectedFigure, game.getBoardField(field.getRow(), field.getCol()));
+                moveFigure(selectedFigure, game.getBoardField(field.getRow(), field.getCol()), field);
                 refreshFigures();
+                lastSelectedFigure = Figure.copyFigure(selectedFigure);
                 selectedFigure = null;
                 setAllFieldsDisabled();
             }
@@ -239,7 +266,6 @@ public class GameController implements Initializable
 
     private void listClicked(int index)
     {
-        System.out.println("Clicked" + index);
         replayHandler.movePlayerTo(index);
         refreshFigures();
         refreshRecord();
@@ -282,7 +308,6 @@ public class GameController implements Initializable
 
     private void setListViewIndex()
     {
-        // TODO fix uz neni ve funkci predtim
         listView.getSelectionModel().select(replayHandler.getCompleteRecordIndex()-1);
     }
 

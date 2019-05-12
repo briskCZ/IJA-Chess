@@ -9,6 +9,7 @@ import chess.figures.King;
 import chess.io.FileHandler;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -58,38 +59,31 @@ public class Game
 
     public void move(Figure selectedFigure, Field destination, FigureType type)
     {
-        Field figurePosition;
         if (type != null)
         {
-            figurePosition = destination;
+            promotion(selectedFigure, destination, type);
+            return;
         }
-        else
-        {
-            figurePosition = chessBoard.getField(selectedFigure.getRow(), selectedFigure.getColumn());
-
-        }
+        Field figurePosition = chessBoard.getField(selectedFigure.getRow(), selectedFigure.getColumn());
         Move move = new Move(figurePosition, destination);
         ArrayList<Move.Tag> tags = new ArrayList<>();
         replayHandler.lockLoadedMovesIndex();
         playerRecord.addMove(move);
-        if (type != null)
-        {
-            FigureColor color = destination.getRow() < ChessBoard.CHESS_BOARD_SIZE/2 ? FigureColor.White : FigureColor.Black;
-            tags.add(Move.Tag.Promotion);
-            selectedFigure = Figure.promotePawn(destination.getRow(), destination.getColumn(), false, color, type);
-        }
-        if (destination.isOccupiedWithEnemyFig(selectedFigure))
-        {
-            tags.add(Move.Tag.Kick);
-        }
+        addKickTag(selectedFigure, destination, tags);
         destination.setFigure(selectedFigure);
         figurePosition.removeFigure();
 
         wasBlackCheck = getCheck(FigureColor.Black);
         wasWhiteCheck = getCheck(FigureColor.White);
-
         checkCheck();
+        addCheckTags(selectedFigure, tags);
+        move.executeMove(figurePosition, destination, tags.toArray(new Move.Tag[tags.size()]));
+        changeTurn();
 
+    }
+
+    private void addCheckTags(Figure selectedFigure, ArrayList<Move.Tag> tags)
+    {
         if (getCheck(getOpositeColor(selectedFigure.getColor())))
         {
             tags.add(Move.Tag.Check);
@@ -104,10 +98,34 @@ public class Game
             setCheckmate(true);
             tags.add(Move.Tag.CheckMate);
         }
+    }
+
+    private void promotion(Figure selectedFigure, Field destination, FigureType type)
+    {
+        Field figurePosition = chessBoard.getField(selectedFigure.getRow(), selectedFigure.getColumn());
+        Move move = new Move(figurePosition, destination);
+        ArrayList<Move.Tag> tags = new ArrayList<>();
+        replayHandler.lockLoadedMovesIndex();
+        playerRecord.addMove(move);
+        addKickTag(selectedFigure, destination, tags);
+        tags.add(Move.Tag.Promotion);
+        Figure figure = Figure.promotePawn(destination.getRow(), destination.getColumn(), true, selectedFigure.getColor(), type);
+        destination.setFigure(figure);
+        figurePosition.removeFigure();
+
+        addCheckTags(selectedFigure, tags);
         move.executeMove(figurePosition, destination, tags.toArray(new Move.Tag[tags.size()]));
         changeTurn();
-
     }
+
+    private void addKickTag(Figure selectedFigure, Field field, ArrayList<Move.Tag> tags)
+    {
+        if (field.isOccupiedWithEnemyFig(selectedFigure))
+        {
+            tags.add(Move.Tag.Kick);
+        }
+    }
+
 
     public ArrayList<Field> getPossibleMoves(Figure selectedFigure)
     {

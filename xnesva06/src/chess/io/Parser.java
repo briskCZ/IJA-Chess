@@ -139,6 +139,7 @@ public class Parser
                     {
                         System.out.println("Promotion");
                         tags.add(Move.Tag.Promotion);
+
                         //TODO
                     } else
                     {

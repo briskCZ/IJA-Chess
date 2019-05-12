@@ -128,7 +128,7 @@
         </GridPane>
    </center>
    <bottom>
-      <Label fx:id="statusLabel" alignment="CENTER" text="" BorderPane.alignment="BOTTOM_LEFT">
+      <Label fx:id="statusLabel" textAlignment="CENTER" alignment="CENTER" text="" BorderPane.alignment="BOTTOM_LEFT" prefWidth="Infinity">
          <font>
             <Font size="20.0" />
          </font></Label>

@@ -24,7 +24,6 @@ public class GuiBoardField extends Button
 
     private Figure figure = null;
 
-    private ContextMenu contextMenu;
 
     private String base_style = "-fx-font-size: 50px; -fx-background-radius: 0; -fx-padding: 0;  ";
     private String current_style = "";
@@ -39,7 +38,7 @@ public class GuiBoardField extends Button
         setBaseStyle();
     }
 
-    GuiBoardField(Figure figure, ContextMenu contextMenu)
+    GuiBoardField(Figure figure)
     {
         this.col = figure.getColumn();
         this.row = figure.getRow();
@@ -108,7 +107,6 @@ public class GuiBoardField extends Button
         imageView.setFitWidth(GameController.fieldSize - 10);
         this.setGraphic(imageView);
 
-        this.contextMenu = contextMenu;
         setBaseStyle();
     }
 
@@ -140,10 +138,6 @@ public class GuiBoardField extends Button
         this.setMaxSize(GameController.fieldSize, GameController.fieldSize);
         this.setMinSize(GameController.fieldSize, GameController.fieldSize);
 
-        if (contextMenu != null && (this.row == 0 || this.row == 7) && this.figure.getType() == FigureType.Pawn)
-        {
-            this.setOnContextMenuRequested(event -> contextMenu.show(this, event.getScreenX(), event.getScreenY()));
-        }
     }
 
     void setEnabled(boolean enabled)
