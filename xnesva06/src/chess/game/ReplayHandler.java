@@ -1,10 +1,5 @@
 package chess.game;
 
-import chess.board.ChessBoard;
-
-import java.lang.reflect.Array;
-import java.util.Arrays;
-
 public class ReplayHandler
 {
     private Record playerRecord;
@@ -23,6 +18,7 @@ public class ReplayHandler
         this.wasUndo = false;
         this.returnedToLoaded = true;
     }
+
     protected void undoPlayerMove()
     {
         Move move = playerRecord.getPrevMove();
@@ -39,6 +35,7 @@ public class ReplayHandler
             returnedToLoaded = true;
         }
     }
+
     protected void lockLoadedMovesIndex()
     {
         returnedToLoaded = false;
@@ -50,6 +47,7 @@ public class ReplayHandler
             wasUndo = false;
         }
     }
+
     protected void redoPlayerMove()
     {
         Move move = playerRecord.getNextMove();
@@ -65,14 +63,17 @@ public class ReplayHandler
             game.changeTurn();
         }
     }
+
     public void playAutomatically(int delay)
     {
 
     }
+
     public void stopAutomatically()
     {
 
     }
+
     public boolean playNextHalfMove()
     {
         Move move = loadedRecord.getNextMove();
@@ -84,8 +85,7 @@ public class ReplayHandler
             game.changeTurn();
             resetPlayerMoves();
             return true;
-        }
-        else if (playerMoved)
+        } else if (playerMoved)
         {
             move = playerRecord.getNextMove();
             if (move != null)
@@ -95,17 +95,16 @@ public class ReplayHandler
                 game.changeTurn();
                 resetPlayerMoves();
                 return true;
-            }
-            else
+            } else
             {
                 return false;
             }
-        }
-        else
+        } else
         {
             return false;
         }
     }
+
     public boolean playPreviousHalfMove()
     {
         Move move = playerRecord.getPrevMove();
@@ -117,8 +116,7 @@ public class ReplayHandler
             game.changeTurn();
             resetPlayerMoves();
             return true;
-        }
-        else
+        } else
         {
             move = loadedRecord.getPrevMove();
             if (move != null)
@@ -128,31 +126,34 @@ public class ReplayHandler
                 game.changeTurn();
                 resetPlayerMoves();
                 return true;
-            }
-            else
+            } else
             {
                 return false;
             }
         }
     }
+
     public void restartPlayer()
     {
 
     }
+
     public void movePlayerTo(int index)
     {
 
     }
+
     public int getCompleteRecordIndex()
     {
-        int index = (loadedRecord.getIndex() + playerRecord.getIndex())/2 - 1;
+        int index = (loadedRecord.getIndex() + playerRecord.getIndex()) / 2 - 1;
         int size = (loadedRecord.getSize() + playerRecord.getSize());
         if (size % 2 == 1)
         {
             index++;
         }
-        return index+1;
+        return index + 1;
     }
+
     public Record getCompleteRecord()
     {
         Record validLoadedRecord = loadedRecord.getValidPart();
@@ -162,6 +163,7 @@ public class ReplayHandler
         }
         return validLoadedRecord;
     }
+
     private void resetPlayerMoves()
     {
         if (returnedToLoaded)

@@ -1,8 +1,6 @@
 package chess.game;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Record
 {
@@ -16,19 +14,19 @@ public class Record
         this.moveArrayIndex = 0;
         this.maxIndex = -1;
     }
+
     public void addMove(Move move)
     {
         if (moveArrayIndex < moves.size())
         {
             moves.set(moveArrayIndex++, move);
             System.out.println("Index: " + moveArrayIndex + " Size: " + getSize() + " MI: " + maxIndex);
-            for (int i = moveArrayIndex; moveArrayIndex != moves.size();)
+            for (int i = moveArrayIndex; moveArrayIndex != moves.size(); )
             {
                 System.out.println("removing " + moves.get(i).toString());
                 moves.remove(i);
             }
-        }
-        else
+        } else
         {
             moves.add(moveArrayIndex++, move);
         }
@@ -39,23 +37,23 @@ public class Record
         if (moveArrayIndex < getSize())
         {
             return moves.get(moveArrayIndex++);
-        }
-        else
+        } else
         {
             return null;
         }
     }
+
     public Move getPrevMove()
     {
-        if (moveArrayIndex-1 >= 0)
+        if (moveArrayIndex - 1 >= 0)
         {
             return moves.get(--moveArrayIndex);
-        }
-        else
+        } else
         {
             return null;
         }
     }
+
     public Record getValidPart()
     {
         Record record = new Record();
@@ -66,30 +64,34 @@ public class Record
         }
         return record;
     }
+
     public int getIndex()
     {
         return this.moveArrayIndex;
     }
+
     public boolean setMaxIndex(int val)
     {
         if (val < moves.size())
         {
             this.maxIndex = val;
             return true;
-        }
-        else
+        } else
         {
             return false;
         }
     }
+
     public void resetMaxIndex()
     {
         this.maxIndex = -1;
     }
+
     public void resetIndex()
     {
         this.moveArrayIndex = 0;
     }
+
     public int getSize()
     {
         int size = moves.size();
@@ -99,6 +101,7 @@ public class Record
         }
         return size;
     }
+
     public static void append(Record record, Record append)
     {
         for (Move m : append.moves)
@@ -106,6 +109,7 @@ public class Record
             record.addMove(m);
         }
     }
+
     public String[] toStringArray()
     {
         int sizeModifier = 0;
@@ -119,10 +123,11 @@ public class Record
         {
             Move white = moves.get(i);
             Move black = null;
-            if (i + 1 < moves.size()){
-                black = moves.get(i+1);
+            if (i + 1 < moves.size())
+            {
+                black = moves.get(i + 1);
             }
-            result[arrIndex] = (arrIndex+1) + ". " + white.toString() + " " + (black != null ? black.toString() : "");
+            result[arrIndex] = (arrIndex + 1) + ". " + white.toString() + " " + (black != null ? black.toString() : "");
             if (i + 1 < moves.size())
             {
                 arrIndex++;
@@ -131,6 +136,7 @@ public class Record
         }
         return result;
     }
+
     public void clear()
     {
         moves = new ArrayList<>();

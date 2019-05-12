@@ -1,7 +1,6 @@
 package chess.io;
 
 import chess.game.Record;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.*;
 
@@ -9,7 +8,8 @@ public class FileHandler
 {
     public boolean loadRecord(File file, Record loadedRecord)
     {
-        try{
+        try
+        {
             BufferedReader br = new BufferedReader(new FileReader(file));
 
             String line;
@@ -21,14 +21,13 @@ public class FileHandler
                     return false;
                 }
             }
-        }
-        catch (IOException e){
+        } catch (IOException e)
+        {
             System.out.println(e);
             return false;
         }
         return true;
     }
-
 
 
     public boolean saveRecord(Record record, File file)
@@ -42,8 +41,7 @@ public class FileHandler
                 fileWriter.write(s + "\n");
             }
             fileWriter.close();
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             System.out.println(e);
             return false;

@@ -9,15 +9,19 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
 
-public class MainController{
+public class MainController
+{
 
-    @FXML private TabPane tabPane;
-    @FXML private Label infoLabel;
+    @FXML
+    private TabPane tabPane;
+    @FXML
+    private Label infoLabel;
 
     static int gameNo = 1;
     static ArrayList<Game> games = new ArrayList<>();
@@ -35,8 +39,7 @@ public class MainController{
         if (getGameById(gameId).loadGame(file) == false)
         {
             infoLabel.setText("File could not be loaded!");
-        }
-        else
+        } else
         {
             System.out.println("File loaded successfully");
         }
@@ -56,22 +59,23 @@ public class MainController{
             int gameId = Integer.parseInt(tabPane.getSelectionModel().getSelectedItem().getText().split("\\s+")[1]);
             getGameById(gameId).saveGame(file);
             clearInfo();
-        }
-        else
+        } else
         {
             infoLabel.setText("No game available!");
         }
     }
 
     @FXML
-    protected GameController newGameClicked(ActionEvent event) {
+    protected GameController newGameClicked(ActionEvent event)
+    {
         Tab tab = new Tab();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("GameView.fxml"));
         Pane pane = null;
-        try{
+        try
+        {
             pane = loader.load();
-        }
-        catch(IOException e){
+        } catch (IOException e)
+        {
             infoLabel.setText("Cannot create new game!");
         }
 
@@ -83,7 +87,8 @@ public class MainController{
         return loader.getController();
     }
 
-    private void clearInfo(){
+    private void clearInfo()
+    {
         infoLabel.setText("");
     }
 

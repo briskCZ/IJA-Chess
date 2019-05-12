@@ -14,16 +14,19 @@ public class Field
         this.column = column;
         this.figure = null;
     }
+
     public Field(Field field)
     {
         this.row = field.row;
         this.column = field.column;
         this.figure = Figure.copyFigure(field.figure);
     }
+
     public Figure getFigure()
     {
         return this.figure;
     }
+
     public void setFigure(Figure figure)
     {
         this.figure = figure;
@@ -32,6 +35,7 @@ public class Field
             figure.setPosition(row, column);
         }
     }
+
     public void removeFigure()
     {
         this.figure = null;
@@ -41,10 +45,12 @@ public class Field
     {
         return figure != null;
     }
+
     public boolean isOccupiedWithEnemyFig(Figure fig)
     {
-        return isOccupied() ? getFigure().getColor() != fig.getColor() : false;
+        return isOccupied() && getFigure().getColor() != fig.getColor();
     }
+
     public int getColumn()
     {
         return column;
@@ -59,8 +65,9 @@ public class Field
     {
         return convertRowToChar() + (row + 1);
     }
+
     private String convertRowToChar()
     {
-        return String.valueOf((char)(column + 97));
+        return String.valueOf((char) (column + 97));
     }
 }

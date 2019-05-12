@@ -76,6 +76,27 @@ public abstract class Figure
 
     public String toString()
     {
+        switch (this.type)
+        {
+            case King:
+                return "K";
+            case Queen:
+                return "D";
+            case Rook:
+                return "V";
+            case Bishop:
+                return "S";
+            case Knight:
+                return "J";
+            case Pawn:
+                return "";
+            default:
+                return "";
+        }
+    }
+
+    public String toStringOld()
+    {
         if (this.figureColor == FigureColor.White)
         {
             switch (this.type)
@@ -132,7 +153,8 @@ public abstract class Figure
     protected boolean checkMove(ChessBoard board, ArrayList<Field> possibleArrayMoves, int row, int column)
     {
         Field f = board.getField(row, column);
-        if(f != null){
+        if (f != null)
+        {
             if (f.isOccupiedWithEnemyFig(this))
             {
                 possibleArrayMoves.add(f);

@@ -34,8 +34,7 @@ public class Parser
         {
             System.out.println("Parsing error: be number");
             return false;
-        }
-        else
+        } else
         {
             int lineNum = Integer.parseInt(split[0].split("\\.")[0]);
             if (prevLineNum + 1 != lineNum)
@@ -49,8 +48,7 @@ public class Parser
         if (whiteMove == null)
         {
             return false;
-        }
-        else
+        } else
         {
             loadedRecord.addMove(whiteMove);
         }
@@ -58,8 +56,7 @@ public class Parser
         if (blackMove == null)
         {
             return false;
-        }
-        else
+        } else
         {
             loadedRecord.addMove(blackMove);
         }
@@ -72,7 +69,7 @@ public class Parser
         return null;
     }
 
-    private Move parseMove (String moveString)
+    private Move parseMove(String moveString)
     {
         Pattern moveRegex = Pattern.compile("^(?<fig>[KDVSJp])?(?<s1>[a-h])?(?<s2>[1-8])?(?<kick>x)?(?<d1>[a-h])(?<d2>[1-8])(?<prom>[DVSJ])?(?<pf>[+#])?$");
         Matcher matcher = moveRegex.matcher(moveString);
@@ -88,18 +85,17 @@ public class Parser
             FigureType figureType = parseCaptureFigure(matcher.group("fig"));
             String sourceColumn = matcher.group("s1");
             String sourceRow = matcher.group("s2");
-            boolean kick = matcher.group("kick") != null ? true : false;
+            boolean kick = matcher.group("kick") != null;
             String destColumn = matcher.group("d1");
             String destRow = matcher.group("d2");
-            boolean prom = matcher.group("prom") != null ? true : false;
+            boolean prom = matcher.group("prom") != null;
             FigureType promFigureType = parseCaptureFigure(matcher.group("prom"));
             //TAGS # + matcher.group("pf")
             if (sourceColumn == null || sourceRow == null)
             {
                 // Short notation
                 System.out.println("Parsing short notation");
-            }
-            else
+            } else
             {
                 // Long notation
                 if (sourceColumn == null || sourceRow == null || destColumn == null || destRow == null)
@@ -118,8 +114,7 @@ public class Parser
                 {
                     System.out.println("Parsing error: cannot move nonexisting figure");
                     return null;
-                }
-                else
+                } else
                 {
                     // Perform move and save it to record
                     ArrayList<Move.Tag> tags = new ArrayList<>();
@@ -135,8 +130,7 @@ public class Parser
                         {
                             System.out.println("Parsing error: cannot jump nonexisting figure");
                             return null;
-                        }
-                        else
+                        } else
                         {
                             tags.add(Move.Tag.Kick);
                         }
@@ -146,8 +140,7 @@ public class Parser
                         System.out.println("Promotion");
                         tags.add(Move.Tag.Promotion);
                         //TODO
-                    }
-                    else
+                    } else
                     {
                         Move move = new Move(sourceField, destField);
                         destField.setFigure(figureToMove);
@@ -193,6 +186,7 @@ public class Parser
     {
         return col.charAt(0) - 'a';
     }
+
     private int stringRowNotationToInt(String row)
     {
         return Integer.parseInt(row) - 1;

@@ -21,7 +21,7 @@ public class Rook extends Figure
     public ArrayList<Field> getPossibleMoveFields(ChessBoard board)
     {
         ArrayList<Field> PossibleMoveFields = new ArrayList<>();
-        for (int i = row + 1; i < ChessBoard.CHESS_BOARD_SIZE ; i++)
+        for (int i = row + 1; i < ChessBoard.CHESS_BOARD_SIZE; i++)
         {
             if (checkMove(board, PossibleMoveFields, i, column)) break;
         }
