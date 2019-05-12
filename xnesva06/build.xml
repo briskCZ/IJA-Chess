@@ -1,4 +1,4 @@
-<project name="IJA-Chess" default="compile" basedir="." xmlns:fx="javafx:com.sun.javafx.tools.ant">
+<project name="IJA-Chess" default="run" basedir="." xmlns:fx="javafx:com.sun.javafx.tools.ant">
 
     <target name="clean">
         <delete>
@@ -39,9 +39,9 @@
             <fileset dir="build"/>
         </fx:jar>
 
-        <javadoc packagenames="chess" sourcepath="src/chess" destdir="doc">
+        <javadoc packagenames="chess" sourcepath="src/chess" destdir="doc" encoding="UTF-8" charset="UTF-8" docencoding="UTF-8">
             <fileset dir="src/chess">
-                <include name="**" />
+                <exclude name="**/*.fxml"/>
             </fileset>
         </javadoc>
     </target>

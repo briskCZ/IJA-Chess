@@ -2,6 +2,11 @@ package chess.board;
 
 import chess.figures.*;
 
+/**
+ * @author Marek Nesvadba, Zdeněk Doležal (xnesva06, xdolez82)
+ * <p>Class representing the whole chess board.
+ */
+
 public class ChessBoard
 {
     public static final int CHESS_BOARD_SIZE = 8;

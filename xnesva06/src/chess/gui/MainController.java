@@ -14,6 +14,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * @author Marek Nesvadba, Zdeněk Doležal (xnesva06, xdolez82)
+ * <p> Controller for the main window, menu bar and tabs.
+ */
 
 public class MainController
 {

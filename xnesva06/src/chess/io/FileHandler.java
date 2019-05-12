@@ -4,6 +4,11 @@ import chess.game.Record;
 
 import java.io.*;
 
+/**
+ * @author Marek Nesvadba, Zdeněk Doležal (xnesva06, xdolez82)
+ * <p>Class responsible for loading and saving files.
+ */
+
 public class FileHandler
 {
     public boolean loadRecord(File file, Record loadedRecord)

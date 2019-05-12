@@ -5,6 +5,11 @@ import chess.board.Field;
 
 import java.util.ArrayList;
 
+/**
+ * @author Marek Nesvadba, Zdeněk Doležal (xnesva06, xdolez82)
+ * <p>Super class of all figures.
+ */
+
 public abstract class Figure
 {
     protected int column;

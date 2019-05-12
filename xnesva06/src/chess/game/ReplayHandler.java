@@ -1,5 +1,10 @@
 package chess.game;
 
+/**
+ * @author Marek Nesvadba, Zdeněk Doležal (xnesva06, xdolez82)
+ * <p>TODO;
+ */
+
 public class ReplayHandler
 {
     private Record playerRecord;

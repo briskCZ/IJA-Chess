@@ -5,6 +5,11 @@ import chess.board.Field;
 
 import java.util.ArrayList;
 
+/**
+ * @author Marek Nesvadba, Zdeněk Doležal (xnesva06, xdolez82)
+ * <p> Class representing the bishop figure.
+ */
+
 public class Bishop extends Figure
 {
     public Bishop(int row, int column, boolean isOnBoard, FigureColor figureColor)

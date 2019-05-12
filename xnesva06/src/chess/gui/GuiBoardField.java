@@ -13,6 +13,10 @@ import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * @author Marek Nesvadba, Zdeněk Doležal (xnesva06, xdolez82)
+ * <p>Field of chess board used in GUI.
+ */
 
 public class GuiBoardField extends Button
 {

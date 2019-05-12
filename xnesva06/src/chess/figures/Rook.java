@@ -5,6 +5,11 @@ import chess.board.Field;
 
 import java.util.ArrayList;
 
+/**
+ * @author Marek Nesvadba, Zdeněk Doležal (xnesva06, xdolez82)
+ * <p> Class representing the rook figure.
+ */
+
 public class Rook extends Figure
 {
     public Rook(int row, int column, boolean isOnBoard, FigureColor figureColor)

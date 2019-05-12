@@ -18,6 +18,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * @author Marek Nesvadba, Zdeněk Doležal (xnesva06, xdolez82)
+ * <p>Controller for each individual game.
+ */
+
 public class GameController implements Initializable
 {
 

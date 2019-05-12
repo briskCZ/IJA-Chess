@@ -2,6 +2,11 @@ package chess.game;
 
 import chess.board.Field;
 
+/**
+ * @author Marek Nesvadba, Zdeněk Doležal (xnesva06, xdolez82)
+ * <p>TODO;
+ */
+
 public class Move
 {
     public enum Tag
