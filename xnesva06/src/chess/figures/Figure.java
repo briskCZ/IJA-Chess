@@ -52,7 +52,22 @@ public abstract class Figure
                 return null;
         }
     }
-
+    public static Figure promotePawn(int row, int column, boolean isOnBoard, FigureColor figureColor, FigureType type)
+    {
+        switch(type)
+        {
+            case Pawn:
+                return new Pawn(row, column, isOnBoard, figureColor);
+            case Bishop:
+                return new Bishop(row, column, isOnBoard, figureColor);
+            case Knight:
+                return new Knight(row, column, isOnBoard, figureColor);
+            case Rook:
+                return new Rook(row, column, isOnBoard, figureColor);
+            default:
+                return null;
+        }
+    }
     public boolean isOnBoard()
     {
         return isOnBoard;

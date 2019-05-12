@@ -3,6 +3,7 @@ package chess.gui;
 import chess.board.Field;
 import chess.figures.Figure;
 import chess.figures.FigureColor;
+import chess.figures.FigureType;
 import chess.game.Game;
 import chess.game.ReplayHandler;
 import javafx.fxml.FXML;
@@ -34,6 +35,7 @@ public class GameController implements Initializable
 
     private Game game;
     private Figure selectedFigure = null;
+    private Field fieldClicked = null;
 
     private ContextMenu contextMenu;
     private ReplayHandler replayHandler;
@@ -49,16 +51,16 @@ public class GameController implements Initializable
         MenuItem rookMenuItem = new MenuItem("Rook");
         MenuItem bishopMenuItem = new MenuItem("Bishop");
 
-        queenMenuItem.setOnAction(event -> System.out.println("Queen"));
-        knightMenuItem.setOnAction(event -> System.out.println("Knight"));
-        rookMenuItem.setOnAction(event -> System.out.println("Rook"));
-        bishopMenuItem.setOnAction(event -> System.out.println("Bishop"));
+        queenMenuItem.setOnAction(event -> game.move(selectedFigure, fieldClicked, FigureType.Queen));
+        knightMenuItem.setOnAction(event -> game.move(selectedFigure, fieldClicked, FigureType.Knight));
+        rookMenuItem.setOnAction(event -> game.move(selectedFigure, fieldClicked, FigureType.Rook));
+        bishopMenuItem.setOnAction(event -> game.move(selectedFigure, fieldClicked, FigureType.Bishop));
 
         contextMenu.getItems().addAll(queenMenuItem, knightMenuItem, rookMenuItem, bishopMenuItem);
         contextMenu.setStyle("-fx-scale-x: 0.4;-fx-scale-y: 0.4;-fx-translate-x: -100;-fx-translate-y: -100");
 
 
-        listView.setOnMouseClicked(event -> listClicked(listView.getSelectionModel().getSelectedItem()));
+        listView.setOnMouseClicked(event -> listClicked(listView.getSelectionModel().getSelectedIndex()));
 
         game = MainController.createGame();
         setupFigures();
@@ -207,6 +209,7 @@ public class GameController implements Initializable
 
     private void fieldClicked(GuiBoardField field)
     {
+        fieldClicked = game.getBoardField(field.getRow(), field.getCol());
         Figure figure = field.getFigure();
         if (!game.getCheckmate())
         {
@@ -234,9 +237,12 @@ public class GameController implements Initializable
 
     }
 
-    private void listClicked(String string)
+    private void listClicked(int index)
     {
-        System.out.println(string);
+        System.out.println("Clicked" + index);
+        replayHandler.movePlayerTo(index);
+        refreshFigures();
+        refreshRecord();
     }
 
     @FXML

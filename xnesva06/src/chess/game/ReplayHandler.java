@@ -140,7 +140,20 @@ public class ReplayHandler
 
     public void movePlayerTo(int index)
     {
-
+        while(getCompleteRecordIndex() != index)
+        {
+            int i = getCompleteRecordIndex();
+            if (i < index)
+            {
+                playNextHalfMove();
+                playNextHalfMove();
+            }
+            if (i > index)
+            {
+                playPreviousHalfMove();
+                playPreviousHalfMove();
+            }
+        }
     }
 
     public int getCompleteRecordIndex()

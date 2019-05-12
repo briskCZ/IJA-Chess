@@ -58,11 +58,26 @@ public class Game
 
     public void move(Figure selectedFigure, Field destination, FigureType type)
     {
-        Field figurePosition = chessBoard.getField(selectedFigure.getRow(), selectedFigure.getColumn());
+        Field figurePosition;
+        if (type != null)
+        {
+            figurePosition = destination;
+        }
+        else
+        {
+            figurePosition = chessBoard.getField(selectedFigure.getRow(), selectedFigure.getColumn());
+
+        }
         Move move = new Move(figurePosition, destination);
         ArrayList<Move.Tag> tags = new ArrayList<>();
         replayHandler.lockLoadedMovesIndex();
         playerRecord.addMove(move);
+        if (type != null)
+        {
+            FigureColor color = destination.getRow() < ChessBoard.CHESS_BOARD_SIZE/2 ? FigureColor.White : FigureColor.Black;
+            tags.add(Move.Tag.Promotion);
+            selectedFigure = Figure.promotePawn(destination.getRow(), destination.getColumn(), false, color, type);
+        }
         if (destination.isOccupiedWithEnemyFig(selectedFigure))
         {
             tags.add(Move.Tag.Kick);
@@ -91,6 +106,7 @@ public class Game
         }
         move.executeMove(figurePosition, destination, tags.toArray(new Move.Tag[tags.size()]));
         changeTurn();
+
     }
 
     public ArrayList<Field> getPossibleMoves(Figure selectedFigure)
