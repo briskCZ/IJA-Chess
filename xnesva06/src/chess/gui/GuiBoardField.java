@@ -161,7 +161,7 @@ public class GuiBoardField extends Button
         return this.isEnabled;
     }
 
-    int getCol()
+    public int getCol()
     {
         return col;
     }

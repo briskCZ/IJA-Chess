@@ -27,6 +27,11 @@ public class Parser
         this.board = new ChessBoard();
     }
 
+    /**
+     * Parses line and adds move to the loadedRecord
+     * @param loadedRecord
+     * @param line
+     */
     public boolean parseLine(Record loadedRecord, String line)
     {
         String[] split = line.split("\\s+");

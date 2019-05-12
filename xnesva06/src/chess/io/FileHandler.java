@@ -11,6 +11,11 @@ import java.io.*;
 
 public class FileHandler
 {
+    /**
+     * Loads file to loadedRecord
+     * @param loadedRecord
+     * @param file
+     */
     public boolean loadRecord(File file, Record loadedRecord)
     {
         try
@@ -34,7 +39,11 @@ public class FileHandler
         return true;
     }
 
-
+    /**
+     * Saves record to file
+     * @param record
+     * @param file
+     */
     public boolean saveRecord(Record record, File file)
     {
         try
