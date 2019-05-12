@@ -13,6 +13,11 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+/**
+ * @author Marek Nesvadba, Zdeněk Doležal (xnesva06, xdolez82)
+ * <p>Keeps track of the game.
+ */
+
 public class Game
 {
     protected ChessBoard chessBoard;

@@ -6,6 +6,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * @author Marek Nesvadba, Zdeněk Doležal (xnesva06, xdolez82)
+ * <p>Main class used to start the whole application.
+ */
+
 public class Main extends Application
 {
 
@@ -23,22 +28,13 @@ public class Main extends Application
         primaryStage.show();
     }
 
-
+    /**
+     * Entry point of the program.
+     *
+     * @param args program arguments
+     */
     public static void main(String[] args)
     {
         launch(args);
-
-
-/*
-        Game game = new Game(0);
-        game.printGame();
-        Figure figure = game.getBoardField(1,1).getFigure();
-        Field field = game.getBoardField(2, 1);
-        game.move(figure, field);
-        game.printGame();
-        System.out.println(game.getPossibleMoves(figure));
-*/
-
-
     }
 }

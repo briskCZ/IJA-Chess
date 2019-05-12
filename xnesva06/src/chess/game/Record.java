@@ -2,6 +2,11 @@ package chess.game;
 
 import java.util.ArrayList;
 
+/**
+ * @author Marek Nesvadba, Zdeněk Doležal (xnesva06, xdolez82)
+ * <p>TODO;
+ */
+
 public class Record
 {
     private ArrayList<Move> moves;

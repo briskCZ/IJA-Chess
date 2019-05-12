@@ -6,6 +6,11 @@ import chess.board.Field;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+/**
+ * @author Marek Nesvadba, Zdeněk Doležal (xnesva06, xdolez82)
+ * <p> Class representing the king figure.
+ */
+
 public class King extends Figure
 {
 

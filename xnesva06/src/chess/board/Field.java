@@ -2,6 +2,11 @@ package chess.board;
 
 import chess.figures.Figure;
 
+/**
+ * @author Marek Nesvadba, Zdeněk Doležal (xnesva06, xdolez82)
+ * <p>Field of chess board.
+ */
+
 public class Field
 {
     private int row;

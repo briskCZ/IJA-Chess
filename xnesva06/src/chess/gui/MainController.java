@@ -14,6 +14,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * @author Marek Nesvadba, Zdeněk Doležal (xnesva06, xdolez82)
+ * <p> Controller for the main window, menu bar and tabs.
+ */
 
 public class MainController
 {
@@ -26,7 +30,10 @@ public class MainController
     static int gameNo = 1;
     static ArrayList<Game> games = new ArrayList<>();
 
-
+    /**
+     * Loads game from file when button is clicked.
+     *
+     */
     @FXML
     protected void loadGameClicked(ActionEvent event)
     {
@@ -47,7 +54,10 @@ public class MainController
         clearInfo();
 
     }
-
+    /**
+     * Saves game to a file when button is clicked.
+     *
+     */
     @FXML
     protected void saveGameClicked(ActionEvent event)
     {
@@ -65,6 +75,10 @@ public class MainController
         }
     }
 
+    /**
+     * Creates new tab, with new game when button is clicked.
+     *
+     */
     @FXML
     protected GameController newGameClicked(ActionEvent event)
     {
@@ -92,6 +106,13 @@ public class MainController
         infoLabel.setText("");
     }
 
+    /**
+     * Creates new instance of game.
+     *
+     * <p>Creates new instance of game, adds it to list of all games, and returns the instance
+     *
+     * @return Created game
+     */
     public static Game createGame()
     {
         Game newGame = new Game(gameNo);
@@ -99,6 +120,12 @@ public class MainController
         return newGame;
     }
 
+    /**
+     * Finds and returns instance of game
+     *
+     * @param id id of the searched game
+     * @return game
+     */
     public static Game getGameById(int id)
     {
         for (Game g : games)

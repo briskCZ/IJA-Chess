@@ -13,6 +13,10 @@ import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * @author Marek Nesvadba, Zdeněk Doležal (xnesva06, xdolez82)
+ * <p>Field of chess board used in GUI.
+ */
 
 public class GuiBoardField extends Button
 {
@@ -50,22 +54,22 @@ public class GuiBoardField extends Button
             switch (this.figure.getType())
             {
                 case Bishop:
-                    image_file = new File("xnesva06/lib/bishop_w.png");
+                    image_file = new File("lib/bishop_w.png");
                     break;
                 case King:
-                    image_file = new File("xnesva06/lib/king_w.png");
+                    image_file = new File("lib/king_w.png");
                     break;
                 case Knight:
-                    image_file = new File("xnesva06/lib/knight_w.png");
+                    image_file = new File("lib/knight_w.png");
                     break;
                 case Pawn:
-                    image_file = new File("xnesva06/lib/pawn_w.png");
+                    image_file = new File("lib/pawn_w.png");
                     break;
                 case Queen:
-                    image_file = new File("xnesva06/lib/queen_w.png");
+                    image_file = new File("lib/queen_w.png");
                     break;
                 case Rook:
-                    image_file = new File("xnesva06/lib/tower_w.png");
+                    image_file = new File("lib/tower_w.png");
                     break;
             }
         } else
@@ -73,22 +77,22 @@ public class GuiBoardField extends Button
             switch (this.figure.getType())
             {
                 case Bishop:
-                    image_file = new File("xnesva06/lib/bishop_b.png");
+                    image_file = new File("lib/bishop_b.png");
                     break;
                 case King:
-                    image_file = new File("xnesva06/lib/king_b.png");
+                    image_file = new File("lib/king_b.png");
                     break;
                 case Knight:
-                    image_file = new File("xnesva06/lib/knight_b.png");
+                    image_file = new File("lib/knight_b.png");
                     break;
                 case Pawn:
-                    image_file = new File("xnesva06/lib/pawn_b.png");
+                    image_file = new File("lib/pawn_b.png");
                     break;
                 case Queen:
-                    image_file = new File("xnesva06/lib/queen_b.png");
+                    image_file = new File("lib/queen_b.png");
                     break;
                 case Rook:
-                    image_file = new File("xnesva06/lib/tower_b.png");
+                    image_file = new File("lib/tower_b.png");
                     break;
             }
         }

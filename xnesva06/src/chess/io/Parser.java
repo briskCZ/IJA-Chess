@@ -11,6 +11,11 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * @author Marek Nesvadba, Zdeněk Doležal (xnesva06, xdolez82)
+ * <p>Class responsible for parsing the loaded file and converting it to individual moves.
+ */
+
 public class Parser
 {
     private int prevLineNum;
