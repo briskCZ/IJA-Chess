@@ -18,7 +18,7 @@ import java.util.HashSet;
  */
 
 public class Game {
-    protected ChessBoard chessBoard;
+    ChessBoard chessBoard;
     private Record playerRecord;
     private Record loadedRecord;
     private ReplayHandler replayHandler;
@@ -106,7 +106,7 @@ public class Game {
         figurePosition.removeFigure();
 
         addCheckTags(selectedFigure, tags);
-        move.executeMove(figurePosition, destination, tags.toArray(new Move.Tag[tags.size()]));
+        move.executeMove(figurePosition, destination, tags.toArray(new Move.Tag[0]));
         changeTurn();
     }
 
@@ -145,7 +145,7 @@ public class Game {
         return replayHandler;
     }
 
-    protected void changeTurn() {
+    void changeTurn() {
         if (turnColor == FigureColor.White) {
             turnColor = FigureColor.Black;
         } else if (turnColor == FigureColor.Black) {
@@ -178,7 +178,7 @@ public class Game {
         this.isCheckmate = checkmate;
     }
 
-    public void checkCheck() {
+    private void checkCheck() {
         Field kingBlackField = null;
         Field kingWhiteField = null;
 

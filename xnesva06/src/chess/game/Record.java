@@ -60,12 +60,10 @@ public class Record {
         return this.moveArrayIndex;
     }
 
-    public boolean setMaxIndex(int val) {
+    public void setMaxIndex(int val) {
         if (val < moves.size()) {
             this.maxIndex = val;
-            return true;
         } else {
-            return false;
         }
     }
 

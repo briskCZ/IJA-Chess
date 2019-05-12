@@ -61,7 +61,10 @@ public class MainController {
             File file = fileChooser.showSaveDialog(Main.stage);
             if (file == null) return;
             int gameId = Integer.parseInt(tabPane.getSelectionModel().getSelectedItem().getText().split("\\s+")[1]);
-            getGameById(gameId).saveGame(file);
+            if (!getGameById(gameId).saveGame(file))
+            {
+                infoLabel.setText("Save game error!");
+            }
             clearInfo();
         } else {
             infoLabel.setText("No game available!");

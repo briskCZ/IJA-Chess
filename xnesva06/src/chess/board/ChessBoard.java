@@ -82,12 +82,12 @@ public class ChessBoard {
     }
 
     public String toString() {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         for (int i = 0; i < CHESS_BOARD_SIZE; i++) {
             for (int j = 0; j < CHESS_BOARD_SIZE; j++) {
-                result += this.board[i][j].toString() + "\t";
+                result.append(this.board[i][j].toString()).append("\t");
             }
-            result += "\n";
+            result.append("\n");
         }
         return result + "\n";
     }

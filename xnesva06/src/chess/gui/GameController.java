@@ -14,9 +14,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * @author Marek Nesvadba, Zdeněk Doležal (xnesva06, xdolez82)
@@ -122,7 +120,7 @@ public class GameController implements Initializable {
     }
 
 
-    private void refreshFields() {
+    public void refreshFields() {
         chessBoardGridPane.getChildren().clear();
         setupFields();
     }
@@ -130,7 +128,7 @@ public class GameController implements Initializable {
     /**
      * Reloads record in the listView.
      */
-    protected void refreshRecord() {
+    public void refreshRecord() {
         listView.getItems().setAll(replayHandler.getCompleteRecord().toStringArray());
         setListViewIndex();
     }
@@ -233,13 +231,14 @@ public class GameController implements Initializable {
     }
 
     private void listClicked(int index) {
-        replayHandler.movePlayerTo(index);
+        replayHandler.movePlayerTo(++index);
         refreshFields();
         refreshRecord();
     }
 
     @FXML
     private void redoClicked() {
+        if (replayHandler.isAutoPlayOn()) return;
         game.redoMove();
         refreshRecord();
         refreshFields();
@@ -248,6 +247,7 @@ public class GameController implements Initializable {
 
     @FXML
     private void undoClicked() {
+        if (replayHandler.isAutoPlayOn()) return;
         game.undoMove();
         refreshFields();
         refreshRecord();
@@ -256,6 +256,7 @@ public class GameController implements Initializable {
 
     @FXML
     private void prevMoveClicked() {
+        if (replayHandler.isAutoPlayOn()) return;
         replayHandler.playPreviousHalfMove();
         setListViewIndex();
         refreshFields();
@@ -263,7 +264,9 @@ public class GameController implements Initializable {
     }
 
     @FXML
-    private void nextMoveClicked() {
+    private void nextMoveClicked()
+    {
+        if (replayHandler.isAutoPlayOn()) return;
         replayHandler.playNextHalfMove();
         setListViewIndex();
         refreshFields();
@@ -275,8 +278,11 @@ public class GameController implements Initializable {
 
     @FXML
     private void startAutoRunClicked() {
+        if (replayHandler.isAutoPlayOn()) return;
         try {
-            replayHandler.playAutomatically(Integer.parseInt(intervalTextField.getText()));
+            int delay = getValidDelay();
+            if (delay == -1) return;
+            replayHandler.playAutomatically(delay, true, this);
         } catch (Exception e) {
             intervalTextField.setText("0");
         }
@@ -285,24 +291,37 @@ public class GameController implements Initializable {
 
     @FXML
     private void startAutoRunBackClicked() {
+        if (replayHandler.isAutoPlayOn()) return;
         try {
-            replayHandler.playAutomatically(Integer.parseInt(intervalTextField.getText()));
+            int delay = getValidDelay();
+            if (delay == -1) return;
+            replayHandler.playAutomatically(delay, false, this);
         } catch (Exception e) {
             intervalTextField.setText("0");
         }
     }
 
+    private int getValidDelay() {
+        int delay = Integer.parseInt(intervalTextField.getText());
+        if (delay < 100 || delay > 5000){
+            statusLabel.setText("Timer should be > 100 ms and < 5000 ms");
+            return -1;
+        }else{
+            statusLabel.setText("");
+            return delay;
+        }
+    }
+
     @FXML
     private void pauseAutoRunClicked() {
-
-        //TODO
-        replayHandler.stopAutomatically();
+        replayHandler.pauseAutomaticPlayer();
     }
 
     @FXML
     private void stopAutoRunClicked() {
-
-        replayHandler.stopAutomatically();
+        replayHandler.restartPlayer();
+        refreshRecord();
+        refreshFields();
+        // TODO stop autoplay
     }
-
 }

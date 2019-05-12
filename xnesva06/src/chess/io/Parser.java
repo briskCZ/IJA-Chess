@@ -126,7 +126,7 @@ public class Parser {
                         Move move = new Move(sourceField, destField);
                         destField.setFigure(figureToMove);
                         sourceField.removeFigure();
-                        move.executeMove(sourceField, destField, tags.toArray(new Move.Tag[tags.size()]));
+                        move.executeMove(sourceField, destField, tags.toArray(new Move.Tag[0]));
                         return move;
                     }
 

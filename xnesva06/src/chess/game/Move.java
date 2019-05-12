@@ -35,12 +35,12 @@ public class Move {
 
     public String toString() {
         String kick = "";
-        String specialTags = "";
+        StringBuilder specialTags = new StringBuilder();
         for (Tag tag : tags) {
             if (tag == Tag.Kick) {
                 kick = "x";
             } else {
-                specialTags += specialTagsToString(tag);
+                specialTags.append(specialTagsToString(tag));
             }
         }
         return sourceField.getFigure().toString() + sourceField.toString() + kick + destField.toString() + specialTags;
@@ -62,6 +62,15 @@ public class Move {
     public boolean wasCheckMate() {
         for (Tag tag : tags) {
             if (tag == Tag.CheckMate) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean wasCheck()
+    {
+        for (Tag tag : tags){
+            if (tag == Tag.Check){
                 return true;
             }
         }

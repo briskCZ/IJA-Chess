@@ -30,11 +30,6 @@ public class Bishop extends Figure {
 
         for (int i = 1; i < ChessBoard.CHESS_BOARD_SIZE; i++) {
 
-            Field left_up = null;
-            Field left_down = null;
-            Field right_up = null;
-            Field right_down = null;
-
             if (!was_occupied_lu) {
                 was_occupied_lu = checkMove(board, possibleMoveFields, row + i, column + i);
             }
