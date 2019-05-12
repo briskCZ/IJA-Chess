@@ -7,41 +7,31 @@ import chess.figures.*;
  * <p>Class representing the whole chess board.
  */
 
-public class ChessBoard
-{
+public class ChessBoard {
     public static final int CHESS_BOARD_SIZE = 8;
     private Field[][] board;
 
-    public ChessBoard()
-    {
+    public ChessBoard() {
         board = new Field[CHESS_BOARD_SIZE][CHESS_BOARD_SIZE];
         createBoard();
         addFigures();
     }
 
-    public Field getField(int row, int column)
-    {
-        if (row >= 0 && column >= 0 && row < CHESS_BOARD_SIZE && column < CHESS_BOARD_SIZE)
-        {
+    public Field getField(int row, int column) {
+        if (row >= 0 && column >= 0 && row < CHESS_BOARD_SIZE && column < CHESS_BOARD_SIZE) {
             return this.board[row][column];
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
 
-    public void setField(Field field)
-    {
+    public void setField(Field field) {
         board[field.getRow()][field.getColumn()] = field;
     }
 
-    private void createBoard()
-    {
-        for (int i = 0; i < CHESS_BOARD_SIZE; i++)
-        {
-            for (int j = 0; j < CHESS_BOARD_SIZE; j++)
-            {
+    private void createBoard() {
+        for (int i = 0; i < CHESS_BOARD_SIZE; i++) {
+            for (int j = 0; j < CHESS_BOARD_SIZE; j++) {
                 board[i][j] = new Field(i, j);
             }
         }
@@ -50,11 +40,9 @@ public class ChessBoard
     /**
      * Fills board with figures
      */
-    private void addFigures()
-    {
+    private void addFigures() {
         // Add pawns
-        for (int i = 0; i < CHESS_BOARD_SIZE; i++)
-        {
+        for (int i = 0; i < CHESS_BOARD_SIZE; i++) {
             this.board[1][i].setFigure(new Pawn(1, i, true, FigureColor.White));
             this.board[6][i].setFigure(new Pawn(6, i, true, FigureColor.Black));
         }
@@ -93,13 +81,10 @@ public class ChessBoard
 
     }
 
-    public String toString()
-    {
+    public String toString() {
         String result = "";
-        for (int i = 0; i < CHESS_BOARD_SIZE; i++)
-        {
-            for (int j = 0; j < CHESS_BOARD_SIZE; j++)
-            {
+        for (int i = 0; i < CHESS_BOARD_SIZE; i++) {
+            for (int j = 0; j < CHESS_BOARD_SIZE; j++) {
                 result += this.board[i][j].toString() + "\t";
             }
             result += "\n";

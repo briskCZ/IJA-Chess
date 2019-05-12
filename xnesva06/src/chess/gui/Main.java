@@ -11,14 +11,12 @@ import javafx.stage.Stage;
  * <p>Main class used to start the whole application.
  */
 
-public class Main extends Application
-{
+public class Main extends Application {
 
     public static Stage stage;
 
     @Override
-    public void start(Stage primaryStage) throws Exception
-    {
+    public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
         Parent root = FXMLLoader.load(getClass().getResource("MainView.fxml"));
         primaryStage.setTitle("IJA - Chess");
@@ -33,8 +31,7 @@ public class Main extends Application
      *
      * @param args program arguments
      */
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         launch(args);
     }
 }

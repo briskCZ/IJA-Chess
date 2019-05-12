@@ -23,8 +23,7 @@ import java.util.ResourceBundle;
  * <p>Controller for each individual game.
  */
 
-public class GameController implements Initializable
-{
+public class GameController implements Initializable {
 
     @FXML
     private ListView<String> listView;
@@ -49,8 +48,7 @@ public class GameController implements Initializable
     final static int fieldSize = 88;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources)
-    {
+    public void initialize(URL location, ResourceBundle resources) {
         contextMenu = new ContextMenu();
 
         MenuItem queenMenuItem = new MenuItem("Queen");
@@ -75,24 +73,18 @@ public class GameController implements Initializable
         replayHandler = game.getReplayHandler();
     }
 
-    private void setupFields()
-    {
-        for (int x = 0; x < 8; x++)
-        {
-            for (int y = 0; y < 8; y++)
-            {
+    private void setupFields() {
+        for (int x = 0; x < 8; x++) {
+            for (int y = 0; y < 8; y++) {
 
 
                 GuiBoardField field;
 
                 Field boardfield = game.getBoardField(y, x);
 
-                if (boardfield.isOccupied())
-                {
+                if (boardfield.isOccupied()) {
                     field = new GuiBoardField(boardfield.getFigure());
-                }
-                else
-                {
+                } else {
                     field = new GuiBoardField(x, y);
                 }
 
@@ -105,8 +97,7 @@ public class GameController implements Initializable
             }
         }
 
-        for (int a = 0; a < 8; a++)
-        {
+        for (int a = 0; a < 8; a++) {
             Label labelNumber = new Label();
 
             Label labelLetter = new Label();
@@ -131,8 +122,7 @@ public class GameController implements Initializable
     }
 
 
-    private void refreshFields()
-    {
+    private void refreshFields() {
         chessBoardGridPane.getChildren().clear();
         setupFields();
     }
@@ -140,54 +130,42 @@ public class GameController implements Initializable
     /**
      * Reloads record in the listView.
      */
-    protected void refreshRecord()
-    {
+    protected void refreshRecord() {
         listView.getItems().setAll(replayHandler.getCompleteRecord().toStringArray());
         setListViewIndex();
     }
 
-    private void setAllFieldsDisabled()
-    {
+    private void setAllFieldsDisabled() {
         List<Node> list = chessBoardGridPane.getChildren();
 
-        for (Node node : list)
-        {
-            if (node instanceof GuiBoardField)
-            {
+        for (Node node : list) {
+            if (node instanceof GuiBoardField) {
                 GuiBoardField field = (GuiBoardField) node;
                 field.setEnabled(false);
             }
         }
     }
 
-    private void setFieldEnabled(int col, int row)
-    {
+    private void setFieldEnabled(int col, int row) {
         List<Node> list = chessBoardGridPane.getChildren();
 
-        for (Node node : list)
-        {
-            if (node instanceof GuiBoardField)
-            {
+        for (Node node : list) {
+            if (node instanceof GuiBoardField) {
                 GuiBoardField field = (GuiBoardField) node;
-                if ((field.getCol() == col) && (field.getRow() == row))
-                {
+                if ((field.getCol() == col) && (field.getRow() == row)) {
                     field.setEnabled(true);
                 }
             }
         }
     }
 
-    private boolean isFieldEnabled(int col, int row)
-    {
+    private boolean isFieldEnabled(int col, int row) {
         List<Node> list = chessBoardGridPane.getChildren();
 
-        for (Node node : list)
-        {
-            if (node instanceof GuiBoardField)
-            {
+        for (Node node : list) {
+            if (node instanceof GuiBoardField) {
                 GuiBoardField field = (GuiBoardField) node;
-                if ((field.getCol() == col) && (field.getRow() == row))
-                {
+                if ((field.getCol() == col) && (field.getRow() == row)) {
                     return field.getEnabled();
                 }
             }
@@ -195,47 +173,32 @@ public class GameController implements Initializable
         return false;
     }
 
-    private void promote(FigureType figureType)
-    {
+    private void promote(FigureType figureType) {
         game.move(lastSelectedFigure, fieldClicked, figureType);
         refreshFields();
         refreshRecord();
     }
 
-    private void moveFigure(Figure figure, Field field, GuiBoardField fieldClicked)
-    {
-        if (isFieldEnabled(field.getColumn(), field.getRow()))
-        {
-            if (figure.getType() == FigureType.Pawn && (field.getRow() == 0 || field.getRow() == 7))
-            {
-                if (boardFieldClicked != null)
-                {
+    private void moveFigure(Figure figure, Field field, GuiBoardField fieldClicked) {
+        if (isFieldEnabled(field.getColumn(), field.getRow())) {
+            if (figure.getType() == FigureType.Pawn && (field.getRow() == 0 || field.getRow() == 7)) {
+                if (boardFieldClicked != null) {
                     contextMenu.show(fieldClicked.getParent(), boardFieldClicked.getScreenX(), boardFieldClicked.getScreenY());
                 }
-            }
-            else
-            {
+            } else {
                 game.move(figure, field, null);
             }
 
-            if (game.wasBlackCheck && game.getCheck(FigureColor.Black))
-            {
+            if (game.wasBlackCheck && game.getCheck(FigureColor.Black)) {
                 statusLabel.setText("Checkmate!");
                 game.setCheckmate(true);
-            }
-            else if (game.wasWhiteCheck && game.getCheck(FigureColor.White))
-            {
+            } else if (game.wasWhiteCheck && game.getCheck(FigureColor.White)) {
                 statusLabel.setText("Checkmate!");
                 game.setCheckmate(true);
-            }
-            else
-            {
-                if (game.getCheck(FigureColor.Black) || game.getCheck(FigureColor.White))
-                {
+            } else {
+                if (game.getCheck(FigureColor.Black) || game.getCheck(FigureColor.White)) {
                     statusLabel.setText("Check!");
-                }
-                else
-                {
+                } else {
                     statusLabel.setText("");
                 }
             }
@@ -243,29 +206,22 @@ public class GameController implements Initializable
         refreshRecord();
     }
 
-    private void fieldClicked(GuiBoardField field)
-    {
+    private void fieldClicked(GuiBoardField field) {
         fieldClicked = game.getBoardField(field.getRow(), field.getCol());
         Figure figure = field.getFigure();
         contextMenu.hide();
-        if (!game.getCheckmate())
-        {
-            if (selectedFigure == null)
-            {
-                if (figure != null)
-                {
+        if (!game.getCheckmate()) {
+            if (selectedFigure == null) {
+                if (figure != null) {
                     selectedFigure = figure;
                     if (!game.isOnTurn(selectedFigure.getColor())) return;
                     ArrayList<Field> possibleMoves = game.getPossibleMoves(figure);
                     System.out.println(possibleMoves);
-                    for (Field possible_field : possibleMoves)
-                    {
+                    for (Field possible_field : possibleMoves) {
                         setFieldEnabled(possible_field.getColumn(), possible_field.getRow());
                     }
                 }
-            }
-            else
-            {
+            } else {
                 moveFigure(selectedFigure, game.getBoardField(field.getRow(), field.getCol()), field);
                 refreshFields();
                 lastSelectedFigure = Figure.copyFigure(selectedFigure);
@@ -276,16 +232,14 @@ public class GameController implements Initializable
 
     }
 
-    private void listClicked(int index)
-    {
+    private void listClicked(int index) {
         replayHandler.movePlayerTo(index);
         refreshFields();
         refreshRecord();
     }
 
     @FXML
-    private void redoClicked()
-    {
+    private void redoClicked() {
         game.redoMove();
         refreshRecord();
         refreshFields();
@@ -293,8 +247,7 @@ public class GameController implements Initializable
     }
 
     @FXML
-    private void undoClicked()
-    {
+    private void undoClicked() {
         game.undoMove();
         refreshFields();
         refreshRecord();
@@ -302,8 +255,7 @@ public class GameController implements Initializable
     }
 
     @FXML
-    private void prevMoveClicked()
-    {
+    private void prevMoveClicked() {
         replayHandler.playPreviousHalfMove();
         setListViewIndex();
         refreshFields();
@@ -311,54 +263,44 @@ public class GameController implements Initializable
     }
 
     @FXML
-    private void nextMoveClicked()
-    {
+    private void nextMoveClicked() {
         replayHandler.playNextHalfMove();
         setListViewIndex();
         refreshFields();
     }
 
-    private void setListViewIndex()
-    {
+    private void setListViewIndex() {
         listView.getSelectionModel().select(replayHandler.getCompleteRecordIndex() - 1);
     }
 
     @FXML
-    private void startAutoRunClicked()
-    {
-        try
-        {
+    private void startAutoRunClicked() {
+        try {
             replayHandler.playAutomatically(Integer.parseInt(intervalTextField.getText()));
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             intervalTextField.setText("0");
         }
 
     }
 
     @FXML
-    private void startAutoRunBackClicked()
-    {
-        try
-        {
+    private void startAutoRunBackClicked() {
+        try {
             replayHandler.playAutomatically(Integer.parseInt(intervalTextField.getText()));
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             intervalTextField.setText("0");
         }
     }
 
     @FXML
-    private void pauseAutoRunClicked()
-    {
+    private void pauseAutoRunClicked() {
 
         //TODO
         replayHandler.stopAutomatically();
     }
 
     @FXML
-    private void stopAutoRunClicked()
-    {
+    private void stopAutoRunClicked() {
 
         replayHandler.stopAutomatically();
     }

@@ -17,8 +17,7 @@ import java.util.HashSet;
  * <p>Keeps track of the game and stores all information about it.
  */
 
-public class Game
-{
+public class Game {
     protected ChessBoard chessBoard;
     private Record playerRecord;
     private Record loadedRecord;
@@ -32,8 +31,7 @@ public class Game
     public boolean wasWhiteCheck = false;
     public boolean wasBlackCheck = false;
 
-    public Game(int gameId)
-    {
+    public Game(int gameId) {
         System.out.println("Creating game: " + gameId);
         this.id = gameId;
         this.chessBoard = new ChessBoard();
@@ -44,27 +42,22 @@ public class Game
         this.turnColor = FigureColor.White;
     }
 
-    public boolean loadGame(File file)
-    {
+    public boolean loadGame(File file) {
         boolean retVal = fileHandler.loadRecord(file, loadedRecord);
         loadedRecord.resetIndex();
         return retVal;
     }
 
-    public boolean saveGame(File file)
-    {
+    public boolean saveGame(File file) {
         return fileHandler.saveRecord(replayHandler.getCompleteRecord(), file);
     }
 
-    public boolean isOnTurn(FigureColor color)
-    {
+    public boolean isOnTurn(FigureColor color) {
         return color == turnColor;
     }
 
-    public void move(Figure selectedFigure, Field destination, FigureType type)
-    {
-        if (type != null)
-        {
+    public void move(Figure selectedFigure, Field destination, FigureType type) {
+        if (type != null) {
             promotion(selectedFigure, destination, type);
             return;
         }
@@ -81,32 +74,26 @@ public class Game
         wasWhiteCheck = getCheck(FigureColor.White);
         checkCheck();
         addCheckTags(selectedFigure, tags);
-        move.executeMove(figurePosition, destination, tags.toArray(new Move.Tag[tags.size()]));
+        move.executeMove(figurePosition, destination, tags.toArray(new Move.Tag[0]));
         changeTurn();
 
     }
 
-    private void addCheckTags(Figure selectedFigure, ArrayList<Move.Tag> tags)
-    {
-        if (getCheck(getOpositeColor(selectedFigure.getColor())))
-        {
+    private void addCheckTags(Figure selectedFigure, ArrayList<Move.Tag> tags) {
+        if (getCheck(getOpositeColor(selectedFigure.getColor()))) {
             tags.add(Move.Tag.Check);
         }
-        if (wasBlackCheck && getCheck(FigureColor.Black))
-        {
+        if (wasBlackCheck && getCheck(FigureColor.Black)) {
             setCheckmate(true);
             tags.add(Move.Tag.CheckMate);
 
-        }
-        else if (wasWhiteCheck && getCheck(FigureColor.White))
-        {
+        } else if (wasWhiteCheck && getCheck(FigureColor.White)) {
             setCheckmate(true);
             tags.add(Move.Tag.CheckMate);
         }
     }
 
-    private void promotion(Figure selectedFigure, Field destination, FigureType type)
-    {
+    private void promotion(Figure selectedFigure, Field destination, FigureType type) {
         Field figurePosition = chessBoard.getField(selectedFigure.getRow(), selectedFigure.getColumn());
         Move move = new Move(figurePosition, destination);
         ArrayList<Move.Tag> tags = new ArrayList<>();
@@ -123,116 +110,86 @@ public class Game
         changeTurn();
     }
 
-    private void addKickTag(Figure selectedFigure, Field field, ArrayList<Move.Tag> tags)
-    {
-        if (field.isOccupiedWithEnemyFig(selectedFigure))
-        {
+    private void addKickTag(Figure selectedFigure, Field field, ArrayList<Move.Tag> tags) {
+        if (field.isOccupiedWithEnemyFig(selectedFigure)) {
             tags.add(Move.Tag.Kick);
         }
     }
 
 
-    public ArrayList<Field> getPossibleMoves(Figure selectedFigure)
-    {
+    public ArrayList<Field> getPossibleMoves(Figure selectedFigure) {
         return selectedFigure.getPossibleMoveFields(chessBoard);
     }
 
-    public void undoMove()
-    {
+    public void undoMove() {
         replayHandler.undoPlayerMove();
     }
 
-    public void redoMove()
-    {
+    public void redoMove() {
         replayHandler.redoPlayerMove();
     }
 
-    public void printGame()
-    {
+    public void printGame() {
         System.out.println(this.chessBoard);
     }
 
-    public int getGameId()
-    {
+    public int getGameId() {
         return this.id;
     }
 
-    public Field getBoardField(int row, int column)
-    {
+    public Field getBoardField(int row, int column) {
         return chessBoard.getField(row, column);
     }
 
-    public ReplayHandler getReplayHandler()
-    {
+    public ReplayHandler getReplayHandler() {
         return replayHandler;
     }
 
-    protected void changeTurn()
-    {
-        if (turnColor == FigureColor.White)
-        {
+    protected void changeTurn() {
+        if (turnColor == FigureColor.White) {
             turnColor = FigureColor.Black;
-        }
-        else if (turnColor == FigureColor.Black)
-        {
+        } else if (turnColor == FigureColor.Black) {
             turnColor = FigureColor.White;
         }
     }
 
 
-    public boolean getCheck(FigureColor color)
-    {
-        if (color == FigureColor.Black)
-        {
+    public boolean getCheck(FigureColor color) {
+        if (color == FigureColor.Black) {
             return isBlackCheck;
-        }
-        else
-        {
+        } else {
             return isWhiteCheck;
         }
     }
 
-    public void setCheck(FigureColor color, boolean check)
-    {
-        if (color == FigureColor.Black)
-        {
+    public void setCheck(FigureColor color, boolean check) {
+        if (color == FigureColor.Black) {
             this.isBlackCheck = check;
-        }
-        else
-        {
+        } else {
             this.isWhiteCheck = check;
         }
     }
 
-    public boolean getCheckmate()
-    {
+    public boolean getCheckmate() {
         return this.isCheckmate;
     }
 
-    public void setCheckmate(boolean checkmate)
-    {
+    public void setCheckmate(boolean checkmate) {
         this.isCheckmate = checkmate;
     }
 
-    public void checkCheck()
-    {
+    public void checkCheck() {
         Field kingBlackField = null;
         Field kingWhiteField = null;
 
         Figure figure;
-        for (int x = 0; x < 8; x++)
-        {
-            for (int y = 0; y < 8; y++)
-            {
+        for (int x = 0; x < 8; x++) {
+            for (int y = 0; y < 8; y++) {
                 figure = chessBoard.getField(x, y).getFigure();
-                if (figure != null && figure.getType() == FigureType.King)
-                {
-                    if (figure.getColor() == FigureColor.Black)
-                    {
+                if (figure != null && figure.getType() == FigureType.King) {
+                    if (figure.getColor() == FigureColor.Black) {
                         kingBlackField = chessBoard.getField(figure.getRow(), figure.getColumn());
-                    }
-                    else
-                    {
+                    } else {
                         kingWhiteField = chessBoard.getField(figure.getRow(), figure.getColumn());
                     }
                 }
@@ -247,44 +204,32 @@ public class Game
 
     }
 
-    private boolean isInDanger(HashSet<Field> possibleMoves, Field kingField)
-    {
-        for (Field field : possibleMoves)
-        {
-            if (field == kingField)
-            {
+    private boolean isInDanger(HashSet<Field> possibleMoves, Field kingField) {
+        for (Field field : possibleMoves) {
+            if (field == kingField) {
                 return true;
             }
         }
         return false;
     }
 
-    private FigureColor getOpositeColor(FigureColor color)
-    {
-        if (color == FigureColor.White)
-        {
+    private FigureColor getOpositeColor(FigureColor color) {
+        if (color == FigureColor.White) {
             return FigureColor.Black;
-        }
-        else
-        {
+        } else {
             return FigureColor.White;
         }
     }
 
-    private HashSet<Field> getPossibleMovesOfOthers(ChessBoard board, Figure king)
-    {
-        HashSet<Field> possibleMovesOfOthers = new HashSet<Field>();
+    private HashSet<Field> getPossibleMovesOfOthers(ChessBoard board, Figure king) {
+        HashSet<Field> possibleMovesOfOthers = new HashSet<>();
         Figure figure;
-        ArrayList<Field> possibleMoves = new ArrayList<Field>();
-        for (int x = 0; x < 8; x++)
-        {
-            for (int y = 0; y < 8; y++)
-            {
+        ArrayList<Field> possibleMoves = new ArrayList<>();
+        for (int x = 0; x < 8; x++) {
+            for (int y = 0; y < 8; y++) {
                 figure = board.getField(x, y).getFigure();
-                if (figure != null && figure.getColor() != king.getColor())
-                {
-                    if (figure.getType() == FigureType.King)
-                    {
+                if (figure != null && figure.getColor() != king.getColor()) {
+                    if (figure.getType() == FigureType.King) {
                         King fig = (King) figure;
                         possibleMoves.addAll(fig.getBasePossibleMoveFields(board));
                         possibleMovesOfOthers.addAll(possibleMoves);

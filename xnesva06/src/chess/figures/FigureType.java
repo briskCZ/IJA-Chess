@@ -5,8 +5,7 @@ package chess.figures;
  * <p>Enum of possible figure types.
  */
 
-public enum FigureType
-{
+public enum FigureType {
     King,
     Queen,
     Rook,
