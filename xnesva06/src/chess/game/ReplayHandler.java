@@ -9,52 +9,60 @@ public class ReplayHandler
 {
     private Record playerRecord;
     private Record loadedRecord;
-    private ChessBoard board;
+    private Game game;
     private boolean playerMoved;
+    private boolean wasUndo;
+    private boolean returnedToLoaded;
 
-    public ReplayHandler(Record playerRecord, Record loadedRecord, ChessBoard board)
+    public ReplayHandler(Record playerRecord, Record loadedRecord, Game game)
     {
         this.playerRecord = playerRecord;
         this.loadedRecord = loadedRecord;
-        this.board = board;
+        this.game = game;
         this.playerMoved = false;
+        this.wasUndo = false;
+        this.returnedToLoaded = true;
     }
-    protected boolean undoPlayerMove()
+    protected void undoPlayerMove()
     {
-        if (playerRecord.getSize() == 0)
-        {
-            loadedRecord.resetMaxIndex();
-            playerMoved = false;
-        }
         Move move = playerRecord.getPrevMove();
         if (move != null)
         {
-            board.setField(move.sourceField);
-            board.setField(move.destField);
-            return true;
+            game.chessBoard.setField(move.sourceField);
+            game.chessBoard.setField(move.destField);
+            wasUndo = true;
+            game.changeTurn();
         }
-        else
+        if (playerRecord.getIndex() == 0 && loadedRecord.getSize() > 0)
         {
-            return false;
+            loadedRecord.resetMaxIndex();
+            returnedToLoaded = true;
         }
     }
     protected void lockLoadedMovesIndex()
     {
+        returnedToLoaded = false;
         playerMoved = true;
         loadedRecord.setMaxIndex(loadedRecord.getIndex());
+        if (wasUndo)
+        {
+            playerRecord.setMaxIndex(playerRecord.getIndex());
+            wasUndo = false;
+        }
     }
-    protected boolean redoPlayerMove()
+    protected void redoPlayerMove()
     {
         Move move = playerRecord.getNextMove();
         if (move != null)
         {
-            board.setField(move.sourceFieldAfter);
-            board.setField(move.destFieldAfter);
-            return true;
-        }
-        else
-        {
-            return false;
+            if (wasUndo)
+            {
+                loadedRecord.setMaxIndex(loadedRecord.getIndex());
+            }
+            game.chessBoard.setField(move.sourceFieldAfter);
+            game.chessBoard.setField(move.destFieldAfter);
+            wasUndo = false;
+            game.changeTurn();
         }
     }
     public void playAutomatically(int delay)
@@ -65,14 +73,16 @@ public class ReplayHandler
     {
 
     }
-    //TODO combination with user moves
-    public boolean playNextMove()
+    public boolean playNextHalfMove()
     {
         Move move = loadedRecord.getNextMove();
         if (move != null)
         {
-            board.setField(move.sourceFieldAfter);
-            board.setField(move.destFieldAfter);
+            game.chessBoard.setField(move.sourceFieldAfter);
+            game.chessBoard.setField(move.destFieldAfter);
+            playerRecord.resetMaxIndex();
+            game.changeTurn();
+            resetPlayerMoves();
             return true;
         }
         else if (playerMoved)
@@ -80,8 +90,10 @@ public class ReplayHandler
             move = playerRecord.getNextMove();
             if (move != null)
             {
-                board.setField(move.sourceFieldAfter);
-                board.setField(move.destFieldAfter);
+                game.chessBoard.setField(move.sourceFieldAfter);
+                game.chessBoard.setField(move.destFieldAfter);
+                game.changeTurn();
+                resetPlayerMoves();
                 return true;
             }
             else
@@ -94,13 +106,16 @@ public class ReplayHandler
             return false;
         }
     }
-    public boolean playPreviousMove()
+    public boolean playPreviousHalfMove()
     {
         Move move = playerRecord.getPrevMove();
         if (move != null && playerMoved)
         {
-            board.setField(move.sourceField);
-            board.setField(move.destField);
+            game.chessBoard.setField(move.sourceField);
+            game.chessBoard.setField(move.destField);
+            playerRecord.resetMaxIndex();
+            game.changeTurn();
+            resetPlayerMoves();
             return true;
         }
         else
@@ -108,8 +123,10 @@ public class ReplayHandler
             move = loadedRecord.getPrevMove();
             if (move != null)
             {
-                board.setField(move.sourceField);
-                board.setField(move.destField);
+                game.chessBoard.setField(move.sourceField);
+                game.chessBoard.setField(move.destField);
+                game.changeTurn();
+                resetPlayerMoves();
                 return true;
             }
             else
@@ -126,16 +143,31 @@ public class ReplayHandler
     {
 
     }
+    public int getCompleteRecordIndex()
+    {
+        int index = (loadedRecord.getIndex() + playerRecord.getIndex())/2 - 1;
+        int size = (loadedRecord.getSize() + playerRecord.getSize());
+        if (size % 2 == 1)
+        {
+            index++;
+        }
+        return index+1;
+    }
     public Record getCompleteRecord()
     {
         Record validLoadedRecord = loadedRecord.getValidPart();
-        if (playerMoved)
+        if (playerMoved && !returnedToLoaded)
         {
             Record.append(validLoadedRecord, playerRecord);
         }
-        System.out.println("Returning: " + Arrays.toString(validLoadedRecord.toStringArray()));
         return validLoadedRecord;
     }
-
+    private void resetPlayerMoves()
+    {
+        if (returnedToLoaded)
+        {
+            playerRecord.clear();
+        }
+    }
 
 }
