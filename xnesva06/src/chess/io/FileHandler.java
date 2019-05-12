@@ -27,7 +27,7 @@ public class FileHandler {
                     return false;
                 }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             loadedRecord.clear();
             return false;

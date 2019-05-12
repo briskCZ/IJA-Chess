@@ -43,7 +43,7 @@ public class GuiBoardField extends Button {
         this.row = figure.getRow();
         this.figure = figure;
         this.setText(figure.toString());
-        String path = "xnesva06/lib/";
+        String path = "lib/";
         if (this.figure.getColor() == FigureColor.White) {
             switch (this.figure.getType()) {
                 case Bishop:
