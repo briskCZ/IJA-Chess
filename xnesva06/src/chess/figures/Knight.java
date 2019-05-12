@@ -10,21 +10,17 @@ import java.util.ArrayList;
  * <p> Class representing the king figure.
  */
 
-public class Knight extends Figure
-{
-    public Knight(int row, int column, boolean isOnBoard, FigureColor figureColor)
-    {
+public class Knight extends Figure {
+    public Knight(int row, int column, boolean isOnBoard, FigureColor figureColor) {
         super(row, column, isOnBoard, figureColor, FigureType.Knight);
     }
 
-    public Knight(Knight knight)
-    {
+    public Knight(Knight knight) {
         super(knight);
     }
 
     @Override
-    public ArrayList<Field> getPossibleMoveFields(ChessBoard board)
-    {
+    public ArrayList<Field> getPossibleMoveFields(ChessBoard board) {
         ArrayList<Field> possibleMoveFields = new ArrayList<>();
 
         checkMove(board, possibleMoveFields, row + 2, column + 1);

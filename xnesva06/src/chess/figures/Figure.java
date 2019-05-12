@@ -7,19 +7,17 @@ import java.util.ArrayList;
 
 /**
  * @author Marek Nesvadba, Zdeněk Doležal (xnesva06, xdolez82)
- * <p>Super class of all figures.
+ * <p>Super class of all figures implements generic methods.
  */
 
-public abstract class Figure
-{
+public abstract class Figure {
     protected int column;
     protected int row;
     protected boolean isOnBoard;
     protected FigureColor figureColor;
     protected FigureType type;
 
-    public Figure(int row, int column, boolean isOnBoard, FigureColor figureColor, FigureType type)
-    {
+    public Figure(int row, int column, boolean isOnBoard, FigureColor figureColor, FigureType type) {
         this.row = row;
         this.column = column;
         this.isOnBoard = isOnBoard;
@@ -27,24 +25,20 @@ public abstract class Figure
         this.type = type;
     }
 
-    public Figure(Figure fig)
-    {
+    public Figure(Figure fig) {
         this.row = fig.row;
         this.column = fig.column;
         this.isOnBoard = fig.isOnBoard;
         this.figureColor = fig.figureColor;
         this.type = fig.type;
     }
-
     /**
      * Creates a copy of figure
      * @param fig coppied figure.
      */
-    public static Figure copyFigure(Figure fig)
-    {
+    public static Figure copyFigure(Figure fig) {
         if (fig == null) return null;
-        switch (fig.type)
-        {
+        switch (fig.type) {
             case King:
                 return new King((King) fig);
             case Pawn:
@@ -61,47 +55,41 @@ public abstract class Figure
                 return null;
         }
     }
-    public static Figure promotePawn(int row, int column, boolean isOnBoard, FigureColor figureColor, FigureType type)
-    {
-        switch(type)
-        {
-            case Pawn:
-                return new Pawn(row, column, isOnBoard, figureColor);
-            case Bishop:
-                return new Bishop(row, column, isOnBoard, figureColor);
+
+    public static Figure promotePawn(int row, int column, boolean isOnBoard, FigureColor figureColor, FigureType type) {
+        switch (type) {
             case Knight:
                 return new Knight(row, column, isOnBoard, figureColor);
+            case Bishop:
+                return new Bishop(row, column, isOnBoard, figureColor);
+            case Queen:
+                return new Queen(row, column, isOnBoard, figureColor);
             case Rook:
                 return new Rook(row, column, isOnBoard, figureColor);
             default:
                 return null;
         }
     }
-    public boolean isOnBoard()
-    {
+
+    public boolean isOnBoard() {
         return isOnBoard;
     }
 
-    public int getRow()
-    {
+    public int getRow() {
         return this.row;
     }
 
-    public int getColumn()
-    {
+    public int getColumn() {
         return this.column;
     }
 
-    public void setPosition(int row, int column)
-    {
+    public void setPosition(int row, int column) {
         this.row = row;
         this.column = column;
     }
 
-    public String toString()
-    {
-        switch (this.type)
-        {
+    public String toString() {
+        switch (this.type) {
             case King:
                 return "K";
             case Queen:
@@ -119,12 +107,9 @@ public abstract class Figure
         }
     }
 
-    public String toStringOld()
-    {
-        if (this.figureColor == FigureColor.White)
-        {
-            switch (this.type)
-            {
+    public String toStringOld() {
+        if (this.figureColor == FigureColor.White) {
+            switch (this.type) {
                 case King:
                     return "♔";
                 case Queen:
@@ -140,10 +125,8 @@ public abstract class Figure
                 default:
                     return "";
             }
-        } else
-        {
-            switch (this.type)
-            {
+        } else {
+            switch (this.type) {
                 case King:
                     return "♚";
                 case Queen:
@@ -162,13 +145,11 @@ public abstract class Figure
         }
     }
 
-    public FigureType getType()
-    {
+    public FigureType getType() {
         return this.type;
     }
 
-    public FigureColor getColor()
-    {
+    public FigureColor getColor() {
         return this.figureColor;
     }
 
@@ -177,7 +158,6 @@ public abstract class Figure
      * @param board game board.
      */
     public abstract ArrayList<Field> getPossibleMoveFields(ChessBoard board);
-
     /**
      * Checks if field is not ocuppied by enemy figure or player figure and adds the field to possibleArrayMoves
      * @param board game board.
@@ -185,18 +165,14 @@ public abstract class Figure
      * @param row row of checked field
      * @param column comlumn of checked field
      */
-    protected boolean checkMove(ChessBoard board, ArrayList<Field> possibleArrayMoves, int row, int column)
-    {
+    protected boolean checkMove(ChessBoard board, ArrayList<Field> possibleArrayMoves, int row, int column) {
         Field f = board.getField(row, column);
-        if (f != null)
-        {
-            if (f.isOccupiedWithEnemyFig(this))
-            {
+        if (f != null) {
+            if (f.isOccupiedWithEnemyFig(this)) {
                 possibleArrayMoves.add(f);
                 return true;
             }
-            if (f.isOccupied())
-            {
+            if (f.isOccupied()) {
                 return true;
             }
             possibleArrayMoves.add(f);

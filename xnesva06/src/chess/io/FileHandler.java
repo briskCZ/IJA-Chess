@@ -9,31 +9,25 @@ import java.io.*;
  * <p>Class responsible for loading and saving files.
  */
 
-public class FileHandler
-{
+public class FileHandler {
     /**
      * Loads file to loadedRecord
      * @param loadedRecord
      * @param file
      */
-    public boolean loadRecord(File file, Record loadedRecord)
-    {
-        try
-        {
+    public boolean loadRecord(File file, Record loadedRecord) {
+        try {
             BufferedReader br = new BufferedReader(new FileReader(file));
 
             String line;
             Parser parser = new Parser();
-            while ((line = br.readLine()) != null)
-            {
-                if (parser.parseLine(loadedRecord, line) == false)
-                {
+            while ((line = br.readLine()) != null) {
+                if (parser.parseLine(loadedRecord, line) == false) {
                     return false;
                 }
             }
-        } catch (IOException e)
-        {
-            System.out.println(e);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
             return false;
         }
         return true;
@@ -44,20 +38,16 @@ public class FileHandler
      * @param record
      * @param file
      */
-    public boolean saveRecord(Record record, File file)
-    {
-        try
-        {
+    public boolean saveRecord(Record record, File file) {
+        try {
             String[] recordSplit = record.toStringArray();
             FileWriter fileWriter = new FileWriter(file);
-            for (String s : recordSplit)
-            {
+            for (String s : recordSplit) {
                 fileWriter.write(s + "\n");
             }
             fileWriter.close();
-        } catch (IOException e)
-        {
-            System.out.println(e);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
             return false;
         }
         return true;

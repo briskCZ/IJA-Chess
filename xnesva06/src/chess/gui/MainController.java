@@ -19,8 +19,7 @@ import java.util.ArrayList;
  * <p> Controller for the main window, menu bar and tabs.
  */
 
-public class MainController
-{
+public class MainController {
 
     @FXML
     private TabPane tabPane;
@@ -32,64 +31,57 @@ public class MainController
 
     /**
      * Loads game from file when button is clicked.
-     *
      */
     @FXML
-    protected void loadGameClicked(ActionEvent event)
-    {
+    protected void loadGameClicked(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialDirectory(new File("xnesva06/data"));
+        fileChooser.setInitialDirectory(new File("."));
         File file = fileChooser.showOpenDialog(Main.stage);
         if (file == null) return;
         GameController gameController = newGameClicked(null);
         int gameId = Integer.parseInt(tabPane.getSelectionModel().getSelectedItem().getText().split("\\s+")[1]);
-        if (getGameById(gameId).loadGame(file) == false)
-        {
+        if (getGameById(gameId).loadGame(file) == false) {
             infoLabel.setText("File could not be loaded!");
-        } else
-        {
+        } else {
             System.out.println("File loaded successfully");
         }
         gameController.refreshRecord();
         clearInfo();
 
     }
+
     /**
      * Saves game to a file when button is clicked.
-     *
      */
     @FXML
-    protected void saveGameClicked(ActionEvent event)
-    {
-        if (tabPane != null && tabPane.getSelectionModel() != null && tabPane.getSelectionModel().getSelectedItem() != null)
-        {
+    protected void saveGameClicked(ActionEvent event) {
+        if (tabPane != null && tabPane.getSelectionModel() != null && tabPane.getSelectionModel().getSelectedItem() != null) {
             FileChooser fileChooser = new FileChooser();
+            fileChooser.setInitialDirectory(new File("."));
             File file = fileChooser.showSaveDialog(Main.stage);
             if (file == null) return;
             int gameId = Integer.parseInt(tabPane.getSelectionModel().getSelectedItem().getText().split("\\s+")[1]);
-            getGameById(gameId).saveGame(file);
+            if (!getGameById(gameId).saveGame(file))
+            {
+                infoLabel.setText("Save game error!");
+            }
             clearInfo();
-        } else
-        {
+        } else {
             infoLabel.setText("No game available!");
         }
     }
 
     /**
      * Creates new tab, with new game when button is clicked.
-     *
      */
     @FXML
-    protected GameController newGameClicked(ActionEvent event)
-    {
+    protected GameController newGameClicked(ActionEvent event) {
         Tab tab = new Tab();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("GameView.fxml"));
         Pane pane = null;
-        try
-        {
+        try {
             pane = loader.load();
-        } catch (IOException e)
-        {
+        } catch (IOException e) {
             infoLabel.setText("Cannot create new game!");
         }
 
@@ -101,8 +93,7 @@ public class MainController
         return loader.getController();
     }
 
-    private void clearInfo()
-    {
+    private void clearInfo() {
         infoLabel.setText("");
     }
 
@@ -113,8 +104,7 @@ public class MainController
      *
      * @return Created game
      */
-    public static Game createGame()
-    {
+    public static Game createGame() {
         Game newGame = new Game(gameNo);
         games.add(newGame);
         return newGame;
@@ -126,12 +116,9 @@ public class MainController
      * @param id id of the searched game
      * @return game
      */
-    public static Game getGameById(int id)
-    {
-        for (Game g : games)
-        {
-            if (g.getGameId() == id)
-            {
+    public static Game getGameById(int id) {
+        for (Game g : games) {
+            if (g.getGameId() == id) {
                 return g;
             }
         }

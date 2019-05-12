@@ -16,76 +16,61 @@ import java.util.regex.Pattern;
  * <p>Class responsible for parsing the loaded file and converting it to individual moves.
  */
 
-public class Parser
-{
+public class Parser {
     private int prevLineNum;
     private ChessBoard board;
 
-    public Parser()
-    {
+    public Parser() {
         this.prevLineNum = 0;
         this.board = new ChessBoard();
     }
-
     /**
      * Parses line and adds move to the loadedRecord
      * @param loadedRecord
      * @param line
      */
-    public boolean parseLine(Record loadedRecord, String line)
-    {
+    public boolean parseLine(Record loadedRecord, String line) {
         String[] split = line.split("\\s+");
-        if (split.length != 3)
-        {
+        if (split.length != 3) {
             System.out.println("Parsing error: white and black move expected");
             return false;
         }
-        if (!split[0].matches("\\d+\\."))
-        {
+        if (!split[0].matches("\\d+\\.")) {
             System.out.println("Parsing error: be number");
             return false;
-        } else
-        {
+        } else {
             int lineNum = Integer.parseInt(split[0].split("\\.")[0]);
-            if (prevLineNum + 1 != lineNum)
-            {
+            if (prevLineNum + 1 != lineNum) {
                 System.out.println("Parsing error: numbers in first column should be ordered");
                 return false;
             }
             prevLineNum = lineNum;
         }
         Move whiteMove = parseMove(split[1]);
-        if (whiteMove == null)
-        {
+        if (whiteMove == null) {
             return false;
-        } else
-        {
+        } else {
             loadedRecord.addMove(whiteMove);
         }
         Move blackMove = parseMove(split[2]);
-        if (blackMove == null)
-        {
+        if (blackMove == null) {
             return false;
-        } else
-        {
+        } else {
             loadedRecord.addMove(blackMove);
         }
         return true;
     }
 
-    private Move.Tag[] parseSpecialSymbols(String move)
-    {
+    private Move.Tag[] parseSpecialSymbols(String move) {
         // d x # +
         return null;
     }
 
-    private Move parseMove(String moveString)
-    {
+    private Move parseMove(String moveString) {
         Pattern moveRegex = Pattern.compile("^(?<fig>[KDVSJp])?(?<s1>[a-h])?(?<s2>[1-8])?(?<kick>x)?(?<d1>[a-h])(?<d2>[1-8])(?<prom>[DVSJ])?(?<pf>[+#])?$");
         Matcher matcher = moveRegex.matcher(moveString);
         ArrayList<String> matches = new ArrayList<>();
-        while (matcher.find())
-        {
+        while (matcher.find()) {
 //            System.out.println("Fig: " + matcher.group("fig"));
 //            System.out.println("S: Col: " + matcher.group("s1") + " Row: " + matcher.group("s2"));
 //            System.out.println("kick: " + matcher.group("kick"));
@@ -101,15 +86,12 @@ public class Parser
             boolean prom = matcher.group("prom") != null;
             FigureType promFigureType = parseCaptureFigure(matcher.group("prom"));
             //TAGS # + matcher.group("pf")
-            if (sourceColumn == null || sourceRow == null)
-            {
+            if (sourceColumn == null || sourceRow == null) {
                 // Short notation
                 System.out.println("Parsing short notation");
-            } else
-            {
+            } else {
                 // Long notation
-                if (sourceColumn == null || sourceRow == null || destColumn == null || destRow == null)
-                {
+                if (sourceColumn == null || sourceRow == null || destColumn == null || destRow == null) {
                     System.out.println("Parsing error: wrong move format");
                     return null;
                 }
@@ -120,42 +102,35 @@ public class Parser
                 Field sourceField = board.getField(sRow, sColumn);
                 Figure figureToMove = sourceField.getFigure();
                 Field destField = board.getField(dRow, dColumn);
-                if (figureToMove == null)
-                {
+                if (figureToMove == null) {
                     System.out.println("Parsing error: cannot move nonexisting figure");
                     return null;
-                } else
-                {
+                } else {
                     // Perform move and save it to record
                     ArrayList<Move.Tag> tags = new ArrayList<>();
                     ArrayList<Field> possibleFields = figureToMove.getPossibleMoveFields(board);
-                    if (!possibleFields.contains(destField))
-                    {
+                    if (!possibleFields.contains(destField)) {
                         System.out.println("Parsing error: cannot perform invalid move");
                         return null;
                     }
-                    if (kick)
-                    {
-                        if (!destField.isOccupiedWithEnemyFig(figureToMove))
-                        {
+                    if (kick) {
+                        if (!destField.isOccupiedWithEnemyFig(figureToMove)) {
                             System.out.println("Parsing error: cannot jump nonexisting figure");
                             return null;
-                        } else
-                        {
+                        } else {
                             tags.add(Move.Tag.Kick);
                         }
                     }
-                    if (prom)
-                    {
+                    if (prom) {
                         System.out.println("Promotion");
                         tags.add(Move.Tag.Promotion);
+
                         //TODO
-                    } else
-                    {
+                    } else {
                         Move move = new Move(sourceField, destField);
                         destField.setFigure(figureToMove);
                         sourceField.removeFigure();
-                        move.executeMove(sourceField, destField, tags.toArray(new Move.Tag[tags.size()]));
+                        move.executeMove(sourceField, destField, tags.toArray(new Move.Tag[0]));
                         return move;
                     }
 
@@ -167,14 +142,11 @@ public class Parser
         return null;
     }
 
-    private FigureType parseCaptureFigure(String fig)
-    {
-        if (fig == null)
-        {
+    private FigureType parseCaptureFigure(String fig) {
+        if (fig == null) {
             return FigureType.Pawn;
         }
-        switch (fig)
-        {
+        switch (fig) {
             case "K":
                 return FigureType.King;
             case "D":
@@ -192,13 +164,11 @@ public class Parser
         }
     }
 
-    private int stringColumnNotationToInt(String col)
-    {
+    private int stringColumnNotationToInt(String col) {
         return col.charAt(0) - 'a';
     }
 
-    private int stringRowNotationToInt(String row)
-    {
+    private int stringRowNotationToInt(String row) {
         return Integer.parseInt(row) - 1;
     }
 }

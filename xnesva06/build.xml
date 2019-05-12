@@ -2,9 +2,9 @@
 
     <target name="clean">
         <delete>
-            <fileset dir="build" />
-            <fileset dir="dest" />
-            <fileset dir="doc" />
+            <fileset dir="build"/>
+            <fileset dir="dest"/>
+            <fileset dir="doc"/>
         </delete>
     </target>
 
@@ -35,11 +35,12 @@
 
         <fx:jar destfile="dest/ija-app.jar">
             <fx:application name="IJA-Chess" mainClass="chess.gui.Main"/>
-            <fileset dir="." includes="lib/**" />
+            <fileset dir="." includes="lib/**"/>
             <fileset dir="build"/>
         </fx:jar>
 
-        <javadoc packagenames="chess" sourcepath="src/chess" destdir="doc" encoding="UTF-8" charset="UTF-8" docencoding="UTF-8">
+        <javadoc packagenames="chess" sourcepath="src/chess" destdir="doc" encoding="UTF-8" charset="UTF-8"
+                 docencoding="UTF-8">
             <fileset dir="src/chess">
                 <exclude name="**/*.fxml"/>
             </fileset>

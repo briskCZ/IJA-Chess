@@ -1,186 +1,206 @@
 package chess.game;
 
+import chess.gui.GameController;
+import javafx.application.Platform;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * @author Marek Nesvadba, Zdeněk Doležal (xnesva06, xdolez82)
- * <p>TODO;
+ * <p>Handles all of the replay features in screen;
  */
 
-public class ReplayHandler
-{
+public class ReplayHandler {
     private Record playerRecord;
     private Record loadedRecord;
     private Game game;
     private boolean playerMoved;
     private boolean wasUndo;
     private boolean returnedToLoaded;
-
-    public ReplayHandler(Record playerRecord, Record loadedRecord, Game game)
-    {
+    private boolean autoPlay;
+    TimerTask autoPlayerTask;
+    Timer autoPlayerTimer;
+    private int completeRecordSize;
+    public ReplayHandler(Record playerRecord, Record loadedRecord, Game game) {
         this.playerRecord = playerRecord;
         this.loadedRecord = loadedRecord;
         this.game = game;
         this.playerMoved = false;
         this.wasUndo = false;
         this.returnedToLoaded = true;
+        this.autoPlay = false;
+        this.completeRecordSize = 0;
     }
 
-    protected void undoPlayerMove()
-    {
-        Move move = playerRecord.getPrevMove();
-        if (move != null)
-        {
-            game.chessBoard.setField(move.sourceField);
-            game.chessBoard.setField(move.destField);
-            wasUndo = true;
-            game.changeTurn();
-        }
-        if (playerRecord.getIndex() == 0 && loadedRecord.getSize() > 0)
-        {
-            loadedRecord.resetMaxIndex();
-            returnedToLoaded = true;
+    protected void undoPlayerMove() {
+        if (!autoPlay) {
+            Move move = playerRecord.getPrevMove();
+            if (move != null) {
+                game.chessBoard.setField(move.sourceField);
+                game.chessBoard.setField(move.destField);
+                wasUndo = true;
+                game.setCheckmate(move.wasCheckMate());
+                game.setCheck(move.sourceField.getFigure().getColor(), move.wasCheck());
+                game.changeTurn();
+            }
+            if (playerRecord.getIndex() == 0 && loadedRecord.getSize() > 0) {
+                loadedRecord.resetMaxIndex();
+                returnedToLoaded = true;
+            }
         }
     }
 
-    protected void lockLoadedMovesIndex()
-    {
+    protected void lockLoadedMovesIndex() {
         returnedToLoaded = false;
         playerMoved = true;
         loadedRecord.setMaxIndex(loadedRecord.getIndex());
-        if (wasUndo)
-        {
+        if (wasUndo) {
             playerRecord.setMaxIndex(playerRecord.getIndex());
             wasUndo = false;
         }
     }
 
-    protected void redoPlayerMove()
-    {
-        Move move = playerRecord.getNextMove();
-        if (move != null)
-        {
-            if (wasUndo)
-            {
-                loadedRecord.setMaxIndex(loadedRecord.getIndex());
+    protected void redoPlayerMove() {
+        if (!autoPlay) {
+            Move move = playerRecord.getNextMove();
+            if (move != null) {
+                if (wasUndo) {
+                    loadedRecord.setMaxIndex(loadedRecord.getIndex());
+                }
+                game.chessBoard.setField(move.sourceFieldAfter);
+                game.chessBoard.setField(move.destFieldAfter);
+                wasUndo = false;
+                game.setCheckmate(move.wasCheckMate());
+                game.setCheck(move.sourceField.getFigure().getColor(), move.wasCheck());
+                game.changeTurn();
             }
-            game.chessBoard.setField(move.sourceFieldAfter);
-            game.chessBoard.setField(move.destFieldAfter);
-            wasUndo = false;
-            game.changeTurn();
         }
     }
 
-    public void playAutomatically(int delay)
-    {
-
-    }
-
-    public void stopAutomatically()
-    {
-
-    }
-
-    public boolean playNextHalfMove()
-    {
-        Move move = loadedRecord.getNextMove();
-        if (move != null)
+    public void playAutomatically(int delay, boolean forward, GameController gc) {
+        if (!autoPlay)
         {
+            autoPlay = true;
+            autoPlayerTimer = new Timer();
+            autoPlayerTask = new TimerTask() {
+                @Override
+                public void run() {
+                    Platform.runLater(()-> {;
+                        if (forward) {
+                            playNextHalfMove();
+                        }else {
+                            playPreviousHalfMove();
+                        }
+                        if (getCompleteRecordIndex() <= 0) {
+                            pauseAutomaticPlayer();
+                        }
+                        if (getCompleteRecordIndex() >= completeRecordSize) {
+                            playNextHalfMove();
+                            pauseAutomaticPlayer();
+                        }
+                        gc.refreshFields();
+                        gc.refreshRecord();
+                        });
+                }
+            };
+            autoPlayerTimer.schedule(autoPlayerTask, 0, delay);
+        }
+    }
+
+    public void pauseAutomaticPlayer() {
+        if (autoPlay)
+        {
+            autoPlayerTimer.cancel();
+            autoPlayerTask.cancel();
+            autoPlay = false;
+        }
+    }
+
+    public void playNextHalfMove() {
+        Move move = loadedRecord.getNextMove();
+        if (move != null) {
             game.chessBoard.setField(move.sourceFieldAfter);
             game.chessBoard.setField(move.destFieldAfter);
             playerRecord.resetMaxIndex();
             game.changeTurn();
+            game.setCheckmate(move.wasCheckMate());
             resetPlayerMoves();
-            return true;
-        } else if (playerMoved)
-        {
+        } else if (playerMoved) {
             move = playerRecord.getNextMove();
-            if (move != null)
-            {
+            if (move != null) {
                 game.chessBoard.setField(move.sourceFieldAfter);
                 game.chessBoard.setField(move.destFieldAfter);
                 game.changeTurn();
+                game.setCheckmate(move.wasCheckMate());
+                game.setCheck(move.sourceField.getFigure().getColor(), move.wasCheck());
                 resetPlayerMoves();
-                return true;
-            } else
-            {
-                return false;
             }
-        } else
-        {
-            return false;
         }
     }
 
-    public boolean playPreviousHalfMove()
-    {
+    public void playPreviousHalfMove() {
         Move move = playerRecord.getPrevMove();
-        if (move != null && playerMoved)
-        {
+        if (move != null && playerMoved) {
             game.chessBoard.setField(move.sourceField);
             game.chessBoard.setField(move.destField);
             playerRecord.resetMaxIndex();
             game.changeTurn();
+            game.setCheckmate(move.wasCheckMate());
             resetPlayerMoves();
-            return true;
-        } else
-        {
+        } else {
             move = loadedRecord.getPrevMove();
-            if (move != null)
-            {
+            if (move != null) {
                 game.chessBoard.setField(move.sourceField);
                 game.chessBoard.setField(move.destField);
                 game.changeTurn();
+                game.setCheckmate(move.wasCheckMate());
+                game.setCheck(move.sourceField.getFigure().getColor(), move.wasCheck());
                 resetPlayerMoves();
-                return true;
-            } else
-            {
-                return false;
             }
         }
     }
 
-    public void restartPlayer()
-    {
-
+    public void restartPlayer() {
+        if (autoPlay)
+        {
+            pauseAutomaticPlayer();
+        }
+        movePlayerTo(0);
     }
 
-    public void movePlayerTo(int index)
-    {
-        index++;
-        while(getCompleteRecordIndex() != index)
-        {
+    public void movePlayerTo(int index) {
+        while (getCompleteRecordIndex() != index) {
             int i = getCompleteRecordIndex();
-            if (i < index)
-            {
+            if (i < index) {
                 playNextHalfMove();
                 playNextHalfMove();
             }
-            if (i > index)
-            {
+            if (i > index) {
                 playPreviousHalfMove();
                 playPreviousHalfMove();
             }
         }
     }
 
-    public int getCompleteRecordIndex()
-    {
-        return (int)Math.ceil(((double)loadedRecord.getIndex() + playerRecord.getIndex()) / 2.0);
+    public int getCompleteRecordIndex() {
+        return (int) Math.ceil(((double) loadedRecord.getIndex() + playerRecord.getIndex()) / 2.0);
     }
 
-    public Record getCompleteRecord()
-    {
+    public Record getCompleteRecord() {
         Record validLoadedRecord = loadedRecord.getValidPart();
-        if (playerMoved && !returnedToLoaded)
-        {
+        if (playerMoved && !returnedToLoaded) {
             Record.append(validLoadedRecord, playerRecord);
         }
+        completeRecordSize = (int)Math.ceil(((double)validLoadedRecord.getSize()) / 2.0);
         return validLoadedRecord;
     }
-
-    private void resetPlayerMoves()
+    public boolean isAutoPlayOn()
     {
-        if (returnedToLoaded)
-        {
+        return autoPlay;
+    }
+    private void resetPlayerMoves() {
+        if (returnedToLoaded) {
             playerRecord.clear();
         }
     }

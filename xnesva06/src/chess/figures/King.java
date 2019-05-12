@@ -11,35 +11,29 @@ import java.util.HashSet;
  * <p> Class representing the king figure.
  */
 
-public class King extends Figure
-{
+public class King extends Figure {
 
-    public King(int row, int column, boolean isOnBoard, FigureColor figureColor)
-    {
+    public King(int row, int column, boolean isOnBoard, FigureColor figureColor) {
         super(row, column, isOnBoard, figureColor, FigureType.King);
     }
 
-    public King(King king)
-    {
+    public King(King king) {
         super(king);
     }
 
     @Override
-    public ArrayList<Field> getPossibleMoveFields(ChessBoard board)
-    {
+    public ArrayList<Field> getPossibleMoveFields(ChessBoard board) {
         ArrayList<Field> possibleMoveFields = getBasePossibleMoveFields(board);
 
         HashSet<Field> possibleMovesOfOthers = getPossibleMovesOfOthers(board);
-        for (Field other_field : possibleMovesOfOthers)
-        {
+        for (Field other_field : possibleMovesOfOthers) {
             possibleMoveFields.remove(other_field);
         }
 
         return possibleMoveFields;
     }
 
-    public ArrayList<Field> getBasePossibleMoveFields(ChessBoard board)
-    {
+    public ArrayList<Field> getBasePossibleMoveFields(ChessBoard board) {
         ArrayList<Field> possibleMoveFields = new ArrayList<>();
 
         checkMove(board, possibleMoveFields, row + 1, column);
@@ -54,20 +48,15 @@ public class King extends Figure
         return possibleMoveFields;
     }
 
-    private HashSet<Field> getPossibleMovesOfOthers(ChessBoard board)
-    {
-        HashSet<Field> possibleMovesOfOthers = new HashSet<Field>();
+    private HashSet<Field> getPossibleMovesOfOthers(ChessBoard board) {
+        HashSet<Field> possibleMovesOfOthers = new HashSet<>();
         Figure figure;
-        ArrayList<Field> possibleMoves = new ArrayList<Field>();
-        for (int x = 0; x < 8; x++)
-        {
-            for (int y = 0; y < 8; y++)
-            {
+        ArrayList<Field> possibleMoves = new ArrayList<>();
+        for (int x = 0; x < 8; x++) {
+            for (int y = 0; y < 8; y++) {
                 figure = board.getField(x, y).getFigure();
-                if (figure != null && figure.getColor() != this.figureColor)
-                {
-                    if (figure.getType() == FigureType.King)
-                    {
+                if (figure != null && figure.getColor() != this.figureColor) {
+                    if (figure.getType() == FigureType.King) {
                         King fig = (King) figure;
                         possibleMoves.addAll(fig.getBasePossibleMoveFields(board));
                         possibleMovesOfOthers.addAll(possibleMoves);

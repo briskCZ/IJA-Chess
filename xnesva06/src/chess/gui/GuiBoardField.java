@@ -2,10 +2,8 @@ package chess.gui;
 
 import chess.figures.Figure;
 import chess.figures.FigureColor;
-import chess.figures.FigureType;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -18,8 +16,7 @@ import java.io.IOException;
  * <p>Field of chess board used in GUI.
  */
 
-public class GuiBoardField extends Button
-{
+public class GuiBoardField extends Button {
 
     private int col;
     private int row;
@@ -28,7 +25,6 @@ public class GuiBoardField extends Button
 
     private Figure figure = null;
 
-    private ContextMenu contextMenu;
 
     private String base_style = "-fx-font-size: 50px; -fx-background-radius: 0; -fx-padding: 0;  ";
     private String current_style = "";
@@ -36,24 +32,20 @@ public class GuiBoardField extends Button
     private File image_file;
     private Image figure_image;
 
-    GuiBoardField(int col, int row)
-    {
+    GuiBoardField(int col, int row) {
         this.col = col;
         this.row = row;
         setBaseStyle();
     }
 
-    GuiBoardField(Figure figure, ContextMenu contextMenu)
-    {
+    GuiBoardField(Figure figure) {
         this.col = figure.getColumn();
         this.row = figure.getRow();
         this.figure = figure;
         this.setText(figure.toString());
 
-        if (this.figure.getColor() == FigureColor.White)
-        {
-            switch (this.figure.getType())
-            {
+        if (this.figure.getColor() == FigureColor.White) {
+            switch (this.figure.getType()) {
                 case Bishop:
                     image_file = new File("lib/bishop_w.png");
                     break;
@@ -73,10 +65,8 @@ public class GuiBoardField extends Button
                     image_file = new File("lib/tower_w.png");
                     break;
             }
-        } else
-        {
-            switch (this.figure.getType())
-            {
+        } else {
+            switch (this.figure.getType()) {
                 case Bishop:
                     image_file = new File("lib/bishop_b.png");
                     break;
@@ -98,11 +88,9 @@ public class GuiBoardField extends Button
             }
         }
 
-        try
-        {
+        try {
             figure_image = SwingFXUtils.toFXImage(ImageIO.read(image_file), null);
-        } catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -112,17 +100,14 @@ public class GuiBoardField extends Button
         imageView.setFitWidth(GameController.fieldSize - 10);
         this.setGraphic(imageView);
 
-        this.contextMenu = contextMenu;
         setBaseStyle();
     }
 
-    private void setBaseStyle()
-    {
+    private void setBaseStyle() {
 
         current_style = base_style;
 
-        if (((col % 2 == 1) && (row % 2 == 0)) || ((col % 2 == 0) && (row % 2 == 1)))
-        {
+        if (((col % 2 == 1) && (row % 2 == 0)) || ((col % 2 == 0) && (row % 2 == 1))) {
             current_style += "-fx-base:GRAY;";
         }
 
@@ -131,64 +116,48 @@ public class GuiBoardField extends Button
         updateProperties();
     }
 
-    private void updateProperties()
-    {
-        if (isEnabled)
-        {
+    private void updateProperties() {
+        if (isEnabled) {
             this.setStyle(current_style + "-fx-border-color: ORANGE;-fx-border-width:3;");
-        } else
-        {
+        } else {
             this.setStyle(base_style);
         }
 
         this.setMaxSize(GameController.fieldSize, GameController.fieldSize);
         this.setMinSize(GameController.fieldSize, GameController.fieldSize);
 
-        if (contextMenu != null && (this.row == 0 || this.row == 7) && this.figure.getType() == FigureType.Pawn)
-        {
-            this.setOnContextMenuRequested(event -> contextMenu.show(this, event.getScreenX(), event.getScreenY()));
-        }
     }
 
-    void setEnabled(boolean enabled)
-    {
+    void setEnabled(boolean enabled) {
         this.isEnabled = enabled;
         updateProperties();
     }
 
-    boolean getEnabled()
-    {
+    boolean getEnabled() {
         return this.isEnabled;
     }
 
-    public int getCol()
-    {
+    public int getCol() {
         return col;
     }
 
-    public int getRow()
-    {
+    public int getRow() {
         return row;
     }
 
-    public void setFigure(Figure figure)
-    {
+    public void setFigure(Figure figure) {
         this.figure = figure;
     }
 
-    public Figure getFigure()
-    {
+    public Figure getFigure() {
         return figure;
     }
 
     @Override
-    public String toString()
-    {
-        if (this.figure != null)
-        {
+    public String toString() {
+        if (this.figure != null) {
             return "Col: " + this.col + ",Row: " + this.row + " " + this.figure.toString();
-        } else
-        {
+        } else {
             return "Col: " + this.col + ",Row: " + this.row;
         }
 

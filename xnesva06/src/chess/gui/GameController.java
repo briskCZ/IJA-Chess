@@ -14,37 +14,39 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * @author Marek Nesvadba, Zdeněk Doležal (xnesva06, xdolez82)
  * <p>Controller for each individual game.
  */
 
-public class GameController implements Initializable
-{
+public class GameController implements Initializable {
 
-    @FXML private ListView<String> listView;
+    @FXML
+    private ListView<String> listView;
 
-    @FXML private GridPane chessBoardGridPane;
+    @FXML
+    private GridPane chessBoardGridPane;
 
-    @FXML private TextField intervalTextField;
+    @FXML
+    private TextField intervalTextField;
 
-    @FXML private Label statusLabel;
+    @FXML
+    private Label statusLabel;
 
     private Game game;
     private Figure selectedFigure = null;
+    private Figure lastSelectedFigure = null;
     private Field fieldClicked = null;
+    private javafx.scene.input.MouseEvent boardFieldClicked = null;
 
     private ContextMenu contextMenu;
     private ReplayHandler replayHandler;
     final static int fieldSize = 88;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources)
-    {
+    public void initialize(URL location, ResourceBundle resources) {
         contextMenu = new ContextMenu();
 
         MenuItem queenMenuItem = new MenuItem("Queen");
@@ -52,13 +54,13 @@ public class GameController implements Initializable
         MenuItem rookMenuItem = new MenuItem("Rook");
         MenuItem bishopMenuItem = new MenuItem("Bishop");
 
-        queenMenuItem.setOnAction(event -> game.move(selectedFigure, fieldClicked, FigureType.Queen));
-        knightMenuItem.setOnAction(event -> game.move(selectedFigure, fieldClicked, FigureType.Knight));
-        rookMenuItem.setOnAction(event -> game.move(selectedFigure, fieldClicked, FigureType.Rook));
-        bishopMenuItem.setOnAction(event -> game.move(selectedFigure, fieldClicked, FigureType.Bishop));
+        queenMenuItem.setOnAction(event -> promote(FigureType.Queen));
+        knightMenuItem.setOnAction(event -> promote(FigureType.Knight));
+        rookMenuItem.setOnAction(event -> promote(FigureType.Rook));
+        bishopMenuItem.setOnAction(event -> promote(FigureType.Bishop));
 
         contextMenu.getItems().addAll(queenMenuItem, knightMenuItem, rookMenuItem, bishopMenuItem);
-        contextMenu.setStyle("-fx-scale-x: 0.4;-fx-scale-y: 0.4;-fx-translate-x: -100;-fx-translate-y: -100");
+        contextMenu.setStyle("-fx-background-color: white; -fx-text-fill: black;");
 
 
         listView.setOnMouseClicked(event -> listClicked(listView.getSelectionModel().getSelectedIndex()));
@@ -69,33 +71,31 @@ public class GameController implements Initializable
         replayHandler = game.getReplayHandler();
     }
 
-    private void setupFields()
-    {
-        for (int x = 0; x < 8; x++)
-        {
-            for (int y = 0; y < 8; y++)
-            {
+    private void setupFields() {
+        for (int x = 0; x < 8; x++) {
+            for (int y = 0; y < 8; y++) {
 
 
                 GuiBoardField field;
 
                 Field boardfield = game.getBoardField(y, x);
 
-                if (boardfield.isOccupied())
-                {
-                    field = new GuiBoardField(boardfield.getFigure(), contextMenu);
-                } else
-                {
+                if (boardfield.isOccupied()) {
+                    field = new GuiBoardField(boardfield.getFigure());
+                } else {
                     field = new GuiBoardField(x, y);
                 }
 
-                field.setOnAction(event -> fieldClicked(field));
+                field.setOnMouseClicked(event ->
+                {
+                    boardFieldClicked = event;
+                    fieldClicked(field);
+                });
                 chessBoardGridPane.add(field, x, 7 - y);
             }
         }
 
-        for (int a = 0; a < 8; a++)
-        {
+        for (int a = 0; a < 8; a++) {
             Label labelNumber = new Label();
 
             Label labelLetter = new Label();
@@ -120,8 +120,7 @@ public class GameController implements Initializable
     }
 
 
-    private void refreshFields()
-    {
+    public void refreshFields() {
         chessBoardGridPane.getChildren().clear();
         setupFields();
     }
@@ -129,54 +128,42 @@ public class GameController implements Initializable
     /**
      * Reloads record in the listView.
      */
-    protected void refreshRecord()
-    {
+    public void refreshRecord() {
         listView.getItems().setAll(replayHandler.getCompleteRecord().toStringArray());
         setListViewIndex();
     }
 
-    private void setAllFieldsDisabled()
-    {
+    private void setAllFieldsDisabled() {
         List<Node> list = chessBoardGridPane.getChildren();
 
-        for (Node node : list)
-        {
-            if (node instanceof GuiBoardField)
-            {
+        for (Node node : list) {
+            if (node instanceof GuiBoardField) {
                 GuiBoardField field = (GuiBoardField) node;
                 field.setEnabled(false);
             }
         }
     }
 
-    private void setFieldEnabled(int col, int row)
-    {
+    private void setFieldEnabled(int col, int row) {
         List<Node> list = chessBoardGridPane.getChildren();
 
-        for (Node node : list)
-        {
-            if (node instanceof GuiBoardField)
-            {
+        for (Node node : list) {
+            if (node instanceof GuiBoardField) {
                 GuiBoardField field = (GuiBoardField) node;
-                if ((field.getCol() == col) && (field.getRow() == row))
-                {
+                if ((field.getCol() == col) && (field.getRow() == row)) {
                     field.setEnabled(true);
                 }
             }
         }
     }
 
-    private boolean isFieldEnabled(int col, int row)
-    {
+    private boolean isFieldEnabled(int col, int row) {
         List<Node> list = chessBoardGridPane.getChildren();
 
-        for (Node node : list)
-        {
-            if (node instanceof GuiBoardField)
-            {
+        for (Node node : list) {
+            if (node instanceof GuiBoardField) {
                 GuiBoardField field = (GuiBoardField) node;
-                if ((field.getCol() == col) && (field.getRow() == row))
-                {
+                if ((field.getCol() == col) && (field.getRow() == row)) {
                     return field.getEnabled();
                 }
             }
@@ -184,27 +171,32 @@ public class GameController implements Initializable
         return false;
     }
 
-    private void moveFigure(Figure figure, Field field)
-    {
-        if (isFieldEnabled(field.getColumn(), field.getRow()))
-        {
-            game.move(figure, field, null);
+    private void promote(FigureType figureType) {
+        game.move(lastSelectedFigure, fieldClicked, figureType);
+        refreshFields();
+        refreshRecord();
+    }
 
-            if (game.wasBlackCheck && game.getCheck(FigureColor.Black))
-            {
+    private void moveFigure(Figure figure, Field field, GuiBoardField fieldClicked) {
+        if (isFieldEnabled(field.getColumn(), field.getRow())) {
+            if (figure.getType() == FigureType.Pawn && (field.getRow() == 0 || field.getRow() == 7)) {
+                if (boardFieldClicked != null) {
+                    contextMenu.show(fieldClicked.getParent(), boardFieldClicked.getScreenX(), boardFieldClicked.getScreenY());
+                }
+            } else {
+                game.move(figure, field, null);
+            }
+
+            if (game.wasBlackCheck && game.getCheck(FigureColor.Black)) {
                 statusLabel.setText("Checkmate!");
                 game.setCheckmate(true);
-            } else if (game.wasWhiteCheck && game.getCheck(FigureColor.White))
-            {
+            } else if (game.wasWhiteCheck && game.getCheck(FigureColor.White)) {
                 statusLabel.setText("Checkmate!");
                 game.setCheckmate(true);
-            } else
-            {
-                if (game.getCheck(FigureColor.Black) || game.getCheck(FigureColor.White))
-                {
+            } else {
+                if (game.getCheck(FigureColor.Black) || game.getCheck(FigureColor.White)) {
                     statusLabel.setText("Check!");
-                } else
-                {
+                } else {
                     statusLabel.setText("");
                 }
             }
@@ -212,29 +204,25 @@ public class GameController implements Initializable
         refreshRecord();
     }
 
-    private void fieldClicked(GuiBoardField field)
-    {
+    private void fieldClicked(GuiBoardField field) {
         fieldClicked = game.getBoardField(field.getRow(), field.getCol());
         Figure figure = field.getFigure();
-        if (!game.getCheckmate())
-        {
-            if (selectedFigure == null)
-            {
-                if (figure != null)
-                {
+        contextMenu.hide();
+        if (!game.getCheckmate()) {
+            if (selectedFigure == null) {
+                if (figure != null) {
                     selectedFigure = figure;
                     if (!game.isOnTurn(selectedFigure.getColor())) return;
                     ArrayList<Field> possibleMoves = game.getPossibleMoves(figure);
                     System.out.println(possibleMoves);
-                    for (Field possible_field : possibleMoves)
-                    {
+                    for (Field possible_field : possibleMoves) {
                         setFieldEnabled(possible_field.getColumn(), possible_field.getRow());
                     }
                 }
-            } else
-            {
-                moveFigure(selectedFigure, game.getBoardField(field.getRow(), field.getCol()));
+            } else {
+                moveFigure(selectedFigure, game.getBoardField(field.getRow(), field.getCol()), field);
                 refreshFields();
+                lastSelectedFigure = Figure.copyFigure(selectedFigure);
                 selectedFigure = null;
                 setAllFieldsDisabled();
             }
@@ -242,17 +230,15 @@ public class GameController implements Initializable
 
     }
 
-    private void listClicked(int index)
-    {
-        System.out.println("Clicked" + index);
-        replayHandler.movePlayerTo(index);
+    private void listClicked(int index) {
+        replayHandler.movePlayerTo(++index);
         refreshFields();
         refreshRecord();
     }
 
     @FXML
-    private void redoClicked()
-    {
+    private void redoClicked() {
+        if (replayHandler.isAutoPlayOn()) return;
         game.redoMove();
         refreshRecord();
         refreshFields();
@@ -260,8 +246,8 @@ public class GameController implements Initializable
     }
 
     @FXML
-    private void undoClicked()
-    {
+    private void undoClicked() {
+        if (replayHandler.isAutoPlayOn()) return;
         game.undoMove();
         refreshFields();
         refreshRecord();
@@ -269,8 +255,8 @@ public class GameController implements Initializable
     }
 
     @FXML
-    private void prevMoveClicked()
-    {
+    private void prevMoveClicked() {
+        if (replayHandler.isAutoPlayOn()) return;
         replayHandler.playPreviousHalfMove();
         setListViewIndex();
         refreshFields();
@@ -280,55 +266,62 @@ public class GameController implements Initializable
     @FXML
     private void nextMoveClicked()
     {
+        if (replayHandler.isAutoPlayOn()) return;
         replayHandler.playNextHalfMove();
         setListViewIndex();
         refreshFields();
     }
 
-    private void setListViewIndex()
-    {
-        // TODO fix uz neni ve funkci predtim
-        listView.getSelectionModel().select(replayHandler.getCompleteRecordIndex()-1);
+    private void setListViewIndex() {
+        listView.getSelectionModel().select(replayHandler.getCompleteRecordIndex() - 1);
     }
 
     @FXML
-    private void startAutoRunClicked()
-    {
-        try
-        {
-            replayHandler.playAutomatically(Integer.parseInt(intervalTextField.getText()));
-        } catch (Exception e)
-        {
+    private void startAutoRunClicked() {
+        if (replayHandler.isAutoPlayOn()) return;
+        try {
+            int delay = getValidDelay();
+            if (delay == -1) return;
+            replayHandler.playAutomatically(delay, true, this);
+        } catch (Exception e) {
             intervalTextField.setText("0");
         }
 
     }
 
     @FXML
-    private void startAutoRunBackClicked()
-    {
-        try
-        {
-            replayHandler.playAutomatically(Integer.parseInt(intervalTextField.getText()));
-        } catch (Exception e)
-        {
+    private void startAutoRunBackClicked() {
+        if (replayHandler.isAutoPlayOn()) return;
+        try {
+            int delay = getValidDelay();
+            if (delay == -1) return;
+            replayHandler.playAutomatically(delay, false, this);
+        } catch (Exception e) {
             intervalTextField.setText("0");
         }
     }
 
-    @FXML
-    private void pauseAutoRunClicked()
-    {
-
-        //TODO
-        replayHandler.stopAutomatically();
+    private int getValidDelay() {
+        int delay = Integer.parseInt(intervalTextField.getText());
+        if (delay < 100 || delay > 5000){
+            statusLabel.setText("Timer should be > 100 ms and < 5000 ms");
+            return -1;
+        }else{
+            statusLabel.setText("");
+            return delay;
+        }
     }
 
     @FXML
-    private void stopAutoRunClicked()
-    {
-
-        replayHandler.stopAutomatically();
+    private void pauseAutoRunClicked() {
+        replayHandler.pauseAutomaticPlayer();
     }
 
+    @FXML
+    private void stopAutoRunClicked() {
+        replayHandler.restartPlayer();
+        refreshRecord();
+        refreshFields();
+        // TODO stop autoplay
+    }
 }

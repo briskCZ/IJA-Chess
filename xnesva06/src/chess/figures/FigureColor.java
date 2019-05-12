@@ -5,8 +5,7 @@ package chess.figures;
  * <p>Enum of possible figure colors.
  */
 
-public enum FigureColor
-{
+public enum FigureColor {
     White,
     Black
 }
