@@ -26,17 +26,13 @@ import java.util.ResourceBundle;
 public class GameController implements Initializable
 {
 
-    @FXML
-    private ListView<String> listView;
+    @FXML private ListView<String> listView;
 
-    @FXML
-    private GridPane chessBoardGridPane;
+    @FXML private GridPane chessBoardGridPane;
 
-    @FXML
-    private TextField intervalTextField;
+    @FXML private TextField intervalTextField;
 
-    @FXML
-    private Label statusLabel;
+    @FXML private Label statusLabel;
 
     private Game game;
     private Figure selectedFigure = null;
@@ -68,12 +64,12 @@ public class GameController implements Initializable
         listView.setOnMouseClicked(event -> listClicked(listView.getSelectionModel().getSelectedIndex()));
 
         game = MainController.createGame();
-        setupFigures();
+        setupFields();
 
         replayHandler = game.getReplayHandler();
     }
 
-    private void setupFigures()
+    private void setupFields()
     {
         for (int x = 0; x < 8; x++)
         {
@@ -123,12 +119,16 @@ public class GameController implements Initializable
 
     }
 
-    private void refreshFigures()
+
+    private void refreshFields()
     {
         chessBoardGridPane.getChildren().clear();
-        setupFigures();
+        setupFields();
     }
 
+    /**
+     * Reloads record in the listView.
+     */
     protected void refreshRecord()
     {
         listView.getItems().setAll(replayHandler.getCompleteRecord().toStringArray());
@@ -234,7 +234,7 @@ public class GameController implements Initializable
             } else
             {
                 moveFigure(selectedFigure, game.getBoardField(field.getRow(), field.getCol()));
-                refreshFigures();
+                refreshFields();
                 selectedFigure = null;
                 setAllFieldsDisabled();
             }
@@ -246,7 +246,7 @@ public class GameController implements Initializable
     {
         System.out.println("Clicked" + index);
         replayHandler.movePlayerTo(index);
-        refreshFigures();
+        refreshFields();
         refreshRecord();
     }
 
@@ -255,7 +255,7 @@ public class GameController implements Initializable
     {
         game.redoMove();
         refreshRecord();
-        refreshFigures();
+        refreshFields();
         setListViewIndex();
     }
 
@@ -263,7 +263,7 @@ public class GameController implements Initializable
     private void undoClicked()
     {
         game.undoMove();
-        refreshFigures();
+        refreshFields();
         refreshRecord();
         setListViewIndex();
     }
@@ -273,7 +273,7 @@ public class GameController implements Initializable
     {
         replayHandler.playPreviousHalfMove();
         setListViewIndex();
-        refreshFigures();
+        refreshFields();
 
     }
 
@@ -282,7 +282,7 @@ public class GameController implements Initializable
     {
         replayHandler.playNextHalfMove();
         setListViewIndex();
-        refreshFigures();
+        refreshFields();
     }
 
     private void setListViewIndex()
