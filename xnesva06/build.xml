@@ -1,0 +1,55 @@
+<project name="IJA-Chess" default="compile" basedir="." xmlns:fx="javafx:com.sun.javafx.tools.ant">
+
+    <target name="clean">
+        <delete>
+            <fileset dir="build" includes="**"/>
+            <fileset dir="dest" />
+            <fileset dir="doc" />
+        </delete>
+    </target>
+
+    <target name="setup">
+        <path id="fxant">
+            <filelist>
+                <file name="${java.home}\..\lib\ant-javafx.jar"/>
+                <file name="${java.home}\lib\jfxrt.jar"/>
+            </filelist>
+        </path>
+
+        <taskdef resource="com/sun/javafx/tools/ant/antlib.xml"
+                 uri="javafx:com.sun.javafx.tools.ant"
+                 classpathref="fxant"/>
+    </target>
+
+
+
+    <target name="compile" depends="clean, setup">
+        <mkdir dir="build"/>
+        <mkdir dir="doc"/>
+
+        <javac includeantruntime="false" srcdir="src" destdir="build"/>
+
+        <copy todir="build">
+            <fileset dir="src">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+
+        <fx:jar destfile="dest/ija-app.jar">
+            <fx:application name="IJA-Chess" mainClass="chess.gui.Main"/>
+            <fileset dir="." includes="lib/**" />
+            <fileset dir="build"/>
+        </fx:jar>
+
+        <javadoc packagenames="chess" sourcepath="src/chess" destdir="doc">
+            <fileset dir="src/chess">
+                <include name="**" />
+            </fileset>
+        </javadoc>
+    </target>
+
+    <target name="run" depends="compile">
+        <java jar="dest/ija-app.jar" fork="true"/>
+    </target>
+
+</project>
