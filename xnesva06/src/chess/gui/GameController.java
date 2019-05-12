@@ -282,7 +282,8 @@ public class GameController implements Initializable
 
     private void setListViewIndex()
     {
-        listView.getSelectionModel().select(replayHandler.getCompleteRecordIndex());
+        // TODO fix uz neni ve funkci predtim
+        listView.getSelectionModel().select(replayHandler.getCompleteRecordIndex()-1);
     }
 
     @FXML

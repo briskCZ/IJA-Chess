@@ -140,6 +140,7 @@ public class ReplayHandler
 
     public void movePlayerTo(int index)
     {
+        index++;
         while(getCompleteRecordIndex() != index)
         {
             int i = getCompleteRecordIndex();
@@ -158,13 +159,7 @@ public class ReplayHandler
 
     public int getCompleteRecordIndex()
     {
-        int index = (loadedRecord.getIndex() + playerRecord.getIndex()) / 2 - 1;
-        int size = (loadedRecord.getSize() + playerRecord.getSize());
-        if (size % 2 == 1)
-        {
-            index++;
-        }
-        return index + 1;
+        return (int)Math.ceil(((double)loadedRecord.getIndex() + playerRecord.getIndex()) / 2.0);
     }
 
     public Record getCompleteRecord()
