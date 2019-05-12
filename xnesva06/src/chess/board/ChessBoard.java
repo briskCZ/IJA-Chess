@@ -1,6 +1,9 @@
 package chess.board;
 
 import chess.figures.*;
+import com.sun.javafx.font.freetype.FTFactory;
+
+import java.util.ArrayList;
 
 /**
  * @author Marek Nesvadba, Zdeněk Doležal (xnesva06, xdolez82)
@@ -28,7 +31,39 @@ public class ChessBoard {
     public void setField(Field field) {
         board[field.getRow()][field.getColumn()] = field;
     }
+    public ArrayList<Figure> getAllFiguresOfType(FigureType type){
+        ArrayList<Figure> figures = new ArrayList<>();
+        for (int i = 0; i < CHESS_BOARD_SIZE; i++){
+            for (int j = 0; j < CHESS_BOARD_SIZE; j++){
+                Figure fig = board[i][j].getFigure();
+                if (fig != null && fig.getType() == type) {
+                    figures.add(fig);
+                }
+            }
+        }
+        return figures;
+    }
+    public Field getFieldWithFigFromRow(int row, FigureType type)
+    {
+        for (int i = 0; i < CHESS_BOARD_SIZE; i++) {
+            Figure fig = board[row][i].getFigure();
+            if (fig != null && fig.getType() == type) {
+                return board[row][i];
+            }
+        }
+        return null;
+    }
 
+    public Field getFieldWithFigFromCol(int col, FigureType type)
+    {
+        for (int i = 0; i < CHESS_BOARD_SIZE; i++) {
+            Figure fig = board[i][col].getFigure();
+            if (fig != null && fig.getType() == type){
+                return board[i][col];
+            }
+        }
+        return null;
+    }
     private void createBoard() {
         for (int i = 0; i < CHESS_BOARD_SIZE; i++) {
             for (int j = 0; j < CHESS_BOARD_SIZE; j++) {

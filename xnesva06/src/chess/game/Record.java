@@ -51,7 +51,7 @@ public class Record {
         Record record = new Record();
         for (int i = 0; i < getSize(); i++) {
             if (maxIndex != -1 && maxIndex == i) break;
-            record.addMove(moves.get(i));
+            record.addMove(new Move(moves.get(i)));
         }
         return record;
     }

@@ -26,7 +26,13 @@ public class Move {
         this.sourceField = new Field(sourceField);
         this.destField = new Field(destField);
     }
-
+    public Move(Move m) {
+        this.sourceField = new Field(m.sourceField);
+        this.destField = new Field(m.destField);
+        this.sourceFieldAfter = new Field(m.sourceFieldAfter);
+        this.destFieldAfter = new Field(m.destFieldAfter);
+        this.tags = m.tags.clone();
+    }
     public void executeMove(Field sourceFieldAfter, Field destFieldAfter, Tag[] tags) {
         this.sourceFieldAfter = new Field(sourceFieldAfter);
         this.destFieldAfter = new Field(destFieldAfter);
@@ -43,7 +49,7 @@ public class Move {
                 specialTags.append(specialTagsToString(tag));
             }
         }
-        return sourceField.getFigure().toString() + sourceField.toString() + kick + destField.toString() + specialTags;
+        return ((sourceField != null) ? sourceField.getFigure().toString() + sourceField.toString() : "") + kick + destField.toString() + specialTags;
     }
 
     private String specialTagsToString(Tag tag) {

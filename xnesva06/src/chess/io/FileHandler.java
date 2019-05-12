@@ -18,11 +18,13 @@ public class FileHandler {
             Parser parser = new Parser();
             while ((line = br.readLine()) != null) {
                 if (parser.parseLine(loadedRecord, line) == false) {
+                    loadedRecord.clear();
                     return false;
                 }
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
+            loadedRecord.clear();
             return false;
         }
         return true;

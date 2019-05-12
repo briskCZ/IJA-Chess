@@ -65,14 +65,17 @@ public class ReplayHandler {
         if (!autoPlay) {
             Move move = playerRecord.getNextMove();
             if (move != null) {
-                if (wasUndo) {
+                if (wasUndo)
+                {
                     loadedRecord.setMaxIndex(loadedRecord.getIndex());
+                    playerRecord.resetMaxIndex();
                 }
                 game.chessBoard.setField(move.sourceFieldAfter);
                 game.chessBoard.setField(move.destFieldAfter);
                 wasUndo = false;
+                returnedToLoaded = false;
                 game.setCheckmate(move.wasCheckMate());
-                game.setCheck(move.sourceField.getFigure().getColor(), move.wasCheck());
+                game.setCheck(move.destFieldAfter.getFigure().getColor(), move.wasCheck());
                 game.changeTurn();
             }
         }
@@ -95,7 +98,7 @@ public class ReplayHandler {
                         if (getCompleteRecordIndex() <= 0) {
                             pauseAutomaticPlayer();
                         }
-                        if (getCompleteRecordIndex() >= completeRecordSize) {
+                        if (forward && getCompleteRecordIndex() >= completeRecordSize) {
                             playNextHalfMove();
                             pauseAutomaticPlayer();
                         }
@@ -119,24 +122,23 @@ public class ReplayHandler {
 
     public void playNextHalfMove() {
         Move move = loadedRecord.getNextMove();
-        if (move != null) {
+        if (move != null){
             game.chessBoard.setField(move.sourceFieldAfter);
             game.chessBoard.setField(move.destFieldAfter);
             playerRecord.resetMaxIndex();
             game.changeTurn();
             game.setCheckmate(move.wasCheckMate());
-            resetPlayerMoves();
-        } else if (playerMoved) {
+        } else {
             move = playerRecord.getNextMove();
             if (move != null) {
                 game.chessBoard.setField(move.sourceFieldAfter);
                 game.chessBoard.setField(move.destFieldAfter);
                 game.changeTurn();
                 game.setCheckmate(move.wasCheckMate());
-                game.setCheck(move.sourceField.getFigure().getColor(), move.wasCheck());
-                resetPlayerMoves();
+                game.setCheck(move.destFieldAfter.getFigure().getColor(), move.wasCheck());
             }
         }
+        resetPlayerMoves();
     }
 
     public void playPreviousHalfMove() {

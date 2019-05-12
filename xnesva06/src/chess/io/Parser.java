@@ -57,9 +57,17 @@ public class Parser {
         return true;
     }
 
-    private Move.Tag[] parseSpecialSymbols(String move) {
-        // d x # +
-        return null;
+    private Move.Tag parseSpecialSymbols(String tag) {
+        if (tag == null) return null;
+        switch(tag)
+        {
+            case "+":
+                return Move.Tag.Check;
+            case "#":
+                return Move.Tag.CheckMate;
+            default:
+                    return null;
+        }
     }
 
     private Move parseMove(String moveString) {
@@ -67,24 +75,23 @@ public class Parser {
         Matcher matcher = moveRegex.matcher(moveString);
         ArrayList<String> matches = new ArrayList<>();
         while (matcher.find()) {
-//            System.out.println("Fig: " + matcher.group("fig"));
-//            System.out.println("S: Col: " + matcher.group("s1") + " Row: " + matcher.group("s2"));
-//            System.out.println("kick: " + matcher.group("kick"));
-//            System.out.println("D: Col: " + matcher.group("d1") + " Row: " + matcher.group("d2"));
-//            System.out.println("Prom: " + matcher.group("prom") + " Tags: " + matcher.group("pf"));
-
-            FigureType figureType = parseCaptureFigure(matcher.group("fig"));
+            FigureType figureType = parseFigureName(matcher.group("fig"));
             String sourceColumn = matcher.group("s1");
             String sourceRow = matcher.group("s2");
             boolean kick = matcher.group("kick") != null;
             String destColumn = matcher.group("d1");
             String destRow = matcher.group("d2");
             boolean prom = matcher.group("prom") != null;
-            FigureType promFigureType = parseCaptureFigure(matcher.group("prom"));
-            //TAGS # + matcher.group("pf")
+            FigureType promFigureType = parseFigureName(matcher.group("prom"));
+            String pf = matcher.group("pf");
+            Field sourceField;
+            Field destField;
+            Figure figureToMove;
             if (sourceColumn == null || sourceRow == null) {
                 // Short notation
-                System.out.println("Parsing short notation");
+                sourceField = null;
+                destField = null;
+                figureToMove = null;
             } else {
                 // Long notation
                 if (sourceColumn == null || sourceRow == null || destColumn == null || destRow == null) {
@@ -95,41 +102,52 @@ public class Parser {
                 int sRow = stringRowNotationToInt(sourceRow);
                 int dColumn = stringColumnNotationToInt(destColumn);
                 int dRow = stringRowNotationToInt(destRow);
-                Field sourceField = board.getField(sRow, sColumn);
-                Figure figureToMove = sourceField.getFigure();
-                Field destField = board.getField(dRow, dColumn);
-                if (figureToMove == null) {
-                    System.out.println("Parsing error: cannot move nonexisting figure");
+                sourceField = board.getField(sRow, sColumn);
+                figureToMove = sourceField.getFigure();
+                destField = board.getField(dRow, dColumn);
+            }
+            if (figureToMove == null) {
+                System.out.println("Parsing error: cannot move nonexisting figure");
+                return null;
+            } else {
+                // Perform move and save it to record
+                ArrayList<Move.Tag> tags = new ArrayList<>();
+                ArrayList<Field> possibleFields = figureToMove.getPossibleMoveFields(board);
+                if (!possibleFields.contains(destField)) {
+                    System.out.println("Parsing error: cannot perform invalid move");
                     return null;
-                } else {
-                    // Perform move and save it to record
-                    ArrayList<Move.Tag> tags = new ArrayList<>();
-                    ArrayList<Field> possibleFields = figureToMove.getPossibleMoveFields(board);
-                    if (!possibleFields.contains(destField)) {
-                        System.out.println("Parsing error: cannot perform invalid move");
+                }
+                if (parseSpecialSymbols(pf) == Move.Tag.CheckMate)
+                {
+                    tags.add(Move.Tag.CheckMate);
+                }
+                if (parseSpecialSymbols(pf) == Move.Tag.Check)
+                {
+                    tags.add(Move.Tag.Check);
+                }
+                if (kick) {
+                    if (!destField.isOccupiedWithEnemyFig(figureToMove)) {
+                        System.out.println("Parsing error: cannot jump nonexisting figure");
                         return null;
-                    }
-                    if (kick) {
-                        if (!destField.isOccupiedWithEnemyFig(figureToMove)) {
-                            System.out.println("Parsing error: cannot jump nonexisting figure");
-                            return null;
-                        } else {
-                            tags.add(Move.Tag.Kick);
-                        }
-                    }
-                    if (prom) {
-                        System.out.println("Promotion");
-                        tags.add(Move.Tag.Promotion);
-
-                        //TODO
                     } else {
-                        Move move = new Move(sourceField, destField);
-                        destField.setFigure(figureToMove);
-                        sourceField.removeFigure();
-                        move.executeMove(sourceField, destField, tags.toArray(new Move.Tag[0]));
-                        return move;
+                        tags.add(Move.Tag.Kick);
                     }
+                }
+                if (prom) {
+                    System.out.println("Promotion");
+                    tags.add(Move.Tag.Promotion);
+                    Move move = new Move(sourceField, destField);
+                    destField.setFigure(Figure.promotePawn(destField.getRow(), destField.getColumn(), true, sourceField.getFigure().getColor(), promFigureType));
+                    sourceField.removeFigure();
+                    move.executeMove(sourceField, destField, tags.toArray(new Move.Tag[0]));
+                    return move;
 
+                } else {
+                    Move move = new Move(sourceField, destField);
+                    destField.setFigure(figureToMove);
+                    sourceField.removeFigure();
+                    move.executeMove(sourceField, destField, tags.toArray(new Move.Tag[0]));
+                    return move;
                 }
 
             }
@@ -138,7 +156,7 @@ public class Parser {
         return null;
     }
 
-    private FigureType parseCaptureFigure(String fig) {
+    private FigureType parseFigureName(String fig) {
         if (fig == null) {
             return FigureType.Pawn;
         }

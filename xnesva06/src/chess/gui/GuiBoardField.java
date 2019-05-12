@@ -43,47 +43,47 @@ public class GuiBoardField extends Button {
         this.row = figure.getRow();
         this.figure = figure;
         this.setText(figure.toString());
-
+        String path = "xnesva06/lib/";
         if (this.figure.getColor() == FigureColor.White) {
             switch (this.figure.getType()) {
                 case Bishop:
-                    image_file = new File("lib/bishop_w.png");
+                    image_file = new File(path + "bishop_w.png");
                     break;
                 case King:
-                    image_file = new File("lib/king_w.png");
+                    image_file = new File(path + "king_w.png");
                     break;
                 case Knight:
-                    image_file = new File("lib/knight_w.png");
+                    image_file = new File(path + "knight_w.png");
                     break;
                 case Pawn:
-                    image_file = new File("lib/pawn_w.png");
+                    image_file = new File(path + "pawn_w.png");
                     break;
                 case Queen:
-                    image_file = new File("lib/queen_w.png");
+                    image_file = new File(path + "queen_w.png");
                     break;
                 case Rook:
-                    image_file = new File("lib/tower_w.png");
+                    image_file = new File(path + "tower_w.png");
                     break;
             }
         } else {
             switch (this.figure.getType()) {
                 case Bishop:
-                    image_file = new File("lib/bishop_b.png");
+                    image_file = new File(path + "bishop_b.png");
                     break;
                 case King:
-                    image_file = new File("lib/king_b.png");
+                    image_file = new File(path + "king_b.png");
                     break;
                 case Knight:
-                    image_file = new File("lib/knight_b.png");
+                    image_file = new File(path + "knight_b.png");
                     break;
                 case Pawn:
-                    image_file = new File("lib/pawn_b.png");
+                    image_file = new File(path + "pawn_b.png");
                     break;
                 case Queen:
-                    image_file = new File("lib/queen_b.png");
+                    image_file = new File(path + "queen_b.png");
                     break;
                 case Rook:
-                    image_file = new File("lib/tower_b.png");
+                    image_file = new File(path + "tower_b.png");
                     break;
             }
         }
