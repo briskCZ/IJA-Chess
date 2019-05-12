@@ -104,6 +104,7 @@ public class ReplayHandler {
                         }
                         gc.refreshFields();
                         gc.refreshRecord();
+                        gc.updateLabel();
                         });
                 }
             };

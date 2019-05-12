@@ -119,7 +119,6 @@ public class GameController implements Initializable {
 
     }
 
-
     public void refreshFields() {
         chessBoardGridPane.getChildren().clear();
         setupFields();
@@ -260,20 +259,39 @@ public class GameController implements Initializable {
         replayHandler.playPreviousHalfMove();
         setListViewIndex();
         refreshFields();
-
+        updateLabel();
     }
 
     @FXML
-    private void nextMoveClicked()
-    {
+    private void nextMoveClicked() {
         if (replayHandler.isAutoPlayOn()) return;
         replayHandler.playNextHalfMove();
         setListViewIndex();
+
         refreshFields();
+
+        updateLabel();
     }
 
     private void setListViewIndex() {
         listView.getSelectionModel().select(replayHandler.getCompleteRecordIndex() - 1);
+    }
+
+    /**
+     * Updates text in status label
+     */
+    public void updateLabel() {
+        if(game.getCheckmate()){
+            statusLabel.setText("Checkmate!");
+        }else{
+            statusLabel.setText("");
+        }
+
+        if (game.getCheck(FigureColor.Black) || game.getCheck(FigureColor.White)) {
+            statusLabel.setText("Check!");
+        } else {
+            statusLabel.setText("");
+        }
     }
 
     @FXML
